@@ -5,7 +5,7 @@ Este protótipo foi pensado como uma extensão simples e segura da experiência 
 ## Estrutura de cada série semanal
 
 1. **Abertura** — título, ideia principal, referência bíblica e uma frase curta de convite.
-2. **História** — três a cinco cenas, com uma ideia por cena.
+2. **História** — quantidade de cenas conforme a narrativa bíblica, com uma ideia por cena e ilustração própria.
 3. **Atividade** — uma brincadeira digital breve e uma proposta opcional sem tela.
 4. **Palavra para guardar** — um versículo curto e adequado à idade.
 5. **Guia da família** — uma pergunta e uma prática de até cinco minutos.
@@ -14,9 +14,9 @@ Este protótipo foi pensado como uma extensão simples e segura da experiência 
 
 | Faixa | Objetivo | História | Atividade | Conversa em família |
 | --- | --- | --- | --- | --- |
-| 2–4 anos | Segurança, vínculo e repetição | 3 cenas de uma frase; narração curta | Tocar, ouvir, escolher cor, imitar gesto | Uma pergunta concreta e uma oração de uma frase |
-| 5–7 anos | Entender a mensagem e aplicar | 3–5 cenas e uma escolha simples | Missão, memória ou ordenar cenas | Pergunta sobre uma situação real da semana |
-| 8–11 anos | Refletir, relacionar e agir | Texto curto, contexto e reflexão | Desafio semanal ou quiz de compreensão | Pergunta aberta e uma atitude combinada |
+| 2–4 anos | Segurança, vínculo e repetição | Frases curtas, repetição e narração concreta | Tocar, ouvir, escolher cor, imitar gesto | Uma pergunta concreta e uma oração de uma frase |
+| 5–7 anos | Entender a mensagem e aplicar | Cenas em sequência, explicação simples e uma pergunta | Missão, memória ou ordenar cenas | Pergunta sobre uma situação real da semana |
+| 8–11 anos | Refletir, relacionar e agir | Texto com contexto bíblico, reflexão e aplicação | Desafio semanal ou quiz de compreensão | Pergunta aberta e uma atitude combinada |
 
 ## Material necessário para publicar uma nova semana
 
@@ -43,4 +43,4 @@ Este protótipo foi pensado como uma extensão simples e segura da experiência 
 - O arquivo index.html contém a estrutura e os textos compartilhados da série.
 - O arquivo styles.css reúne a identidade visual e o layout responsivo.
 
-O protótipo já está preparado para a série **Deus Grandão**, com base em **Salmo 145:3**. Para uma nova série, atualize o tema, a referência bíblica e as propostas adequadas às três faixas etárias.
+O protótipo já está preparado para a série **Deus Grandão**, com base em **Gênesis 1** e **Salmo 145:3**. A história da criação é apresentada em oito cenas, com linguagem adaptada às faixas de 2–4, 5–7 e 8–11 anos e uma ilustração específica para cada etapa. Para uma nova série, atualize o tema, a referência bíblica e as propostas adequadas às três faixas etárias.
