@@ -486,57 +486,247 @@ function collectHeart(button) {
 }
 
 
+
+const COLOR_SHEET_URL = "/assets/coloring/space-adventures-sheet.png";
 const coloringGallery = [
-  { id: "little", title: "Céu de descobertas", level: "2–4 anos", detail: "Formas grandes e simples", symbol: "☀" },
-  { id: "rocket", title: "Foguete da tripulação", level: "5–7 anos", detail: "Mais partes para colorir", symbol: "🚀" },
-  { id: "space", title: "Missão no espaço", level: "8–11 anos", detail: "Mais detalhes e desafios", symbol: "✦" }
+  { id: "little", title: "Céu de descobertas", level: "2–4 anos", detail: "Formas grandes e simples", symbol: "☀", ages: ["2-4"] },
+  { id: "rocket", title: "Foguete da tripulação", level: "5–7 anos", detail: "Áreas para explorar", symbol: "🚀", ages: ["5-7"] },
+  { id: "space", title: "Missão no espaço", level: "8–11 anos", detail: "Desenho espacial", symbol: "✦", ages: ["8-11"] },
+  { id: "rocket-launch", title: "Foguete sorridente", level: "2–4 anos", detail: "Traços grandes", sheet: [0, 0], ages: ["2-4"] },
+  { id: "captain-moon", title: "Explorador lunar", level: "2–7 anos", detail: "Astronauta e foguete", sheet: [1, 0], ages: ["2-4", "5-7"] },
+  { id: "bia-cockpit", title: "Pilota espacial", level: "5–7 anos", detail: "Painel de comando", sheet: [2, 0], ages: ["5-7"] },
+  { id: "moon-team", title: "Equipe na Lua", level: "5–11 anos", detail: "Dois astronautas e rover", sheet: [0, 1], ages: ["5-7", "8-11"] },
+  { id: "space-station", title: "Estação espacial", level: "8–11 anos", detail: "Satélites e planetas", sheet: [1, 1], ages: ["8-11"] },
+  { id: "cosmic-friends", title: "Amigos do cosmos", level: "8–11 anos", detail: "Missão pelo universo", sheet: [2, 1], ages: ["8-11"] }
 ];
-let selectedDrawingType = "little";
+const defaultDrawingByAge = { "2-4": "rocket-launch", "5-7": "captain-moon", "8-11": "cosmic-friends" };
+let selectedDrawingType = defaultDrawingByAge[selectedAge] || "rocket-launch";
+let rasterCanvasState = null;
+let rasterHistory = [];
+let activeRasterStroke = null;
+
+function isRasterColoringPage() {
+  return coloringGallery.some((item) => item.id === selectedDrawingType && item.sheet);
+}
+
 function renderColorGallery() {
   const gallery = $("#colorGallery");
   if (!gallery) return;
-  gallery.innerHTML = coloringGallery.map((item) => {
+  const visible = coloringGallery.filter((item) => item.ages.includes(selectedAge));
+  gallery.innerHTML = visible.map((item) => {
     const active = item.id === selectedDrawingType ? " is-selected" : "";
+    const preview = item.sheet
+      ? '<span class="gallery-thumb" style="--thumb-x:' + (item.sheet[0] * 50) + '%;--thumb-y:' + (item.sheet[1] * 100) + '%"></span>'
+      : '<span class="gallery-symbol" aria-hidden="true">' + item.symbol + '</span>';
     return '<button class="color-gallery-item' + active + '" type="button" data-drawing="' + item.id + '" aria-pressed="' + (item.id === selectedDrawingType) + '">' +
-      '<span class="gallery-symbol" aria-hidden="true">' + item.symbol + '</span><span class="gallery-copy"><strong>' + item.title + '</strong><small>' + item.level + ' · ' + item.detail + '</small></span><span class="gallery-check" aria-hidden="true">✓</span></button>';
+      preview + '<span class="gallery-copy"><strong>' + item.title + '</strong><small>' + item.level + ' · ' + item.detail + '</small></span><span class="gallery-check" aria-hidden="true">✓</span></button>';
   }).join("");
 }
+
 function chooseColoringPage(type) {
-  if (!coloringGallery.some((item) => item.id === type)) return;
+  const item = coloringGallery.find((entry) => entry.id === type && entry.ages.includes(selectedAge));
+  if (!item) return;
   selectedDrawingType = type;
   renderColoring();
 }
+
+function saveCanvasDownload(canvas, filename) {
+  canvas.toBlob((png) => {
+    if (!png) { showToast("Não foi possível salvar o desenho neste navegador."); return; }
+    const url = URL.createObjectURL(png);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1500);
+    showToast("Seu desenho foi salvo no dispositivo!");
+  }, "image/png");
+}
+
 function downloadColoring() {
+  if (isRasterColoringPage() && rasterCanvasState) {
+    const output = document.createElement("canvas");
+    output.width = rasterCanvasState.width;
+    output.height = rasterCanvasState.height;
+    const context = output.getContext("2d");
+    context.fillStyle = "#ffffff";
+    context.fillRect(0, 0, output.width, output.height);
+    context.drawImage(rasterCanvasState.paint, 0, 0);
+    context.drawImage(rasterCanvasState.line, 0, 0);
+    saveCanvasDownload(output, "meu-desenho-estacao-rocket.png");
+    return;
+  }
   const svg = $("#coloringStage svg");
   if (!svg) return;
   const clone = svg.cloneNode(true);
   clone.setAttribute("xmlns", "http://www.w3.org/2000/svg");
-  clone.setAttribute("width", "1200"); clone.setAttribute("height", "860");
+  clone.setAttribute("width", "1200");
+  clone.setAttribute("height", "860");
   const source = new XMLSerializer().serializeToString(clone);
   const url = URL.createObjectURL(new Blob([source], { type: "image/svg+xml;charset=utf-8" }));
   const image = new Image();
   image.onload = () => {
-    const canvas = document.createElement("canvas");
-    canvas.width = 1200; canvas.height = 860;
-    const context = canvas.getContext("2d");
-    context.fillStyle = "#fffdf8"; context.fillRect(0, 0, 1200, 860);
-    const scale = Math.min(1200 / image.width, 860 / image.height);
-    const width = image.width * scale, height = image.height * scale;
-    context.drawImage(image, (1200 - width) / 2, (860 - height) / 2, width, height);
+    const output = document.createElement("canvas");
+    output.width = 1200;
+    output.height = 860;
+    const context = output.getContext("2d");
+    context.fillStyle = "#fffdf8";
+    context.fillRect(0, 0, output.width, output.height);
+    const scale = Math.min(output.width / image.width, output.height / image.height);
+    const width = image.width * scale;
+    const height = image.height * scale;
+    context.drawImage(image, (output.width - width) / 2, (output.height - height) / 2, width, height);
     URL.revokeObjectURL(url);
-    canvas.toBlob((png) => {
-      if (!png) { showToast("Não foi possível salvar o desenho neste navegador."); return; }
-      const downloadUrl = URL.createObjectURL(png);
-      const link = document.createElement("a");
-      link.href = downloadUrl; link.download = "meu-desenho-estacao-rocket.png";
-      document.body.appendChild(link); link.click(); link.remove();
-      window.setTimeout(() => URL.revokeObjectURL(downloadUrl), 1500);
-      showToast("Seu desenho foi salvo no dispositivo!");
-    }, "image/png");
+    saveCanvasDownload(output, "meu-desenho-estacao-rocket.png");
   };
   image.onerror = () => { URL.revokeObjectURL(url); showToast("Não foi possível preparar a imagem para salvar."); };
   image.src = url;
 }
+
+function renderRasterColoring(page) {
+  rasterCanvasState = null;
+  rasterHistory = [];
+  activeRasterStroke = null;
+  $("#coloringStage").innerHTML = '<div class="raster-canvas-stack"><canvas id="rasterPaintLayer" width="512" height="512" aria-label="Área de pintura"></canvas><canvas id="rasterLineLayer" width="512" height="512" aria-hidden="true"></canvas></div>';
+  const paint = $("#rasterPaintLayer");
+  const line = $("#rasterLineLayer");
+  const paintContext = paint.getContext("2d", { willReadFrequently: true });
+  const lineContext = line.getContext("2d", { willReadFrequently: true });
+  const sprite = new Image();
+  sprite.onload = () => {
+    const [column, row] = page.sheet;
+    lineContext.fillStyle = "#ffffff";
+    lineContext.fillRect(0, 0, 512, 512);
+    lineContext.drawImage(sprite, column * 512, row * 512, 512, 512, 0, 0, 512, 512);
+    paintContext.clearRect(0, 0, 512, 512);
+    rasterCanvasState = {
+      paint, line, paintContext, lineContext,
+      base: lineContext.getImageData(0, 0, 512, 512),
+      width: 512, height: 512
+    };
+    updateColorProgress();
+  };
+  sprite.onerror = () => showToast("Não foi possível carregar esta ilustração. Verifique a conexão e tente novamente.");
+  sprite.src = COLOR_SHEET_URL;
+}
+
+function snapshotRaster() {
+  if (!rasterCanvasState) return null;
+  return rasterCanvasState.paintContext.getImageData(0, 0, 512, 512);
+}
+
+function rasterPoint(event) {
+  const canvas = $("#rasterPaintLayer");
+  if (!canvas) return null;
+  const rect = canvas.getBoundingClientRect();
+  return {
+    x: Math.max(0, Math.min(511, Math.floor((event.clientX - rect.left) / rect.width * 512))),
+    y: Math.max(0, Math.min(511, Math.floor((event.clientY - rect.top) / rect.height * 512)))
+  };
+}
+
+function hexToRgb(hex) {
+  const value = hex.replace("#", "");
+  return [parseInt(value.slice(0, 2), 16), parseInt(value.slice(2, 4), 16), parseInt(value.slice(4, 6), 16)];
+}
+
+function paintRasterRegion(event, erase) {
+  if (!rasterCanvasState) return;
+  const point = rasterPoint(event);
+  if (!point) return;
+  const { base, paintContext, width, height } = rasterCanvasState;
+  const start = point.y * width + point.x;
+  const data = base.data;
+  const offset = start * 4;
+  const brightness = (data[offset] + data[offset + 1] + data[offset + 2]) / 3;
+  if (brightness < 205) return;
+  const total = width * height;
+  const visited = new Uint8Array(total);
+  const queue = new Int32Array(total);
+  let head = 0, tail = 0;
+  const enqueue = (index) => {
+    if (visited[index]) return;
+    visited[index] = 1;
+    const pixel = index * 4;
+    if ((data[pixel] + data[pixel + 1] + data[pixel + 2]) / 3 >= 205) queue[tail++] = index;
+  };
+  enqueue(start);
+  while (head < tail) {
+    const index = queue[head++];
+    if (index >= width) enqueue(index - width);
+    if (index + width < total) enqueue(index + width);
+    if (index % width) enqueue(index - 1);
+    if (index % width !== width - 1) enqueue(index + 1);
+  }
+  if (!tail) return;
+  if (tail > total * 0.43) {
+    showToast("Esse espaço está aberto. Experimente pintar outra área.");
+    return;
+  }
+  const before = snapshotRaster();
+  const current = paintContext.getImageData(0, 0, width, height);
+  const color = hexToRgb(selectedPaintColor);
+  for (let i = 0; i < tail; i++) {
+    const pixel = queue[i] * 4;
+    if (erase) current.data[pixel + 3] = 0;
+    else {
+      current.data[pixel] = color[0];
+      current.data[pixel + 1] = color[1];
+      current.data[pixel + 2] = color[2];
+      current.data[pixel + 3] = 255;
+    }
+  }
+  rasterHistory.push(before);
+  paintContext.putImageData(current, 0, 0);
+  updateColorProgress();
+}
+
+function startRasterStroke(event) {
+  if (!rasterCanvasState || (paintTool !== "brush" && paintTool !== "eraser")) return;
+  event.preventDefault();
+  const canvas = $("#rasterPaintLayer");
+  const point = rasterPoint(event);
+  if (!point) return;
+  const before = snapshotRaster();
+  const context = rasterCanvasState.paintContext;
+  context.save();
+  context.globalCompositeOperation = paintTool === "eraser" ? "destination-out" : "source-over";
+  context.strokeStyle = selectedPaintColor;
+  context.fillStyle = selectedPaintColor;
+  context.lineWidth = selectedAge === "2-4" ? 25 : selectedAge === "5-7" ? 17 : 12;
+  context.lineCap = "round";
+  context.lineJoin = "round";
+  context.beginPath();
+  context.arc(point.x, point.y, context.lineWidth / 2, 0, Math.PI * 2);
+  context.fill();
+  activeRasterStroke = { before, last: point, pointerId: event.pointerId };
+  canvas.setPointerCapture(event.pointerId);
+}
+
+function continueRasterStroke(event) {
+  if (!activeRasterStroke || !rasterCanvasState) return;
+  const point = rasterPoint(event);
+  if (!point) return;
+  const context = rasterCanvasState.paintContext;
+  context.beginPath();
+  context.moveTo(activeRasterStroke.last.x, activeRasterStroke.last.y);
+  context.lineTo(point.x, point.y);
+  context.stroke();
+  activeRasterStroke.last = point;
+}
+
+function finishRasterStroke(event) {
+  if (!activeRasterStroke || !rasterCanvasState) return;
+  const canvas = $("#rasterPaintLayer");
+  if (canvas && canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
+  rasterCanvasState.paintContext.restore();
+  rasterHistory.push(activeRasterStroke.before);
+  activeRasterStroke = null;
+  updateColorProgress();
+}
+
 
 function coloringSvg(type) {
   if (type === "little") {
@@ -548,7 +738,19 @@ function coloringSvg(type) {
   return '<svg viewBox="0 0 420 300" role="img" aria-label="Cena espacial detalhada para colorir"><circle class="paint-region" tabindex="0" role="button" data-paint="planet" aria-label="Colorir planeta" cx="73" cy="87" r="41"/><path class="paint-region" tabindex="0" role="button" data-paint="ring" aria-label="Colorir anel do planeta" d="M24 100 C50 72 104 59 129 80 C111 87 54 115 24 100 Z"/><path class="paint-region" tabindex="0" role="button" data-paint="body" aria-label="Colorir corpo do foguete" d="M222 31 C277 78 280 162 223 221 C166 165 166 78 222 31 Z"/><circle class="paint-region" tabindex="0" role="button" data-paint="window" aria-label="Colorir janela do foguete" cx="222" cy="104" r="24"/><path class="paint-region" tabindex="0" role="button" data-paint="leftfin" aria-label="Colorir asa esquerda" d="M171 164 L128 199 L177 204 Z"/><path class="paint-region" tabindex="0" role="button" data-paint="rightfin" aria-label="Colorir asa direita" d="M274 164 L317 199 L268 204 Z"/><path class="paint-region" tabindex="0" role="button" data-paint="flame" aria-label="Colorir fogo" d="M207 217 L222 274 L238 217 Z"/><path class="paint-region" tabindex="0" role="button" data-paint="starone" aria-label="Colorir estrela um" d="M347 59 L355 78 L376 79 L360 93 L365 114 L347 102 L329 114 L334 93 L318 79 L339 78 Z"/><path class="paint-region" tabindex="0" role="button" data-paint="startwo" aria-label="Colorir estrela dois" d="M104 222 L111 240 L131 241 L115 254 L120 274 L104 263 L87 274 L92 254 L76 241 L96 240 Z"/><path class="paint-region" tabindex="0" role="button" data-paint="moon" aria-label="Colorir lua" d="M342 226 C309 226 294 190 318 168 C307 207 345 228 373 207 C365 219 355 226 342 226 Z"/><path class="paint-region" tabindex="0" role="button" data-paint="heart" aria-label="Colorir coração" d="M53 180 C38 161 10 176 20 199 C27 215 53 232 53 232 C53 232 80 215 87 199 C97 176 68 161 53 180 Z"/><g id="brushLayer"></g></svg>';
 }
 
+
 function updateColorProgress() {
+  if (isRasterColoringPage()) {
+    const count = rasterHistory.length + (activeRasterStroke ? 1 : 0);
+    $("#colorProgress").textContent = count + (count === 1 ? " AÇÃO DE PINTURA" : " AÇÕES DE PINTURA");
+    $("#undoColor").disabled = count === 0;
+    if (count >= 5) {
+      $("#colorReward").hidden = false;
+      $("#colorStep").classList.add("complete");
+      localStorage.setItem("estacao-rocket-color-" + selectedAge, "complete");
+    }
+    return;
+  }
   const total = ageContent[selectedAge].regions;
   $("#colorProgress").textContent = coloredRegions.size + " DE " + total + " PARTES COLORIDAS";
   $("#undoColor").disabled = paintHistory.length === 0;
@@ -568,27 +770,38 @@ function setPaintTool(tool) {
   });
 }
 
+
 function renderColoring() {
   const content = ageContent[selectedAge];
   selectedPaintColor = content.colors[0].hex;
   coloredRegions = new Set();
   paintHistory = [];
   activeBrushPath = null;
+  rasterHistory = [];
+  activeRasterStroke = null;
+  rasterCanvasState = null;
   $("#paintPalette").innerHTML = content.colors.map((color, index) => {
     const selected = index === 0 ? " is-selected" : "";
     return '<button class="paint-swatch' + selected + '" type="button" data-color="' + color.hex + '" aria-label="Escolher ' + color.name + '" style="background:' + color.hex + '"></button>';
   }).join("");
-  if (!coloringGallery.some((item) => item.id === selectedDrawingType)) selectedDrawingType = content.drawing;
+  const page = coloringGallery.find((item) => item.id === selectedDrawingType && item.ages.includes(selectedAge));
+  if (!page) selectedDrawingType = defaultDrawingByAge[selectedAge] || "rocket-launch";
+  const selectedPage = coloringGallery.find((item) => item.id === selectedDrawingType);
   renderColorGallery();
-  $("#coloringStage").innerHTML = coloringSvg(selectedDrawingType);
-  $("#color-modal-title").textContent = coloringGallery.find((item) => item.id === selectedDrawingType).title;
+  $("#color-modal-title").textContent = selectedPage.title;
   $("#colorModalCopy").textContent = "Escolha uma ilustração, selecione as cores e crie do seu jeito.";
   $("#colorReward").hidden = true;
-  $("#colorProgress").textContent = "0 DE " + content.regions + " PARTES COLORIDAS";
-  $("#undoColor").disabled = true;
   $("#colorStep").classList.remove("complete");
   localStorage.removeItem("estacao-rocket-color-" + selectedAge);
   setPaintTool("bucket");
+  if (selectedPage.sheet) {
+    $("#colorProgress").textContent = "PRONTO PARA COLORIR";
+    renderRasterColoring(selectedPage);
+  } else {
+    $("#coloringStage").innerHTML = coloringSvg(selectedDrawingType);
+    $("#colorProgress").textContent = "0 DE " + content.regions + " PARTES COLORIDAS";
+    $("#undoColor").disabled = true;
+  }
   $$(".paint-swatch").forEach((swatch) => {
     swatch.addEventListener("click", () => {
       selectedPaintColor = swatch.dataset.color;
@@ -619,6 +832,7 @@ function getSvgPoint(event, svg) {
 }
 
 function startBrush(event) {
+  if (isRasterColoringPage()) { startRasterStroke(event); return; }
   if (paintTool !== "brush") return;
   const svg = $("#coloringStage svg");
   if (!svg) return;
@@ -640,6 +854,7 @@ function startBrush(event) {
 }
 
 function continueBrush(event) {
+  if (isRasterColoringPage()) { continueRasterStroke(event); return; }
   if (paintTool !== "brush" || !activeBrushPath) return;
   const svg = $("#coloringStage svg");
   if (!svg) return;
@@ -648,6 +863,7 @@ function continueBrush(event) {
 }
 
 function finishBrush(event) {
+  if (isRasterColoringPage()) { finishRasterStroke(event); return; }
   if (!activeBrushPath) return;
   const svg = $("#coloringStage svg");
   if (svg && svg.hasPointerCapture(event.pointerId)) svg.releasePointerCapture(event.pointerId);
@@ -663,6 +879,16 @@ function eraseBrush(path) {
 }
 
 function undoPaint() {
+  if (isRasterColoringPage()) {
+    const previous = rasterHistory.pop();
+    if (previous && rasterCanvasState) {
+      rasterCanvasState.paintContext.putImageData(previous, 0, 0);
+      $("#colorReward").hidden = true;
+      $("#colorStep").classList.remove("complete");
+      updateColorProgress();
+    }
+    return;
+  }
   const last = paintHistory.pop();
   if (!last) return;
   if (last.type === "region") {
@@ -680,7 +906,7 @@ function undoPaint() {
 }
 
 function openColoring(trigger) {
-  selectedDrawingType = ageContent[selectedAge].drawing;
+  selectedDrawingType = defaultDrawingByAge[selectedAge] || "rocket-launch";
   renderColoring();
   openModal("#colorModal", trigger);
 }
@@ -791,6 +1017,10 @@ $("#undoColor").addEventListener("click", undoPaint);
 $("#clearColor").addEventListener("click", renderColoring);
 
 $("#coloringStage").addEventListener("click", (event) => {
+  if (isRasterColoringPage()) {
+    if (paintTool === "bucket") paintRasterRegion(event, false);
+    return;
+  }
   const region = event.target.closest ? event.target.closest("[data-paint]") : null;
   if (paintTool === "bucket" && region) paintRegion(region, false);
   if (paintTool === "eraser" && region) paintRegion(region, true);
@@ -806,6 +1036,7 @@ $("#coloringStage").addEventListener("keydown", (event) => {
 });
 
 $("#coloringStage").addEventListener("pointerdown", (event) => {
+  if (isRasterColoringPage()) { startBrush(event); return; }
   if (paintTool === "eraser" && event.target.classList && event.target.classList.contains("freehand")) {
     eraseBrush(event.target);
     return;
