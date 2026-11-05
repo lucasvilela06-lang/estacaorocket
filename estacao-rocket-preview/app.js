@@ -46,9 +46,54 @@ const ageContent = {
       { icon: "🐶", label: "Cachorrinho", correct: true }
     ],
     slides: [
-      { tag: "Cena 1 de 3", title: "Deus fez o céu.", text: "Olhe para cima. Deus fez o céu bem grandão!" },
-      { tag: "Cena 2 de 3", title: "Deus fez coisas lindas.", text: "Ele fez estrelas, bichinhos, flores e também fez você." },
-      { tag: "Cena 3 de 3", title: "Deus é Grandão!", text: "Vamos dizer juntos: Deus é grandão e eu posso adorar!" }
+          {
+                "scene": "light",
+                "tag": "Cena 1 de 8",
+                "title": "Deus fez a luz!",
+                "text": "No começo, tudo estava escuro. Deus falou: “Haja luz!” E a luz apareceu. Deus é tão poderoso que sua palavra faz coisas lindas!"
+          },
+          {
+                "scene": "sky",
+                "tag": "Cena 2 de 8",
+                "title": "Deus fez o céu!",
+                "text": "Deus fez o céu bem grandão e separou as águas. Olhe para cima! O céu também mostra como Deus é grandão."
+          },
+          {
+                "scene": "land",
+                "tag": "Cena 3 de 8",
+                "title": "Deus fez a terra e o mar!",
+                "text": "Deus juntou as águas e apareceu a terra seca. Ele fez o mar azul e a terra firme. Tudo isso foi Deus quem fez!"
+          },
+          {
+                "scene": "plants",
+                "tag": "Cena 4 de 8",
+                "title": "Deus fez as plantas!",
+                "text": "Deus fez a grama verdinha, as árvores, as flores e as frutas. Quanta coisa bonita! Deus é um Criador maravilhoso."
+          },
+          {
+                "scene": "stars",
+                "tag": "Cena 5 de 8",
+                "title": "Deus fez o sol e as estrelas!",
+                "text": "Deus colocou o sol para iluminar o dia e a lua e as estrelas para enfeitar a noite. Ele conhece cada pedacinho do céu!"
+          },
+          {
+                "scene": "sea",
+                "tag": "Cena 6 de 8",
+                "title": "Deus fez os animais do mar e do céu!",
+                "text": "Deus encheu o mar de peixes e fez as aves voarem pelo céu. Peixinhos e passarinhos: Deus pensou em tudo!"
+          },
+          {
+                "scene": "animals",
+                "tag": "Cena 7 de 8",
+                "title": "Deus fez os animais e as pessoas!",
+                "text": "Deus fez os animais da terra e criou as pessoas à sua imagem. Ele fez você também! Você é muito especial para Deus."
+          },
+          {
+                "scene": "rest",
+                "tag": "Cena 8 de 8",
+                "title": "Tudo era muito bom!",
+                "text": "Deus olhou para tudo o que tinha feito e viu que era muito bom. Depois, descansou. Vamos agradecer ao Deus Grandão por tudo o que Ele fez!"
+          }
     ]
   },
   "5-7": {
@@ -103,9 +148,54 @@ const ageContent = {
       { icon: "🏠", label: "Casa", correct: false }
     ],
     slides: [
-      { tag: "Cena 1 de 3", title: "A criação mostra Deus.", text: "O céu, as estrelas, a natureza e cada pessoa apontam para um Deus criativo e muito grande." },
-      { tag: "Cena 2 de 3", title: "Deus merece adoração.", text: "Adorar é responder a quem Deus é. Podemos cantar, agradecer, orar e obedecer." },
-      { tag: "Cena 3 de 3", title: "Você pode adorar hoje.", text: "Escolha uma coisa criada por Deus e agradeça por ela com todo o seu coração." }
+          {
+                "scene": "light",
+                "tag": "Cena 1 de 8",
+                "title": "Deus criou a luz.",
+                "text": "A Bíblia conta que a terra ainda não tinha forma e estava escura. Então Deus disse: “Haja luz!” E a luz apareceu. Deus não precisou de ferramentas: sua palavra tem poder!"
+          },
+          {
+                "scene": "sky",
+                "tag": "Cena 2 de 8",
+                "title": "Deus preparou o céu.",
+                "text": "Deus separou as águas e fez o céu. Quando olhamos para o alto e vemos as nuvens passando, podemos lembrar que o Criador é muito maior do que tudo o que existe."
+          },
+          {
+                "scene": "land",
+                "tag": "Cena 3 de 8",
+                "title": "Deus fez a terra e os mares.",
+                "text": "Deus reuniu as águas, e a parte seca apareceu. Assim surgiram a terra e os mares. O Deus Grandão colocou cada coisa em seu lugar."
+          },
+          {
+                "scene": "plants",
+                "tag": "Cena 4 de 8",
+                "title": "Deus encheu a terra de vida.",
+                "text": "A terra produziu grama, plantas, árvores e frutos. Imagine quantas cores, formas e sabores! A criatividade de Deus aparece em cada detalhe."
+          },
+          {
+                "scene": "stars",
+                "tag": "Cena 5 de 8",
+                "title": "Deus colocou luzes no céu.",
+                "text": "Deus fez o sol para governar o dia, a lua e as estrelas para iluminar a noite. São tantas estrelas que não conseguimos contar. Mas Deus conhece cada uma!"
+          },
+          {
+                "scene": "sea",
+                "tag": "Cena 6 de 8",
+                "title": "Deus encheu o mar e o céu.",
+                "text": "Deus criou os grandes animais marinhos, os peixes e todas as aves. O mar ganhou movimento e o céu ganhou asas. Que criatividade grandiosa!"
+          },
+          {
+                "scene": "animals",
+                "tag": "Cena 7 de 8",
+                "title": "Deus criou os animais e as pessoas.",
+                "text": "Deus fez os animais da terra e criou homens e mulheres à sua imagem. Também confiou às pessoas o cuidado da criação. Você faz parte dessa história!"
+          },
+          {
+                "scene": "rest",
+                "tag": "Cena 8 de 8",
+                "title": "Deus viu que tudo era muito bom.",
+                "text": "Deus terminou sua obra e descansou no sétimo dia. A criação nos mostra seu poder, sua sabedoria e seu cuidado. Qual parte da criação mais faz você admirar o Deus Grandão?"
+          }
     ]
   },
   "8-11": {
@@ -162,9 +252,54 @@ const ageContent = {
       { icon: "🎮", label: "Videogame", correct: false }
     ],
     slides: [
-      { tag: "Cena 1 de 3", title: "Deus é maior do que conseguimos medir.", text: "O Salmo 145 lembra que a grandeza de Deus vai além do que nossa mente consegue explicar por completo." },
-      { tag: "Cena 2 de 3", title: "A criação revela quem Ele é.", text: "Quando observamos o universo e a vida, encontramos sinais do poder, da beleza e do cuidado do Criador." },
-      { tag: "Cena 3 de 3", title: "Adoração é uma resposta.", text: "Podemos adorar com palavras, canções, escolhas, gratidão e atitudes que mostram que Deus é o primeiro lugar." }
+          {
+                "scene": "light",
+                "tag": "Cena 1 de 8",
+                "title": "A luz começa a história.",
+                "text": "Gênesis 1 apresenta a terra ainda sem forma e envolta em escuridão. Deus ordena: “Haja luz”, e a luz passa a existir. A criação começa pela iniciativa e pela palavra do próprio Deus. Nada é grande demais para Ele."
+          },
+          {
+                "scene": "sky",
+                "tag": "Cena 2 de 8",
+                "title": "Deus organiza o céu e as águas.",
+                "text": "Deus faz a expansão para separar as águas. O céu que vemos faz parte de uma criação que não surgiu por acaso: Deus dá ordem ao que estava sem forma. Sua grandeza também aparece em sua sabedoria."
+          },
+          {
+                "scene": "land",
+                "tag": "Cena 3 de 8",
+                "title": "Terra firme e mares encontram seu lugar.",
+                "text": "Deus reúne as águas, revela a porção seca e chama a terra de “Terra” e o ajuntamento das águas de “Mares”. O Criador estabelece limites e organiza o mundo. O universo está debaixo de sua autoridade."
+          },
+          {
+                "scene": "plants",
+                "tag": "Cena 4 de 8",
+                "title": "A terra floresce por ordem de Deus.",
+                "text": "A terra produz vegetação, plantas que dão sementes e árvores frutíferas. A diversidade de formas e frutos revela criatividade e generosidade. A vida não é obra do acaso dentro da narrativa de Gênesis: ela responde à palavra do Criador."
+          },
+          {
+                "scene": "stars",
+                "tag": "Cena 5 de 8",
+                "title": "Sol, lua e estrelas marcam os tempos.",
+                "text": "Deus coloca os luminares no céu para separar dia e noite e marcar tempos, dias e anos. O sol e a lua, tão imensos para nós, não são deuses: são parte da criação e cumprem o propósito dado por Deus."
+          },
+          {
+                "scene": "sea",
+                "tag": "Cena 6 de 8",
+                "title": "A vida enche as águas e os céus.",
+                "text": "Deus cria os grandes animais marinhos, os seres que se movem nas águas e as aves. Ele os abençoa para que se multipliquem. A variedade da vida revela a abundância e o poder do Criador."
+          },
+          {
+                "scene": "animals",
+                "tag": "Cena 7 de 8",
+                "title": "A humanidade recebe uma missão.",
+                "text": "Deus cria os animais terrestres e, de modo especial, o ser humano à sua imagem, homem e mulher. Deus os abençoa e lhes confia o cuidado da criação. Nossa dignidade e responsabilidade vêm do Criador."
+          },
+          {
+                "scene": "rest",
+                "tag": "Cena 8 de 8",
+                "title": "Deus conclui e contempla sua criação.",
+                "text": "Gênesis 1 termina dizendo que Deus viu tudo o que havia feito, e era muito bom. No sétimo dia, Ele descansa. Isso não significa cansaço, mas a conclusão de sua obra. A criação aponta para a grandeza de Deus e nos chama a viver com gratidão e responsabilidade."
+          }
     ]
   }
 };
@@ -260,15 +395,30 @@ function closeModal(backdrop) {
   if (lastTrigger && typeof lastTrigger.focus === "function") lastTrigger.focus();
 }
 
+function storyArtwork(scene) {
+  const art = {
+    light: ["🌑","✨","☀️"], sky: ["☁️","🌤️","💧"], land: ["🌊","🏝️","⛰️"],
+    plants: ["🌱","🌳","🌻","🍎"], stars: ["☀️","🌙","⭐","✨"],
+    sea: ["🐋","🐠","🐬","🕊️"], animals: ["🦁","🐘","🦒","👨‍👩‍👧"],
+    rest: ["🌍","🌈","💛","✨"]
+  }[scene] || ["✨","🌍","⭐"];
+  const positions = art.length === 3 ? [[95,145],[210,90],[325,145]] : [[85,145],[170,85],[255,145],[340,85]];
+  const figures = art.map((item,i)=>'<text x="'+positions[i][0]+'" y="'+positions[i][1]+'" text-anchor="middle" font-size="'+(item==="👨‍👩‍👧"?"54":"66")+'">'+item+'</text>').join("");
+  const sky = scene==="light" ? "#25134d" : scene==="sea" ? "#277bb1" : scene==="plants" || scene==="land" || scene==="animals" ? "#4a9b79" : "#4d3488";
+  return '<svg viewBox="0 0 420 190" role="img" aria-label="Ilustração da criação: '+scene+'"><defs><linearGradient id="storySky" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#7651b5"/><stop offset="1" stop-color="'+sky+'"/></linearGradient></defs><rect width="420" height="190" rx="18" fill="url(#storySky)"/><circle cx="350" cy="38" r="24" fill="#ffd449" opacity=".9"/><path d="M0 158 Q110 130 210 155 T420 150 V190 H0Z" fill="'+(scene==="sea"?"#56c6df":"#78d4a1")+'"/>'+figures+'</svg>';
+}
+
 function showStory(index) {
   const slides = ageContent[selectedAge].slides;
   const slide = slides[index];
   $("#storySlideTag").textContent = slide.tag;
   $("#story-modal-title").textContent = slide.title;
   $("#storySlideText").textContent = slide.text;
-  $$(".story-progress span").forEach((step, stepIndex) => {
-    step.classList.toggle("is-current", stepIndex <= index);
-  });
+  $("#storyScene").innerHTML = storyArtwork(slide.scene);
+  $("#storyScene").setAttribute("aria-label", slide.title);
+  $("#storyScene").setAttribute("aria-hidden", "false");
+  $(".story-progress").innerHTML = slides.map((item, stepIndex) => '<span class="'+(stepIndex <= index ? "is-current" : "")+'"></span>').join("");
+  $(".story-progress").setAttribute("aria-label", "Cena "+(index+1)+" de "+slides.length);
   $("#nextStory").innerHTML = index === slides.length - 1 ? "GUARDAR NO CORAÇÃO <span aria-hidden=\"true\">♡</span>" : "PRÓXIMA CENA <span aria-hidden=\"true\">→</span>";
 }
 
