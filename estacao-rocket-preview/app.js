@@ -488,6 +488,7 @@ function collectHeart(button) {
 
 
 
+
 const coloringGallery = [
   { id: "rocket-launch", title: "Foguete sorridente", level: "2–4 anos", detail: "Formas grandes", symbol: "🚀", ages: ["2-4"] },
   { id: "captain-moon", title: "Explorador lunar", level: "2–7 anos", detail: "Astronauta e foguete", symbol: "🌙", ages: ["2-4", "5-7"] },
@@ -498,10 +499,12 @@ const coloringGallery = [
 ];
 const defaultDrawingByAge = { "2-4": "rocket-launch", "5-7": "captain-moon", "8-11": "cosmic-friends" };
 let selectedDrawingType = defaultDrawingByAge[selectedAge] || "rocket-launch";
-
-function isRasterColoringPage() {
-  return false;
-}
+let paintCanvasState = null;
+let redoHistory = [];
+let activeCanvasStroke = null;
+const PAINT_HISTORY_LIMIT = 15;
+const PAINT_CANVAS_WIDTH = 672;
+const PAINT_CANVAS_HEIGHT = 800;
 
 function renderColorGallery() {
   const gallery = $("#colorGallery");
@@ -521,294 +524,32 @@ function chooseColoringPage(type) {
   renderColoring();
 }
 
-function downloadColoring() {
-  const svg = $("#coloringStage svg");
-  if (!svg) return;
-  const clone = svg.cloneNode(true);
-  clone.setAttribute("xmlns", "http://www.w3.org/2000/svg");
-  clone.setAttribute("width", "1200");
-  clone.setAttribute("height", "1400");
-  const source = new XMLSerializer().serializeToString(clone);
-  const url = URL.createObjectURL(new Blob([source], { type: "image/svg+xml;charset=utf-8" }));
-  const image = new Image();
-  image.onload = () => {
-    const output = document.createElement("canvas");
-    output.width = 1200;
-    output.height = 1400;
-    const context = output.getContext("2d");
-    context.fillStyle = "#fffdf8";
-    context.fillRect(0, 0, output.width, output.height);
-    const scale = Math.min(output.width / image.width, output.height / image.height);
-    const width = image.width * scale;
-    const height = image.height * scale;
-    context.drawImage(image, (output.width - width) / 2, (output.height - height) / 2, width, height);
-    URL.revokeObjectURL(url);
-    output.toBlob((png) => {
-      if (!png) { showToast("Não foi possível salvar o desenho neste navegador."); return; }
-      const downloadUrl = URL.createObjectURL(png);
-      const link = document.createElement("a");
-      link.href = downloadUrl;
-      link.download = "meu-desenho-estacao-rocket.png";
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      window.setTimeout(() => URL.revokeObjectURL(downloadUrl), 1500);
-      showToast("Seu desenho foi salvo no dispositivo!");
-    }, "image/png");
-  };
-  image.onerror = () => { URL.revokeObjectURL(url); showToast("Não foi possível preparar a imagem para salvar."); };
-  image.src = url;
-}
-
-function coloringSvg(type) {
-  const p = (key, d, label = "Pintar parte do desenho") =>
-    '<path class="paint-region" tabindex="0" role="button" data-paint="' + key + '" aria-label="' + label + '" d="' + d + '"/>';
-  const circle = (key, x, y, r, label = "Pintar parte do desenho") =>
-    '<circle class="paint-region" tabindex="0" role="button" data-paint="' + key + '" aria-label="' + label + '" cx="' + x + '" cy="' + y + '" r="' + r + '"/>';
-  const line = (d, width = 5) => '<path class="art-line" d="' + d + '" fill="none" stroke="#25134d" stroke-width="' + width + '" stroke-linecap="round" stroke-linejoin="round"/>';
-  const star = (key, x, y, size) => p(key, 'M ' + x + ' ' + (y-size) + ' L ' + (x+size*.25) + ' ' + (y-size*.25) + ' L ' + (x+size) + ' ' + y + ' L ' + (x+size*.25) + ' ' + (y+size*.25) + ' L ' + x + ' ' + (y+size) + ' L ' + (x-size*.25) + ' ' + (y+size*.25) + ' L ' + (x-size) + ' ' + y + ' L ' + (x-size*.25) + ' ' + (y-size*.25) + ' Z', "Pintar estrela");
-  let art = "";
-
-  if (type === "rocket-launch") {
-    art += star("launch-star-a", 76, 98, 28) + star("launch-star-b", 337, 119, 22) + star("launch-star-c", 304, 300, 16);
-    art += circle("launch-moon", 322, 65, 37, "Pintar a lua");
-    art += p("launch-cloud", "M 35 387 C 19 357 43 329 70 340 C 77 304 124 300 141 329 C 166 303 211 320 207 352 C 237 345 257 370 242 393 Z", "Pintar as nuvens");
-    art += p("launch-flame", "M 181 345 C 163 390 173 424 210 456 C 247 424 257 390 239 345 C 229 376 219 383 210 385 C 201 383 191 376 181 345 Z", "Pintar a chama");
-    art += p("launch-left-fin", "M 162 242 L 111 316 L 174 302 Z", "Pintar a asa esquerda");
-    art += p("launch-right-fin", "M 258 242 L 309 316 L 246 302 Z", "Pintar a asa direita");
-    art += p("launch-body", "M 210 47 C 271 105 276 228 210 330 C 144 228 149 105 210 47 Z", "Pintar o corpo do foguete");
-    art += circle("launch-window", 210, 174, 36, "Pintar a janela do foguete");
-    art += line("M 183 88 Q 210 66 237 88 M 184 260 Q 210 279 236 260", 5);
-  } else if (type === "captain-moon") {
-    art += star("moon-star-a", 62, 110, 20) + star("moon-star-b", 348, 89, 25) + star("moon-star-c", 330, 328, 15);
-    art += circle("moon-planet", 331, 191, 49, "Pintar o planeta");
-    art += p("moon-ground", "M 24 420 Q 87 384 151 411 Q 216 381 277 407 Q 342 382 397 416 L 397 475 L 24 475 Z", "Pintar o solo lunar");
-    art += p("moon-backpack", "M 113 208 Q 75 215 73 267 L 78 330 Q 90 348 125 331 L 142 257 Z", "Pintar a mochila");
-    art += p("moon-body", "M 130 256 Q 210 230 283 266 L 296 361 Q 280 396 199 393 Q 128 391 117 357 Z", "Pintar o traje espacial");
-    art += p("moon-left-arm", "M 132 272 Q 91 264 78 307 Q 73 329 94 341 L 153 316 Z", "Pintar o braço");
-    art += p("moon-right-arm", "M 270 276 Q 312 256 330 285 L 313 319 L 278 320 Z", "Pintar o braço");
-    art += p("moon-boot-left", "M 148 365 Q 183 370 184 419 L 176 437 L 112 437 Q 105 411 132 395 Z", "Pintar a bota");
-    art += p("moon-boot-right", "M 222 370 Q 258 365 270 398 L 288 423 L 273 439 L 211 432 Z", "Pintar a bota");
-    art += circle("moon-helmet", 202, 174, 81, "Pintar o capacete");
-    art += p("moon-face", "M 159 171 Q 160 116 204 115 Q 249 116 249 170 Q 245 223 204 229 Q 165 216 159 171 Z", "Pintar o rosto");
-    art += p("moon-hair", "M 157 158 Q 155 106 201 98 Q 247 103 253 153 L 230 137 L 209 144 L 188 126 L 171 153 Z", "Pintar o cabelo");
-    art += circle("moon-rocket-body", 339, 372, 25, "Pintar a janela do foguete");
-    art += p("moon-rocket", "M 339 330 Q 377 354 364 406 L 339 430 L 314 406 Q 301 354 339 330 Z", "Pintar o foguete");
-    art += line("M 189 168 Q 195 158 201 168 M 214 168 Q 220 158 226 168 M 194 194 Q 205 204 217 194 M 175 254 L 205 277 L 235 254 M 176 313 L 235 313", 5);
-  } else if (type === "bia-cockpit") {
-    art += star("bia-star-a", 58, 85, 20) + star("bia-star-b", 357, 96, 22);
-    art += p("bia-window", "M 34 45 Q 210 -9 386 45 L 390 280 Q 210 248 30 280 Z", "Pintar a janela da nave");
-    art += circle("bia-planet", 321, 116, 42, "Pintar o planeta");
-    art += p("bia-console", "M 35 310 Q 210 266 385 310 L 374 444 Q 210 466 46 444 Z", "Pintar o painel de comando");
-    art += p("bia-suit", "M 122 265 Q 209 226 293 265 L 310 426 L 104 426 Z", "Pintar o traje espacial");
-    art += p("bia-arm-left", "M 131 294 Q 85 285 72 333 L 112 368 L 155 336 Z", "Pintar o braço esquerdo");
-    art += p("bia-arm-right", "M 284 294 Q 332 284 350 330 L 310 368 L 270 336 Z", "Pintar o braço direito");
-    art += circle("bia-helmet", 207, 170, 91, "Pintar o capacete");
-    art += p("bia-face", "M 158 170 Q 158 114 208 111 Q 257 115 257 169 Q 252 223 208 231 Q 165 222 158 170 Z", "Pintar o rosto");
-    art += p("bia-hair", "M 127 176 Q 111 100 186 77 Q 254 57 283 126 L 269 204 L 250 220 L 246 155 Q 213 140 186 118 Q 170 161 140 190 Z", "Pintar o cabelo");
-    art += circle("bia-knob-a", 95, 367, 19, "Pintar botão do painel") + circle("bia-knob-b", 157, 367, 19, "Pintar botão do painel") + circle("bia-knob-c", 219, 367, 19, "Pintar botão do painel");
-    art += p("bia-screen", "M 267 344 L 344 337 L 348 400 L 267 406 Z", "Pintar a tela de controle");
-    art += line("M 183 169 Q 193 157 201 169 M 217 169 Q 227 157 235 169 M 190 196 Q 208 211 226 196 M 155 265 L 205 293 L 260 265", 5);
-  } else if (type === "moon-team") {
-    art += circle("team-moon", 220, 93, 65, "Pintar a lua ao fundo") + star("team-star-a", 64, 111, 18) + star("team-star-b", 360, 84, 22);
-    art += p("team-ground", "M 20 408 Q 82 378 147 403 Q 221 376 294 407 Q 353 385 400 414 L 400 479 L 20 479 Z", "Pintar a superfície lunar");
-    art += p("team-flag", "M 52 205 L 52 414", "Pintar o mastro da bandeira");
-    art += p("team-flag-cloth", "M 53 208 L 125 223 L 119 275 L 53 261 Z", "Pintar a bandeira");
-    art += p("team-rover-body", "M 225 370 L 344 370 L 359 408 L 209 408 Z", "Pintar o veículo lunar");
-    art += circle("team-wheel-a", 237, 420, 20, "Pintar roda do veículo") + circle("team-wheel-b", 329, 420, 20, "Pintar roda do veículo");
-    art += circle("team-astronaut-a-helmet", 139, 257, 52, "Pintar capacete do astronauta");
-    art += p("team-astronaut-a-face", "M 112 257 Q 112 220 140 220 Q 168 221 167 257 Q 163 287 140 291 Q 115 285 112 257 Z", "Pintar rosto");
-    art += p("team-astronaut-a-body", "M 104 308 Q 139 288 174 310 L 184 381 L 94 381 Z", "Pintar traje do astronauta");
-    art += p("team-astronaut-a-leg", "M 110 370 L 151 370 L 149 420 L 105 420 Z", "Pintar perna do astronauta");
-    art += circle("team-astronaut-b-helmet", 283, 269, 47, "Pintar capacete da astronauta");
-    art += p("team-astronaut-b-face", "M 258 268 Q 258 233 284 232 Q 309 234 309 268 Q 307 293 284 299 Q 260 293 258 268 Z", "Pintar rosto");
-    art += p("team-astronaut-b-body", "M 253 311 Q 284 294 316 313 L 329 369 L 242 369 Z", "Pintar traje da astronauta");
-    art += line("M 127 255 Q 136 247 143 255 M 149 255 Q 157 247 164 255 M 130 272 Q 142 282 154 272 M 271 267 Q 280 259 286 267 M 293 267 Q 300 259 306 267 M 274 281 Q 285 290 296 281", 4);
-  } else if (type === "space-station") {
-    art += circle("station-planet", 328, 100, 56, "Pintar o planeta") + star("station-star-a", 62, 96, 21) + star("station-star-b", 359, 263, 18);
-    art += p("station-panel-left", "M 25 192 L 125 170 L 141 294 L 39 316 Z", "Pintar painel solar esquerdo");
-    art += p("station-panel-right", "M 278 170 L 386 191 L 371 316 L 263 294 Z", "Pintar painel solar direito");
-    art += p("station-center", "M 153 181 L 268 181 L 281 294 L 140 294 Z", "Pintar módulo central");
-    art += p("station-module-top", "M 170 136 L 250 136 L 268 181 L 153 181 Z", "Pintar módulo superior");
-    art += p("station-module-bottom", "M 164 294 L 258 294 L 247 350 L 176 350 Z", "Pintar módulo inferior");
-    art += circle("station-window-a", 188, 219, 17, "Pintar janela da estação") + circle("station-window-b", 234, 219, 17, "Pintar janela da estação");
-    art += p("station-antenna", "M 210 136 L 210 80 L 190 65 L 230 65 Z", "Pintar antena");
-    art += p("station-satellite", "M 80 365 L 131 348 L 146 385 L 95 402 Z", "Pintar satélite");
-    art += circle("station-satellite-core", 113, 376, 16, "Pintar centro do satélite");
-    art += p("station-ringed-planet", "M 285 390 C 308 347 357 351 375 389 C 352 422 309 426 285 390 Z", "Pintar planeta com anel");
-    art += line("M 25 230 L 141 210 M 33 268 L 145 246 M 279 209 L 381 231 M 273 247 L 377 269 M 200 350 L 200 385 M 220 350 L 220 385", 4);
-  } else {
-    art += circle("cosmos-earth", 302, 169, 87, "Pintar a Terra") + star("cosmos-star-a", 61, 80, 22) + star("cosmos-star-b", 365, 323, 18) + star("cosmos-star-c", 80, 370, 16);
-    art += p("cosmos-continent-a", "M 267 104 Q 291 86 311 109 L 305 136 L 277 146 L 258 130 Z", "Pintar continente") + p("cosmos-continent-b", "M 321 183 Q 354 169 362 200 L 344 222 L 321 210 L 307 195 Z", "Pintar continente");
-    art += p("cosmos-astronaut-a-body", "M 78 263 Q 130 230 177 266 L 189 360 L 73 360 Z", "Pintar traje do astronauta");
-    art += p("cosmos-astronaut-a-arm", "M 87 278 Q 50 255 39 218 L 63 200 L 113 261 Z", "Pintar braço do astronauta");
-    art += circle("cosmos-astronaut-a-helmet", 130, 198, 64, "Pintar capacete do astronauta");
-    art += p("cosmos-astronaut-a-face", "M 96 195 Q 98 151 131 151 Q 164 152 165 195 Q 160 230 131 234 Q 99 227 96 195 Z", "Pintar rosto");
-    art += p("cosmos-astronaut-b-body", "M 201 343 Q 245 318 280 347 L 289 416 L 191 416 Z", "Pintar traje da astronauta");
-    art += circle("cosmos-astronaut-b-helmet", 239, 285, 51, "Pintar capacete da astronauta");
-    art += p("cosmos-astronaut-b-face", "M 211 285 Q 212 250 240 249 Q 267 250 268 285 Q 264 313 240 319 Q 214 312 211 285 Z", "Pintar rosto");
-    art += p("cosmos-robot-body", "M 333 356 Q 356 338 379 356 L 385 412 L 326 412 Z", "Pintar corpo do robô");
-    art += p("cosmos-robot-head", "M 324 305 Q 324 270 357 270 Q 389 270 389 305 L 383 345 L 330 345 Z", "Pintar cabeça do robô");
-    art += circle("cosmos-robot-eye-a", 345, 307, 6, "Pintar olho do robô") + circle("cosmos-robot-eye-b", 367, 307, 6, "Pintar olho do robô");
-    art += line("M 113 198 Q 122 188 130 198 M 140 198 Q 148 188 156 198 M 119 216 Q 132 228 146 216 M 224 284 Q 232 276 239 284 M 246 284 Q 253 276 260 284 M 226 300 Q 239 311 251 300 M 351 324 L 363 324", 4);
-  }
-  return '<svg viewBox="0 0 420 500" role="img" aria-label="Ilustração espacial da Estação Rocket para colorir">' + art + '<g id="brushLayer"></g></svg>';
-}
-
-
-function updateColorProgress() {
-  const total = $("#coloringStage").querySelectorAll(".paint-region").length || ageContent[selectedAge].regions;
-  $("#colorProgress").textContent = coloredRegions.size + " DE " + total + " PARTES COLORIDAS";
+function updatePaintHistoryButtons() {
   $("#undoColor").disabled = paintHistory.length === 0;
-  if (coloredRegions.size === total) {
-    $("#colorReward").hidden = false;
-    $("#colorStep").classList.add("complete");
-    localStorage.setItem("estacao-rocket-color-" + selectedAge, "complete");
-  }
+  const redo = $("#redoColor");
+  if (redo) redo.disabled = redoHistory.length === 0;
 }
 
-function setPaintTool(tool) {
-  paintTool = tool;
-  $$(".paint-tool[data-tool]").forEach((button) => {
-    const active = button.dataset.tool === tool;
-    button.classList.toggle("is-active", active);
-    button.setAttribute("aria-pressed", String(active));
-  });
+function rememberPaintState() {
+  if (!paintCanvasState) return null;
+  return paintCanvasState.context.getImageData(0, 0, PAINT_CANVAS_WIDTH, PAINT_CANVAS_HEIGHT);
 }
 
-
-
-function renderColoring() {
-  const content = ageContent[selectedAge];
-  selectedPaintColor = content.colors[0].hex;
-  coloredRegions = new Set();
-  paintHistory = [];
-  activeBrushPath = null;
-  $("#paintPalette").innerHTML = content.colors.map((color, index) => {
-    const selected = index === 0 ? " is-selected" : "";
-    return '<button class="paint-swatch' + selected + '" type="button" data-color="' + color.hex + '" aria-label="Escolher ' + color.name + '" style="background:' + color.hex + '"></button>';
-  }).join("");
-  const page = coloringGallery.find((item) => item.id === selectedDrawingType && item.ages.includes(selectedAge));
-  if (!page) selectedDrawingType = defaultDrawingByAge[selectedAge] || "rocket-launch";
-  const selectedPage = coloringGallery.find((item) => item.id === selectedDrawingType);
-  renderColorGallery();
-  $("#coloringStage").innerHTML = coloringSvg(selectedDrawingType);
-  $("#color-modal-title").textContent = selectedPage.title;
-  $("#colorModalCopy").textContent = "Escolha uma ilustração, selecione as cores e crie do seu jeito.";
-  $("#colorReward").hidden = true;
-  $("#colorProgress").textContent = "0 DE " + $("#coloringStage").querySelectorAll(".paint-region").length + " PARTES COLORIDAS";
-  $("#undoColor").disabled = true;
-  $("#colorStep").classList.remove("complete");
-  localStorage.removeItem("estacao-rocket-color-" + selectedAge);
-  setPaintTool("bucket");
-  $$(".paint-swatch").forEach((swatch) => {
-    swatch.addEventListener("click", () => {
-      selectedPaintColor = swatch.dataset.color;
-      $$(".paint-swatch").forEach((item) => item.classList.toggle("is-selected", item === swatch));
-    });
-  });
+function pushPaintHistory(snapshot) {
+  if (!snapshot) return;
+  paintHistory.push(snapshot);
+  if (paintHistory.length > PAINT_HISTORY_LIMIT) paintHistory.shift();
+  redoHistory = [];
+  updatePaintHistoryButtons();
 }
 
-function paintRegion(region, erase) {
-  if (!region) return;
-  const key = region.dataset.paint;
-  const previous = region.style.fill;
-  const wasPainted = coloredRegions.has(key);
-  paintHistory.push({ type: "region", region, previous, key, wasPainted });
-  region.style.fill = erase ? "#FFFDF8" : selectedPaintColor;
-  if (erase) coloredRegions.delete(key);
-  else coloredRegions.add(key);
-  updateColorProgress();
-}
-
-function getSvgPoint(event, svg) {
-  const box = svg.getBoundingClientRect();
-  const viewBox = svg.viewBox.baseVal;
-  return {
-    x: ((event.clientX - box.left) / box.width) * viewBox.width,
-    y: ((event.clientY - box.top) / box.height) * viewBox.height
-  };
-}
-
-function startBrush(event) {
-  if (isRasterColoringPage()) { startRasterStroke(event); return; }
-  if (paintTool !== "brush") return;
-  const svg = $("#coloringStage svg");
-  if (!svg) return;
-  event.preventDefault();
-  const point = getSvgPoint(event, svg);
-  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-  path.setAttribute("class", "freehand");
-  path.setAttribute("d", "M " + point.x + " " + point.y);
-  path.setAttribute("stroke", selectedPaintColor);
-  path.setAttribute("stroke-width", selectedAge === "2-4" ? "17" : "11");
-  path.setAttribute("stroke-linecap", "round");
-  path.setAttribute("stroke-linejoin", "round");
-  path.setAttribute("fill", "none");
-  $("#brushLayer").appendChild(path);
-  activeBrushPath = path;
-  paintHistory.push({ type: "brush", path });
-  svg.setPointerCapture(event.pointerId);
-  updateColorProgress();
-}
-
-function continueBrush(event) {
-  if (isRasterColoringPage()) { continueRasterStroke(event); return; }
-  if (paintTool !== "brush" || !activeBrushPath) return;
-  const svg = $("#coloringStage svg");
-  if (!svg) return;
-  const point = getSvgPoint(event, svg);
-  activeBrushPath.setAttribute("d", activeBrushPath.getAttribute("d") + " L " + point.x + " " + point.y);
-}
-
-function finishBrush(event) {
-  if (isRasterColoringPage()) { finishRasterStroke(event); return; }
-  if (!activeBrushPath) return;
-  const svg = $("#coloringStage svg");
-  if (svg && svg.hasPointerCapture(event.pointerId)) svg.releasePointerCapture(event.pointerId);
-  activeBrushPath = null;
-}
-
-function eraseBrush(path) {
-  if (!path || !path.classList.contains("freehand") || !path.parentNode) return false;
-  paintHistory.push({ type: "erasedBrush", path, parent: path.parentNode, next: path.nextSibling });
-  path.remove();
-  updateColorProgress();
-  return true;
-}
-
-function undoPaint() {
-  if (isRasterColoringPage()) {
-    const previous = rasterHistory.pop();
-    if (previous && rasterCanvasState) {
-      rasterCanvasState.paintContext.putImageData(previous, 0, 0);
-      $("#colorReward").hidden = true;
-      $("#colorStep").classList.remove("complete");
-      updateColorProgress();
-    }
-    return;
-  }
-  const last = paintHistory.pop();
-  if (!last) return;
-  if (last.type === "region") {
-    last.region.style.fill = last.previous;
-    if (last.wasPainted) coloredRegions.add(last.key);
-    else coloredRegions.delete(last.key);
-  }
-  if (last.type === "brush") last.path.remove();
-  if (last.type === "erasedBrush") {
-    if (last.next && last.next.parentNode === last.parent) last.parent.insertBefore(last.path, last.next);
-    else last.parent.appendChild(last.path);
-  }
-  $("#colorReward").hidden = true;
-  updateColorProgress();
-}
 
 function openColoring(trigger) {
   selectedDrawingType = defaultDrawingByAge[selectedAge] || "rocket-launch";
   renderColoring();
   openModal("#colorModal", trigger);
 }
+
 
 function renderDiscovery() {
   const content = ageContent[selectedAge];
@@ -907,44 +648,25 @@ $$(".paint-tool[data-tool]").forEach((button) => {
   button.addEventListener("click", () => setPaintTool(button.dataset.tool));
 });
 
+
 $("#colorGallery").addEventListener("click", (event) => {
   const button = event.target.closest("[data-drawing]");
   if (button) chooseColoringPage(button.dataset.drawing);
 });
 $("#downloadColor").addEventListener("click", downloadColoring);
 $("#undoColor").addEventListener("click", undoPaint);
-$("#clearColor").addEventListener("click", renderColoring);
-
-$("#coloringStage").addEventListener("click", (event) => {
-  if (isRasterColoringPage()) {
-    if (paintTool === "bucket") paintRasterRegion(event, false);
-    return;
-  }
-  const region = event.target.closest ? event.target.closest("[data-paint]") : null;
-  if (paintTool === "bucket" && region) paintRegion(region, false);
-  if (paintTool === "eraser" && region) paintRegion(region, true);
-  if (paintTool === "eraser" && event.target.classList && event.target.classList.contains("freehand")) eraseBrush(event.target);
+$("#redoColor").addEventListener("click", redoPaint);
+$("#clearColor").addEventListener("click", clearPaintCanvas);
+$("#colorModal").querySelectorAll(".paint-tool[data-tool]").forEach((button) => {
+  button.addEventListener("click", () => setPaintTool(button.dataset.tool));
 });
-
-$("#coloringStage").addEventListener("keydown", (event) => {
-  if (event.key !== "Enter" && event.key !== " ") return;
-  const region = event.target.closest ? event.target.closest("[data-paint]") : null;
-  if (!region || paintTool === "brush") return;
-  event.preventDefault();
-  paintRegion(region, paintTool === "eraser");
-});
-
 $("#coloringStage").addEventListener("pointerdown", (event) => {
-  if (isRasterColoringPage()) { startBrush(event); return; }
-  if (paintTool === "eraser" && event.target.classList && event.target.classList.contains("freehand")) {
-    eraseBrush(event.target);
-    return;
-  }
-  startBrush(event);
+  if (paintTool === "bucket") fillCanvasRegion(event);
+  else startCanvasStroke(event);
 });
-$("#coloringStage").addEventListener("pointermove", continueBrush);
-$("#coloringStage").addEventListener("pointerup", finishBrush);
-$("#coloringStage").addEventListener("pointercancel", finishBrush);
+$("#coloringStage").addEventListener("pointermove", continueCanvasStroke);
+$("#coloringStage").addEventListener("pointerup", finishCanvasStroke);
+$("#coloringStage").addEventListener("pointercancel", finishCanvasStroke);
 
 $("[data-say-verse]").addEventListener("click", () => {
   const content = ageContent[selectedAge];
