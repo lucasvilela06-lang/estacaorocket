@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#3b227c">
+    <meta name="description" content="Uma experiência semanal de histórias, atividades e conversas em família.">
+    <title>Estação Rocket | Deus Grandão</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&amp;family=Nunito:wght@500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#principal">Pular para o conteúdo</a>
+
+    <div class="site-shell">
+      <header class="topbar">
+        <a class="brand" href="#inicio" aria-label="Estação Rocket, início">
+          <span class="official-logo" aria-hidden="true"></span>
+          <span class="sr-only">Estação Rocket</span>
+        </a>
+        <div class="topbar-copy">
+          <span class="live-dot" aria-hidden="true"></span>
+          Série Deus Grandão
+        </div>
+        <a class="family-link" href="pais.html">
+          <span aria-hidden="true">♡</span>
+          Espaço da família
+        </a>
+      </header>
+
+      <main id="principal">
+        <section class="hero" id="inicio" aria-labelledby="titulo-principal">
+          <div class="hero-copy">
+            <p class="eyebrow"><span aria-hidden="true">✦</span> Série da semana</p>
+            <h1 id="titulo-principal">Deus é<br><em>Grandão!</em></h1>
+            <p class="hero-description" id="heroDescription">Deus é muito grande, fez todas as coisas e merece toda a nossa adoração.</p>
+            <div class="hero-meta">
+              <span><span aria-hidden="true">◷</span> <b id="heroDuration">6 min</b></span>
+              <span><span aria-hidden="true">▤</span> Salmo 145:3</span>
+            </div>
+            <button class="primary-button hero-button" type="button" data-start-story>
+              Começar a aventura <span aria-hidden="true">→</span>
+            </button>
+          </div>
+
+          <figure class="series-art">
+            <img src="assets/deus-grandao.jpeg" alt="Identidade visual da série Deus Grandão, com Jesus e um foguete.">
+          </figure>
+        </section>
+
+        <section class="instructor-dock" aria-label="Instrutores da Estação Rocket">
+          <article class="instructor-message bia-guide">
+            <span class="instructor-avatar bia-avatar" aria-hidden="true"></span>
+            <div>
+              <p class="guide-name">Capitã Bia <span aria-hidden="true">✦</span></p>
+              <p id="biaGuide">Olá, tripulação! Vamos descobrir coisas lindas que Deus fez?</p>
+            </div>
+          </article>
+          <article class="instructor-message lucas-guide">
+            <span class="instructor-avatar lucas-avatar" aria-hidden="true"></span>
+            <div>
+              <p class="guide-name">Capitão Lucas <span aria-hidden="true">✦</span></p>
+              <p id="lucasGuide">Prepare o coração: cada missão vai nos ajudar a adorar o Deus Grandão!</p>
+            </div>
+          </article>
+        </section>
+
+        <section class="age-section" aria-labelledby="idade-titulo">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow soft"><span aria-hidden="true">⌁</span> Caminhos para cada idade</p>
+              <h2 id="idade-titulo">Qual é a sua idade?</h2>
+            </div>
+            <p>Escolha um caminho para receber o jeito certo de viver esta aventura.</p>
+          </div>
+          <div class="age-picker" role="tablist" aria-label="Escolha da faixa etária">
+            <button class="age-option is-active" type="button" role="tab" aria-selected="true" data-age="2-4">
+              <span class="age-icon" aria-hidden="true">☀</span>
+              <span><strong>2–4 anos</strong><small>Pequenos passos</small></span>
+            </button>
+            <button class="age-option" type="button" role="tab" aria-selected="false" data-age="5-7">
+              <span class="age-icon" aria-hidden="true">☄</span>
+              <span><strong>5–7 anos</strong><small>Descobertas</small></span>
+            </button>
+            <button class="age-option" type="button" role="tab" aria-selected="false" data-age="8-11">
+              <span class="age-icon" aria-hidden="true">✹</span>
+              <span><strong>8–11 anos</strong><small>Em missão</small></span>
+            </button>
+          </div>
+          <p class="age-feedback" id="ageFeedback" aria-live="polite">Você está no caminho dos Pequenos passos: frases curtas, cores grandes e brincadeiras para fazer junto.</p>
+        </section>
+
+        <section class="mission-panel" id="aventura" aria-labelledby="missao-titulo">
+          <div class="mission-intro">
+            <p class="eyebrow soft"><span aria-hidden="true">⌖</span> Sua missão de hoje</p>
+            <h2 id="missao-titulo">Cinco paradas<br>para adorar.</h2>
+            <p id="missionCopy">Veja a história, encontre palavras de adoração, pinte, descubra e converse em família.</p>
+          </div>
+          <ol class="journey">
+            <li class="journey-step complete">
+              <span class="step-badge" aria-hidden="true">1</span>
+              <span><strong>Ouvir</strong><small id="storyLabel">História em imagens</small></span>
+              <button type="button" data-start-story aria-label="Ouvir a história">→</button>
+            </li>
+            <li class="journey-step" id="activityStep">
+              <span class="step-badge" aria-hidden="true">2</span>
+              <span><strong>Brincar</strong><small id="activityLabel">Corações de adoração</small></span>
+              <button type="button" data-open-activity aria-label="Abrir atividade">→</button>
+            </li>
+            <li class="journey-step" id="colorStep">
+              <span class="step-badge" aria-hidden="true">3</span>
+              <span><strong>Colorir</strong><small id="colorLabel">Meu desenho de Deus Grandão</small></span>
+              <button type="button" data-open-color aria-label="Abrir atividade de colorir">→</button>
+            </li>
+            <li class="journey-step" id="discoveryStep">
+              <span class="step-badge" aria-hidden="true">4</span>
+              <span><strong>Descobrir</strong><small id="discoveryLabel">Jogo das coisas criadas por Deus</small></span>
+              <button type="button" data-open-discovery aria-label="Abrir jogo de descobertas">→</button>
+            </li>
+            <li class="journey-step">
+              <span class="step-badge" aria-hidden="true">5</span>
+              <span><strong>Conversar</strong><small id="talkLabel">Uma pergunta para a família</small></span>
+              <button type="button" data-open-family aria-label="Abrir conversa em família">→</button>
+            </li>
+          </ol>
+        </section>
+
+        <section class="content-section" id="historias" aria-labelledby="conteudo-titulo">
+          <div class="section-heading content-heading">
+            <div>
+              <p class="eyebrow soft"><span aria-hidden="true">▤</span> Explore a série</p>
+              <h2 id="conteudo-titulo">Escolha por onde começar.</h2>
+            </div>
+            <span class="series-chip">Série: Deus Grandão</span>
+          </div>
+          <div class="content-grid">
+            <article class="story-card featured-card">
+              <div class="card-illustration boat-card-art" aria-hidden="true">
+                <span>✦</span><b>☁</b><i>☀</i>
+              </div>
+              <div class="card-content">
+                <p class="card-label">HISTÓRIA BÍBLICA</p>
+                <h3>Deus é grande em todo lugar</h3>
+                <p id="storySummary">Descubra que Deus fez o mundo, cuida de nós e merece a nossa adoração.</p>
+                <button class="text-button" type="button" data-start-story>Ver a história <span aria-hidden="true">→</span></button>
+              </div>
+            </article>
+
+            <article class="story-card activity-card">
+              <div class="card-illustration heart-card-art" aria-hidden="true">
+                <span>♡</span><i>✦</i><b>✦</b>
+              </div>
+              <div class="card-content">
+                <p class="card-label">ATIVIDADE</p>
+                <h3 id="activityTitle">Colecione corações de adoração</h3>
+                <p id="activitySummary">Encontre três verdades sobre o Deus Grandão.</p>
+                <button class="text-button" type="button" data-open-activity>Começar a brincar <span aria-hidden="true">→</span></button>
+              </div>
+            </article>
+
+            <article class="story-card verse-card">
+              <div class="card-illustration verse-card-art" aria-hidden="true">
+                <span>“</span><i>✦</i>
+              </div>
+              <div class="card-content">
+                <p class="card-label">PALAVRA PARA GUARDAR</p>
+                <h3 id="verseText">“Grande é o Senhor.”</h3>
+                <p id="verseReference">Salmo 145:3</p>
+                <button class="text-button" type="button" data-say-verse>Ouvir e repetir <span aria-hidden="true">→</span></button>
+              </div>
+            </article>
+
+            <article class="story-card color-card">
+              <div class="card-illustration color-card-art" aria-hidden="true">
+                <span>✦</span><b>✎</b><i>♡</i>
+              </div>
+              <div class="card-content">
+                <p class="card-label">ATIVIDADE DE COLORIR</p>
+                <h3 id="colorTitle">Pinte o seu Deus Grandão</h3>
+                <p id="colorSummary">Escolha uma cor e toque em cada parte do desenho.</p>
+                <button class="text-button" type="button" data-open-color>Começar a colorir <span aria-hidden="true">→</span></button>
+              </div>
+            </article>
+
+            <article class="story-card discovery-card">
+              <div class="card-illustration discovery-card-art" aria-hidden="true">
+                <span>☀</span><b>✦</b><i>♧</i>
+              </div>
+              <div class="card-content">
+                <p class="card-label">JOGO DE DESCOBERTA</p>
+                <h3 id="discoveryTitle">Quem fez coisas tão lindas?</h3>
+                <p id="discoverySummary">Toque nas coisas criadas por Deus e complete a missão.</p>
+                <button class="text-button" type="button" data-open-discovery>Jogar agora <span aria-hidden="true">→</span></button>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="family-section" id="familia" aria-labelledby="familia-titulo">
+          <div class="family-illustration" aria-hidden="true">
+            <span class="spark spark-a">✦</span><span class="spark spark-b">✦</span>
+            <div class="house"><i></i><b></b></div>
+            <div class="adult"></div><div class="kid"></div>
+          </div>
+          <div class="family-copy">
+            <p class="eyebrow"><span aria-hidden="true">♡</span> Para quem cuida</p>
+            <h2 id="familia-titulo">Leve a adoração para casa.</h2>
+            <p>Uma pergunta simples e uma prática para a família continuarem a série durante a semana.</p>
+            <a class="secondary-button" href="pais.html">Ver instruções para os pais <span aria-hidden="true">→</span></a>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <p>Feito para caminhar com as crianças — em casa e na igreja.</p>
+        <p><strong>Estação Rocket</strong> <span aria-hidden="true">·</span> Série Deus Grandão</p>
+      </footer>
+    </div>
+
+    <nav class="mobile-nav" aria-label="Navegação principal">
+      <a href="#inicio" class="is-current"><span aria-hidden="true">⌂</span>Início</a>
+      <a href="#historias"><span aria-hidden="true">▤</span>Histórias</a>
+      <button type="button" data-open-activity><span aria-hidden="true">✎</span>Atividades</button>
+      <a href="pais.html"><span aria-hidden="true">♡</span>Família</a>
+    </nav>
+
+    <div class="modal-backdrop" id="storyModal" hidden>
+      <section class="modal story-modal" role="dialog" aria-modal="true" aria-labelledby="story-modal-title">
+        <button class="modal-close" type="button" data-close-modal aria-label="Fechar">×</button>
+        <div class="story-progress" aria-label="Progresso da história"><span class="is-current"></span><span></span><span></span></div>
+        <div class="story-scene" id="storyScene" aria-hidden="true">
+          <span class="scene-star">✦</span><span class="scene-star scene-star-two">✦</span><div class="scene-sun"></div><div class="scene-planet"></div><div class="scene-hill"></div>
+        </div>
+        <div class="modal-guide lucas-mini">
+          <span class="instructor-avatar lucas-avatar" aria-hidden="true"></span>
+          <p><strong>Capitão Lucas:</strong> <span id="storyGuide">Vamos descobrir juntos!</span></p>
+        </div>
+        <p class="card-label" id="storySlideTag">CENA 1 DE 3</p>
+        <h2 id="story-modal-title">Deus fez um mundo grandão.</h2>
+        <p id="storySlideText">Ele fez o céu, as estrelas, os animais e cada pessoa. Deus é muito grande!</p>
+        <div class="modal-actions">
+          <button class="secondary-button" type="button" data-close-modal>Agora não</button>
+          <button class="primary-button" type="button" id="nextStory">Próxima cena <span aria-hidden="true">→</span></button>
+        </div>
+      </section>
+    </div>
+
+    <div class="modal-backdrop" id="activityModal" hidden>
+      <section class="modal activity-modal" role="dialog" aria-modal="true" aria-labelledby="activity-modal-title">
+        <button class="modal-close" type="button" data-close-modal aria-label="Fechar">×</button>
+        <p class="eyebrow soft"><span aria-hidden="true">✦</span> Brincadeira da semana</p>
+        <h2 id="activity-modal-title">Colecione corações de adoração!</h2>
+        <p id="activityModalCopy">Toque em cada coração e descubra uma verdade para adorar a Deus.</p>
+        <div class="modal-guide bia-mini">
+          <span class="instructor-avatar bia-avatar" aria-hidden="true"></span>
+          <p><strong>Capitã Bia:</strong> <span id="heartGuide">Toque em cada coração devagar. Ele vai revelar uma verdade!</span></p>
+        </div>
+        <div class="heart-field" id="heartField" aria-live="polite">
+          <button class="collect-heart heart-one" type="button" data-heart="Deus é Grandão" aria-label="Encontrar primeiro coração">♡</button>
+          <button class="collect-heart heart-two" type="button" data-heart="Eu posso cantar" aria-label="Encontrar segundo coração">♡</button>
+          <button class="collect-heart heart-three" type="button" data-heart="Eu posso orar" aria-label="Encontrar terceiro coração">♡</button>
+        </div>
+        <p class="activity-status" id="activityStatus">Encontre os 3 corações escondidos.</p>
+        <div class="activity-reward" id="activityReward" hidden>
+          <span aria-hidden="true">✦</span>
+          <strong>Missão concluída!</strong>
+          <p>Você encontrou todas as verdades de adoração.</p>
+        </div>
+        <button class="primary-button" type="button" data-close-modal>Voltar para a estação</button>
+      </section>
+    </div>
+
+    <div class="modal-backdrop" id="colorModal" hidden>
+      <section class="modal color-modal" role="dialog" aria-modal="true" aria-labelledby="color-modal-title">
+        <button class="modal-close" type="button" data-close-modal aria-label="Fechar">×</button>
+        <p class="eyebrow soft"><span aria-hidden="true">✎</span> Meu desenho</p>
+        <h2 id="color-modal-title">Pinte o seu Deus Grandão</h2>
+        <p id="colorModalCopy">Escolha uma cor e toque nas partes do desenho.</p>
+        <div class="modal-guide bia-mini">
+          <span class="instructor-avatar bia-avatar" aria-hidden="true"></span>
+          <p><strong>Capitã Bia:</strong> <span id="colorGuide">Escolha uma ferramenta. Depois use as cores do seu jeito!</span></p>
+        </div>
+        <div class="color-progress"><span id="colorProgress">0 DE 4 PARTES COLORIDAS</span><button type="button" class="clear-color" id="clearColor">Limpar desenho</button></div>
+        <div class="paint-tools" role="group" aria-label="Ferramentas de desenho">
+          <button class="paint-tool is-active" type="button" data-tool="bucket"><span aria-hidden="true">▰</span> Balde</button>
+          <button class="paint-tool" type="button" data-tool="brush"><span aria-hidden="true">╱</span> Pincel</button>
+          <button class="paint-tool" type="button" data-tool="eraser"><span aria-hidden="true">⌫</span> Borracha</button>
+          <button class="paint-tool undo-tool" type="button" id="undoColor" disabled><span aria-hidden="true">↶</span> Desfazer</button>
+        </div>
+        <div class="paint-palette" id="paintPalette" role="group" aria-label="Escolha uma cor"></div>
+        <div class="coloring-stage" id="coloringStage" aria-live="polite"></div>
+        <div class="activity-reward color-reward" id="colorReward" hidden>
+          <span aria-hidden="true">✦</span>
+          <strong>Desenho concluído!</strong>
+          <p>Você usou todas as cores da sua missão.</p>
+        </div>
+        <button class="primary-button" type="button" data-close-modal>Guardar meu desenho <span aria-hidden="true">♡</span></button>
+      </section>
+    </div>
+
+    <div class="modal-backdrop" id="discoveryModal" hidden>
+      <section class="modal discovery-modal" role="dialog" aria-modal="true" aria-labelledby="discovery-modal-title">
+        <button class="modal-close" type="button" data-close-modal aria-label="Fechar">×</button>
+        <p class="eyebrow soft"><span aria-hidden="true">⌁</span> Jogo da criação</p>
+        <h2 id="discovery-modal-title">Quem fez essas coisas?</h2>
+        <p id="discoveryModalCopy">Toque nas coisas que Deus fez.</p>
+        <div class="modal-guide lucas-mini">
+          <span class="instructor-avatar lucas-avatar" aria-hidden="true"></span>
+          <p><strong>Capitão Lucas:</strong> <span id="discoveryGuide">Olhe com atenção. A criação mostra como Deus é grande!</span></p>
+        </div>
+        <div class="discovery-board" id="discoveryBoard" aria-live="polite"></div>
+        <p class="activity-status" id="discoveryStatus">Encontre todas as respostas.</p>
+        <div class="activity-reward" id="discoveryReward" hidden>
+          <span aria-hidden="true">✦</span>
+          <strong>Missão concluída!</strong>
+          <p id="discoveryRewardText">Você encontrou as coisas criadas por Deus.</p>
+        </div>
+        <button class="primary-button" type="button" data-close-modal>Voltar para a estação</button>
+      </section>
+    </div>
+
+    <div class="modal-backdrop" id="familyModal" hidden>
+      <section class="modal family-modal" role="dialog" aria-modal="true" aria-labelledby="family-modal-title">
+        <button class="modal-close" type="button" data-close-modal aria-label="Fechar">×</button>
+        <p class="eyebrow soft"><span aria-hidden="true">♡</span> Guia para a família</p>
+        <h2 id="family-modal-title">Uma conversa de cinco minutos.</h2>
+        <div class="guide-question">
+          <span aria-hidden="true">?</span>
+          <div><small>PERGUNTA DE HOJE</small><strong id="guideQuestion">Quem é grandão e merece o nosso louvor?</strong></div>
+        </div>
+        <div class="guide-practice">
+          <span aria-hidden="true">⌁</span>
+          <div><small>PRÁTICA DA SEMANA</small><p id="guidePractice">Cada pessoa pode dizer uma coisa criada por Deus e fazer uma oração de agradecimento.</p></div>
+        </div>
+        <button class="secondary-button" type="button" data-close-modal>Entendi, vamos conversar <span aria-hidden="true">→</span></button>
+      </section>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="app.js"></script>
+  </body>
+</html>
