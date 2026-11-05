@@ -524,6 +524,7 @@ function chooseColoringPage(type) {
   renderColoring();
 }
 
+
 function updatePaintHistoryButtons() {
   $("#undoColor").disabled = paintHistory.length === 0;
   const redo = $("#redoColor");
@@ -543,7 +544,271 @@ function pushPaintHistory(snapshot) {
   updatePaintHistoryButtons();
 }
 
+function hexToRgb(hex) {
+  const value = String(hex || "#000000").replace("#", "");
+  if (!/^[0-9a-fA-F]{6}$/.test(value)) return [0, 0, 0];
+  return [parseInt(value.slice(0, 2), 16), parseInt(value.slice(2, 4), 16), parseInt(value.slice(4, 6), 16)];
+}
 
+function updateColorProgress() {
+  const actions = paintHistory.length + (activeCanvasStroke ? 1 : 0);
+  $("#colorProgress").textContent = actions === 0 ? "PRONTO PARA COLORIR" : actions + (actions === 1 ? " AÇÃO DE PINTURA" : " AÇÕES DE PINTURA");
+  updatePaintHistoryButtons();
+  if (actions >= 3) {
+    $("#colorReward").hidden = false;
+    const message = $("#colorReward p");
+    if (message) message.textContent = "Sua criação está ganhando vida! Continue explorando as cores.";
+  }
+}
+
+function setPaintTool(tool) {
+  paintTool = tool;
+  $$(".paint-tool[data-tool]").forEach((button) => {
+    const active = button.dataset.tool === tool;
+    button.classList.toggle("is-active", active);
+    button.setAttribute("aria-pressed", String(active));
+  });
+  const hints = {
+    bucket: "Toque em uma área fechada para preencher com a cor escolhida.",
+    brush: "Deslize o dedo ou o mouse sobre o desenho para pintar livremente.",
+    eraser: "Deslize sobre a pintura para apagar sem remover os contornos."
+  };
+  const guide = $("#colorGuide");
+  if (guide) guide.textContent = hints[tool] || "Escolha uma cor e comece a pintar!";
+}
+
+function renderColoring() {
+  const content = ageContent[selectedAge];
+  selectedPaintColor = content.colors[0].hex;
+  paintHistory = [];
+  redoHistory = [];
+  activeCanvasStroke = null;
+  $("#paintPalette").innerHTML = content.colors.map((color, index) => {
+    const selected = index === 0 ? " is-selected" : "";
+    return '<button class="paint-swatch' + selected + '" type="button" data-color="' + color.hex + '" aria-label="Escolher ' + color.name + '" style="background:' + color.hex + '"></button>';
+  }).join("");
+
+  const availablePage = coloringGallery.find((item) => item.id === selectedDrawingType && item.ages.includes(selectedAge));
+  if (!availablePage) selectedDrawingType = defaultDrawingByAge[selectedAge] || "rocket-launch";
+  const selectedPage = coloringGallery.find((item) => item.id === selectedDrawingType);
+  renderColorGallery();
+  $("#coloringStage").innerHTML = '<div class="rocket-paint-stack" aria-label="Área de pintura"><canvas id="paintCanvas" width="' + PAINT_CANVAS_WIDTH + '" height="' + PAINT_CANVAS_HEIGHT + '" aria-label="Camada de cores"></canvas><canvas id="lineCanvas" width="' + PAINT_CANVAS_WIDTH + '" height="' + PAINT_CANVAS_HEIGHT + '" aria-hidden="true"></canvas></div>';
+  $("#color-modal-title").textContent = selectedPage.title;
+  $("#colorModalCopy").textContent = "Escolha uma cor e pinte cada detalhe do seu jeito.";
+  $("#colorReward").hidden = true;
+  $("#colorStep").classList.remove("complete");
+  localStorage.removeItem("estacao-rocket-color-" + selectedAge);
+  setPaintTool("bucket");
+  updatePaintHistoryButtons();
+
+  const paintCanvas = $("#paintCanvas");
+  const lineCanvas = $("#lineCanvas");
+  const paintContext = paintCanvas.getContext("2d", { willReadFrequently: true });
+  const lineContext = lineCanvas.getContext("2d", { willReadFrequently: true });
+  paintContext.clearRect(0, 0, PAINT_CANVAS_WIDTH, PAINT_CANVAS_HEIGHT);
+  lineContext.clearRect(0, 0, PAINT_CANVAS_WIDTH, PAINT_CANVAS_HEIGHT);
+  paintCanvasState = { paintCanvas, lineCanvas, context: paintContext, lineContext, linePixels: null };
+
+  const svgDocument = new DOMParser().parseFromString(coloringSvg(selectedDrawingType), "image/svg+xml");
+  if (svgDocument.querySelector("parsererror")) {
+    showToast("Não foi possível abrir esta ilustração.");
+    return;
+  }
+  svgDocument.querySelectorAll(".paint-region").forEach((shape) => {
+    shape.setAttribute("fill", "none");
+    shape.setAttribute("stroke", "#25134d");
+    shape.setAttribute("stroke-width", "4");
+  });
+  const svgElement = svgDocument.documentElement;
+  svgElement.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+  svgElement.setAttribute("width", String(PAINT_CANVAS_WIDTH));
+  svgElement.setAttribute("height", String(PAINT_CANVAS_HEIGHT));
+  const svgBlob = new Blob([new XMLSerializer().serializeToString(svgElement)], { type: "image/svg+xml;charset=utf-8" });
+  const svgUrl = URL.createObjectURL(svgBlob);
+  const lineImage = new Image();
+  lineImage.onload = () => {
+    if (!paintCanvasState || paintCanvasState.lineCanvas !== lineCanvas) {
+      URL.revokeObjectURL(svgUrl);
+      return;
+    }
+    lineContext.clearRect(0, 0, PAINT_CANVAS_WIDTH, PAINT_CANVAS_HEIGHT);
+    lineContext.drawImage(lineImage, 0, 0, PAINT_CANVAS_WIDTH, PAINT_CANVAS_HEIGHT);
+    URL.revokeObjectURL(svgUrl);
+    paintCanvasState.linePixels = lineContext.getImageData(0, 0, PAINT_CANVAS_WIDTH, PAINT_CANVAS_HEIGHT);
+    updateColorProgress();
+  };
+  lineImage.onerror = () => {
+    URL.revokeObjectURL(svgUrl);
+    showToast("Não foi possível preparar o desenho. Tente escolher outra ilustração.");
+  };
+  lineImage.src = svgUrl;
+
+  $$(".paint-swatch").forEach((swatch) => {
+    swatch.addEventListener("click", () => {
+      selectedPaintColor = swatch.dataset.color;
+      $$(".paint-swatch").forEach((item) => item.classList.toggle("is-selected", item === swatch));
+    });
+  });
+}
+
+function getCanvasPoint(event) {
+  const canvas = $("#paintCanvas");
+  if (!canvas) return null;
+  const rect = canvas.getBoundingClientRect();
+  if (!rect.width || !rect.height) return null;
+  return {
+    x: Math.max(0, Math.min(PAINT_CANVAS_WIDTH - 1, Math.floor((event.clientX - rect.left) / rect.width * PAINT_CANVAS_WIDTH))),
+    y: Math.max(0, Math.min(PAINT_CANVAS_HEIGHT - 1, Math.floor((event.clientY - rect.top) / rect.height * PAINT_CANVAS_HEIGHT)))
+  };
+}
+
+function fillCanvasRegion(event) {
+  if (!paintCanvasState || !paintCanvasState.linePixels) return;
+  const point = getCanvasPoint(event);
+  if (!point) return;
+  const { linePixels, context } = paintCanvasState;
+  const width = PAINT_CANVAS_WIDTH;
+  const height = PAINT_CANVAS_HEIGHT;
+  const total = width * height;
+  const start = point.y * width + point.x;
+  const lineData = linePixels.data;
+  if (lineData[start * 4 + 3] > 90) return;
+
+  const visited = new Uint8Array(total);
+  const queue = new Int32Array(total);
+  let head = 0;
+  let tail = 0;
+  let touchesEdge = false;
+  const enqueue = (index) => {
+    if (visited[index]) return;
+    visited[index] = 1;
+    if (lineData[index * 4 + 3] < 90) queue[tail++] = index;
+  };
+  enqueue(start);
+  while (head < tail) {
+    const index = queue[head++];
+    if (index % width === 0 || index % width === width - 1 || index < width || index >= total - width) touchesEdge = true;
+    if (index >= width) enqueue(index - width);
+    if (index + width < total) enqueue(index + width);
+    if (index % width) enqueue(index - 1);
+    if (index % width !== width - 1) enqueue(index + 1);
+  }
+
+  if (!tail) return;
+  if (touchesEdge || tail > total * 0.58) {
+    showToast("Essa área está aberta. Toque dentro de uma parte fechada do desenho.");
+    return;
+  }
+
+  const before = rememberPaintState();
+  const pixels = context.getImageData(0, 0, width, height);
+  const color = hexToRgb(selectedPaintColor);
+  for (let i = 0; i < tail; i++) {
+    const offset = queue[i] * 4;
+    pixels.data[offset] = color[0];
+    pixels.data[offset + 1] = color[1];
+    pixels.data[offset + 2] = color[2];
+    pixels.data[offset + 3] = 255;
+  }
+  context.putImageData(pixels, 0, 0);
+  pushPaintHistory(before);
+  updateColorProgress();
+}
+
+function startCanvasStroke(event) {
+  if (!paintCanvasState || !["brush", "eraser"].includes(paintTool)) return;
+  const point = getCanvasPoint(event);
+  if (!point) return;
+  event.preventDefault();
+  const before = rememberPaintState();
+  const context = paintCanvasState.context;
+  context.save();
+  context.globalCompositeOperation = paintTool === "eraser" ? "destination-out" : "source-over";
+  context.strokeStyle = selectedPaintColor;
+  context.fillStyle = selectedPaintColor;
+  context.lineWidth = selectedAge === "2-4" ? 24 : selectedAge === "5-7" ? 17 : 12;
+  context.lineCap = "round";
+  context.lineJoin = "round";
+  context.beginPath();
+  context.arc(point.x, point.y, context.lineWidth / 2, 0, Math.PI * 2);
+  context.fill();
+  context.beginPath();
+  context.moveTo(point.x, point.y);
+  activeCanvasStroke = { before, last: point };
+  $("#paintCanvas").setPointerCapture(event.pointerId);
+}
+
+function continueCanvasStroke(event) {
+  if (!activeCanvasStroke || !paintCanvasState) return;
+  const point = getCanvasPoint(event);
+  if (!point) return;
+  const context = paintCanvasState.context;
+  context.beginPath();
+  context.moveTo(activeCanvasStroke.last.x, activeCanvasStroke.last.y);
+  context.lineTo(point.x, point.y);
+  context.stroke();
+  activeCanvasStroke.last = point;
+}
+
+function finishCanvasStroke(event) {
+  if (!activeCanvasStroke || !paintCanvasState) return;
+  const canvas = $("#paintCanvas");
+  if (canvas && canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
+  paintCanvasState.context.restore();
+  pushPaintHistory(activeCanvasStroke.before);
+  activeCanvasStroke = null;
+  updateColorProgress();
+}
+
+function undoPaint() {
+  if (!paintCanvasState || !paintHistory.length) return;
+  redoHistory.push(rememberPaintState());
+  paintCanvasState.context.putImageData(paintHistory.pop(), 0, 0);
+  $("#colorReward").hidden = true;
+  updateColorProgress();
+}
+
+function redoPaint() {
+  if (!paintCanvasState || !redoHistory.length) return;
+  const current = rememberPaintState();
+  paintHistory.push(current);
+  if (paintHistory.length > PAINT_HISTORY_LIMIT) paintHistory.shift();
+  paintCanvasState.context.putImageData(redoHistory.pop(), 0, 0);
+  updateColorProgress();
+}
+
+function clearPaintCanvas() {
+  if (!paintCanvasState) return;
+  const before = rememberPaintState();
+  paintCanvasState.context.clearRect(0, 0, PAINT_CANVAS_WIDTH, PAINT_CANVAS_HEIGHT);
+  pushPaintHistory(before);
+  $("#colorReward").hidden = true;
+  updateColorProgress();
+}
+
+function downloadColoring() {
+  if (!paintCanvasState) return;
+  const output = document.createElement("canvas");
+  output.width = PAINT_CANVAS_WIDTH;
+  output.height = PAINT_CANVAS_HEIGHT;
+  const context = output.getContext("2d");
+  context.fillStyle = "#fffdf8";
+  context.fillRect(0, 0, output.width, output.height);
+  context.drawImage(paintCanvasState.paintCanvas, 0, 0);
+  context.drawImage(paintCanvasState.lineCanvas, 0, 0);
+  output.toBlob((png) => {
+    if (!png) { showToast("Não foi possível salvar o desenho neste navegador."); return; }
+    const url = URL.createObjectURL(png);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "meu-desenho-estacao-rocket.png";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1500);
+    showToast("Seu desenho foi salvo no dispositivo!");
+  }, "image/png");
+}
 function openColoring(trigger) {
   selectedDrawingType = defaultDrawingByAge[selectedAge] || "rocket-launch";
   renderColoring();
