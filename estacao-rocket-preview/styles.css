@@ -105,8 +105,8 @@ a { color: inherit; }
 .instructor-message { min-height: 102px; display: grid; grid-template-columns: 78px 1fr; align-items: center; gap: 14px; padding: 12px 16px 12px 10px; border-radius: 24px; box-shadow: var(--shadow); }
 .bia-guide { background: #fff0f5; }.lucas-guide { background: #e9f1ff; }
 .instructor-avatar { display: block; width: 68px; height: 68px; border: 3px solid var(--white); border-radius: 21px; background-repeat: no-repeat; box-shadow: 0 5px 12px rgba(25, 13, 65, .16); }
-.bia-avatar { background-image: url("assets/bia-instrutora.jpeg"); background-size: 300% auto; background-position: 51% 44%; }
-.lucas-avatar { background-image: url("assets/lucas-instrutor.jpeg"); background-size: 300% auto; background-position: 39% 43%; }
+.bia-avatar { background-image: url("assets/bia-instrutora.jpeg"); background-size: 190% auto; background-position: 50% 38%; }
+.lucas-avatar { background-image: url("assets/lucas-instrutor.jpeg"); background-size: 190% auto; background-position: 50% 38%; }
 .guide-name { margin: 0 0 3px; color: #a24670; font-family: "Baloo 2", sans-serif; font-size: 18px; font-weight: 800; line-height: 1; }.lucas-guide .guide-name { color: #375996; }
 .instructor-message > div > p:last-child { margin: 0; color: #5f5269; font-size: 13px; font-weight: 800; line-height: 1.28; }.lucas-guide > div > p:last-child { color: #4f6484; }
 
