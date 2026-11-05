@@ -515,7 +515,8 @@ function renderColorGallery() {
     const active = item.id === selectedDrawingType ? " is-selected" : "";
     const thumbnailSvg = coloringSvg(item.id)
       .replace(/class="paint-region"/g, 'fill="#fffdf8" stroke="#25134d" stroke-width="4"')
-      .replace(/class="art-line"/g, "");
+      .replace(/class="art-line"/g, "")
+      .replace("<svg ", '<svg xmlns="http://www.w3.org/2000/svg" ');
     const thumbnail = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(thumbnailSvg);
     return '<button class="color-gallery-item' + active + '" type="button" data-drawing="' + item.id + '" aria-pressed="' + (item.id === selectedDrawingType) + '">' +
       '<img class="gallery-preview" src="' + thumbnail + '" alt="" loading="lazy">' +
