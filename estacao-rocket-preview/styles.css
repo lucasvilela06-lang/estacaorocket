@@ -250,3 +250,22 @@ a { color: inherit; }
   .color-gallery-item:has(.gallery-thumb) { min-height: 105px; }
   .raster-canvas-stack { width: min(100%, 390px); }
 }
+
+/* Correções de altura e rolagem do modal de pintura */
+.modal-backdrop { overflow-y: auto; overscroll-behavior: contain; }
+.color-modal { width: min(100%, 700px); max-height: calc(100dvh - 32px); overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable; }
+.coloring-stage svg { width: min(100%, 430px); max-height: 420px; height: auto; }
+.gallery-symbol { display: grid; place-items: center; min-width: 54px; min-height: 48px; padding: 4px; border-radius: 12px; background: #f3edff; }
+.color-gallery-item { min-height: 112px; }
+@media (max-width: 760px) {
+  .modal-backdrop { padding: 8px; align-items: center; }
+  .color-modal { width: 100%; max-height: calc(100dvh - 16px); padding: 25px 16px 18px; border-radius: 22px; }
+  .color-modal h2 { padding-right: 34px; font-size: clamp(27px, 7vw, 35px); }
+  .color-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+  .color-gallery-item { min-height: 98px; }
+  .coloring-stage { min-height: 190px; padding: 8px; }
+  .coloring-stage svg { width: min(100%, 340px); max-height: 340px; }
+  .paint-palette { gap: 7px; }
+  .paint-swatch { width: 37px; height: 37px; }
+  .color-actions { position: sticky; bottom: -18px; padding: 10px 0 2px; background: var(--cream); }
+}
