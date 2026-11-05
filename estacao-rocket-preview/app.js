@@ -327,10 +327,31 @@ function showToast(message) {
 }
 
 function updateHeartContent(content) {
-  $$(".collect-heart").forEach((heart, index) => {
-    heart.dataset.heart = content.hearts[index];
-    heart.setAttribute("aria-label", "Encontrar coração " + (index + 1));
-  });
+  const field = $("#heartField");
+  const decoySets = {
+    "2-4": ["✦", "☀", "★", "☁"],
+    "5-7": ["✦", "☀", "★", "☁", "🌙", "✧", "♧", "❀", "☄", "✦"],
+    "8-11": ["✦", "☀", "★", "☁", "🌙", "✧", "♧", "❀", "☄", "✦", "◇", "♢", "✺", "☼", "♧", "✧", "❋", "☆"]
+  };
+  const positions = [
+    [12, 16], [42, 8], [74, 18], [22, 43], [57, 37], [84, 48],
+    [8, 68], [37, 77], [68, 69], [91, 78], [16, 88], [51, 55],
+    [77, 88], [31, 27], [62, 14], [4, 34], [48, 90], [88, 29]
+  ];
+  const heartPositions = {
+    "2-4": [[19, 22], [69, 17], [44, 61]],
+    "5-7": [[10, 16], [68, 43], [42, 76]],
+    "8-11": [[5, 72], [75, 11], [45, 48]]
+  }[selectedAge];
+  const decoys = decoySets[selectedAge];
+  field.innerHTML = content.hearts.map((label, index) => {
+    const [left, top] = heartPositions[index];
+    return '<button class="collect-heart heart-target" type="button" data-heart="'+label+'" aria-label="Encontrar coração '+(index+1)+'" style="left:'+left+'%;top:'+top+'%">♡</button>';
+  }).join("") + decoys.map((symbol, index) => {
+    const [left, top] = positions[index];
+    return '<span class="heart-decoration" aria-hidden="true" style="left:'+left+'%;top:'+top+'%;--tilt:'+((index*29)%55-27)+'deg">'+symbol+'</span>';
+  }).join("");
+  field.dataset.difficulty = selectedAge;
 }
 
 function updateAge(age, silent) {
@@ -438,15 +459,22 @@ function resetActivity() {
 }
 
 function openActivity(trigger) {
+  updateHeartContent(ageContent[selectedAge]);
   resetActivity();
   openModal("#activityModal", trigger);
 }
 
 function collectHeart(button) {
   if (button.classList.contains("is-found")) return;
+  if (!button.classList.contains("heart-target")) {
+    $("#activityStatus").textContent = selectedAge === "2-4" ? "Esse desenho não é um coração. Tente outro!" : "Essa é uma distração! Continue procurando os corações.";
+    button.classList.add("is-mistake");
+    window.setTimeout(() => button.classList.remove("is-mistake"), 550);
+    return;
+  }
   button.classList.add("is-found");
   button.disabled = true;
-  const found = $$(".collect-heart.is-found").length;
+  const found = $(".collect-heart.is-found").length;
   $("#activityStatus").textContent = "VOCÊ ENCONTROU " + found + " DE 3 CORAÇÕES.";
   showToast(button.dataset.heart + "!");
   if (found === 3) {
@@ -642,7 +670,12 @@ $$(".age-option").forEach((button) => {
   button.addEventListener("click", () => updateAge(button.dataset.age));
 });
 
-$$("[data-start-story]").forEach((button) => {
+$("#heartField").addEventListener("click", (event) => {
+  const button = event.target.closest(".collect-heart");
+  if (button) collectHeart(button);
+});
+
+$("[data-start-story]").forEach((button) => {
   button.addEventListener("click", () => startStory(button));
 });
 
