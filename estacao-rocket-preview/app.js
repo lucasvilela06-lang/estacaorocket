@@ -506,14 +506,21 @@ const PAINT_HISTORY_LIMIT = 15;
 const PAINT_CANVAS_WIDTH = 672;
 const PAINT_CANVAS_HEIGHT = 800;
 
+
 function renderColorGallery() {
   const gallery = $("#colorGallery");
   if (!gallery) return;
   const visible = coloringGallery.filter((item) => item.ages.includes(selectedAge));
   gallery.innerHTML = visible.map((item) => {
     const active = item.id === selectedDrawingType ? " is-selected" : "";
+    const thumbnailSvg = coloringSvg(item.id)
+      .replace(/class="paint-region"/g, 'fill="#fffdf8" stroke="#25134d" stroke-width="4"')
+      .replace(/class="art-line"/g, "");
+    const thumbnail = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(thumbnailSvg);
     return '<button class="color-gallery-item' + active + '" type="button" data-drawing="' + item.id + '" aria-pressed="' + (item.id === selectedDrawingType) + '">' +
-      '<span class="gallery-symbol" aria-hidden="true">' + item.symbol + '</span><span class="gallery-copy"><strong>' + item.title + '</strong><small>' + item.level + ' · ' + item.detail + '</small></span><span class="gallery-check" aria-hidden="true">✓</span></button>';
+      '<img class="gallery-preview" src="' + thumbnail + '" alt="" loading="lazy">' +
+      '<span class="gallery-copy"><strong>' + item.title + '</strong><small>' + item.level + ' · ' + item.detail + '</small></span>' +
+      '<span class="gallery-check" aria-hidden="true">✓</span></button>';
   }).join("");
 }
 
@@ -907,10 +914,6 @@ $("#nextStory").addEventListener("click", () => {
   }
   storyIndex += 1;
   showStory(storyIndex);
-});
-
-$$(".paint-tool[data-tool]").forEach((button) => {
-  button.addEventListener("click", () => setPaintTool(button.dataset.tool));
 });
 
 
