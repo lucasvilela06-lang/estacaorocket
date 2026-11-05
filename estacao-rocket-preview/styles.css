@@ -289,3 +289,12 @@ a { color: inherit; }
   .color-modal .color-gallery { margin: 10px 0; }
   .rocket-paint-stack { width: min(100%, 400px); }
 }
+
+/* Pré-visualizações reais da galeria de ilustrações */
+.gallery-preview { display: block; width: 100%; height: 76px; object-fit: contain; border-radius: 10px; background: #fff; }
+.color-gallery-item { min-height: 132px; }
+.color-gallery-item .gallery-copy { margin-top: 3px; }
+@media (max-width: 760px) {
+  .gallery-preview { height: 68px; }
+  .color-gallery-item { min-height: 120px; }
+}
