@@ -216,3 +216,23 @@ a { color: inherit; }
   .heart-field[data-difficulty="8-11"] { min-height: 290px; }
   .heart-decoration { font-size: 22px; }
 }
+
+/* Galeria e exportação do jogo de colorir */
+.color-gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 15px 0 17px; }
+.color-gallery-item { position: relative; min-width: 0; min-height: 92px; padding: 10px 7px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; border: 2px solid #e1d9ef; border-radius: 15px; color: #594775; background: #fff; text-align: center; }
+.color-gallery-item.is-selected { border-color: #9b70df; background: #eee6ff; box-shadow: 0 0 0 2px rgba(155,112,223,.12); }
+.gallery-symbol { display: block; color: #7b56b7; font-size: 25px; line-height: 1.1; }
+.gallery-copy { display: grid; gap: 3px; }
+.gallery-copy strong { font-size: 11px; line-height: 1.15; }
+.gallery-copy small { color: #7c7190; font-size: 9px; line-height: 1.2; }
+.gallery-check { display: none; position: absolute; top: 5px; right: 7px; color: #6e4bb0; font-size: 11px; font-weight: 900; }
+.color-gallery-item.is-selected .gallery-check { display: block; }
+.color-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; }
+.color-actions button { width: 100%; }
+.coloring-stage svg { touch-action: none; }
+@media (max-width: 760px) {
+  .color-gallery { gap: 6px; }
+  .color-gallery-item { min-height: 84px; padding: 8px 4px; }
+  .gallery-copy strong { font-size: 10px; }
+  .gallery-copy small { font-size: 8px; }
+}
