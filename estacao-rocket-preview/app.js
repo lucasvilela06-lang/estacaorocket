@@ -645,7 +645,7 @@ function paintRasterRegion(event, erase) {
   const total = width * height;
   const visited = new Uint8Array(total);
   const queue = new Int32Array(total);
-  let head = 0, tail = 0;
+  let head = 0, tail = 0, touchesEdge = false;
   const enqueue = (index) => {
     if (visited[index]) return;
     visited[index] = 1;
@@ -655,13 +655,14 @@ function paintRasterRegion(event, erase) {
   enqueue(start);
   while (head < tail) {
     const index = queue[head++];
+    if (index % width === 0 || index % width === width - 1 || index < width || index >= total - width) touchesEdge = true;
     if (index >= width) enqueue(index - width);
     if (index + width < total) enqueue(index + width);
     if (index % width) enqueue(index - 1);
     if (index % width !== width - 1) enqueue(index + 1);
   }
   if (!tail) return;
-  if (tail > total * 0.43) {
+  if (touchesEdge || tail > total * 0.65) {
     showToast("Esse espaço está aberto. Experimente pintar outra área.");
     return;
   }
