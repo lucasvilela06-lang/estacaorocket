@@ -485,6 +485,59 @@ function collectHeart(button) {
   }
 }
 
+
+const coloringGallery = [
+  { id: "little", title: "Céu de descobertas", level: "2–4 anos", detail: "Formas grandes e simples", symbol: "☀" },
+  { id: "rocket", title: "Foguete da tripulação", level: "5–7 anos", detail: "Mais partes para colorir", symbol: "🚀" },
+  { id: "space", title: "Missão no espaço", level: "8–11 anos", detail: "Mais detalhes e desafios", symbol: "✦" }
+];
+let selectedDrawingType = "little";
+function renderColorGallery() {
+  const gallery = $("#colorGallery");
+  if (!gallery) return;
+  gallery.innerHTML = coloringGallery.map((item) => {
+    const active = item.id === selectedDrawingType ? " is-selected" : "";
+    return '<button class="color-gallery-item' + active + '" type="button" data-drawing="' + item.id + '" aria-pressed="' + (item.id === selectedDrawingType) + '">' +
+      '<span class="gallery-symbol" aria-hidden="true">' + item.symbol + '</span><span class="gallery-copy"><strong>' + item.title + '</strong><small>' + item.level + ' · ' + item.detail + '</small></span><span class="gallery-check" aria-hidden="true">✓</span></button>';
+  }).join("");
+}
+function chooseColoringPage(type) {
+  if (!coloringGallery.some((item) => item.id === type)) return;
+  selectedDrawingType = type;
+  renderColoring();
+}
+function downloadColoring() {
+  const svg = $("#coloringStage svg");
+  if (!svg) return;
+  const clone = svg.cloneNode(true);
+  clone.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+  clone.setAttribute("width", "1200"); clone.setAttribute("height", "860");
+  const source = new XMLSerializer().serializeToString(clone);
+  const url = URL.createObjectURL(new Blob([source], { type: "image/svg+xml;charset=utf-8" }));
+  const image = new Image();
+  image.onload = () => {
+    const canvas = document.createElement("canvas");
+    canvas.width = 1200; canvas.height = 860;
+    const context = canvas.getContext("2d");
+    context.fillStyle = "#fffdf8"; context.fillRect(0, 0, 1200, 860);
+    const scale = Math.min(1200 / image.width, 860 / image.height);
+    const width = image.width * scale, height = image.height * scale;
+    context.drawImage(image, (1200 - width) / 2, (860 - height) / 2, width, height);
+    URL.revokeObjectURL(url);
+    canvas.toBlob((png) => {
+      if (!png) { showToast("Não foi possível salvar o desenho neste navegador."); return; }
+      const downloadUrl = URL.createObjectURL(png);
+      const link = document.createElement("a");
+      link.href = downloadUrl; link.download = "meu-desenho-estacao-rocket.png";
+      document.body.appendChild(link); link.click(); link.remove();
+      window.setTimeout(() => URL.revokeObjectURL(downloadUrl), 1500);
+      showToast("Seu desenho foi salvo no dispositivo!");
+    }, "image/png");
+  };
+  image.onerror = () => { URL.revokeObjectURL(url); showToast("Não foi possível preparar a imagem para salvar."); };
+  image.src = url;
+}
+
 function coloringSvg(type) {
   if (type === "little") {
     return '<svg viewBox="0 0 420 300" role="img" aria-label="Desenho de sol, nuvem, estrela e coração para colorir"><path class="paint-region" tabindex="0" role="button" data-paint="sun" aria-label="Colorir o sol" d="M207 46 L216 71 L243 63 L232 86 L257 103 L231 108 L232 137 L208 119 L185 138 L186 109 L158 104 L184 86 L174 61 L202 71 Z"/><path class="paint-region" tabindex="0" role="button" data-paint="cloud" aria-label="Colorir a nuvem" d="M74 219 C48 219 41 186 67 176 C67 145 109 135 124 162 C150 150 178 169 171 190 C190 208 178 235 151 235 L76 235 Z"/><path class="paint-region" tabindex="0" role="button" data-paint="star" aria-label="Colorir a estrela" d="M324 166 L334 191 L361 192 L340 209 L347 236 L324 220 L301 236 L308 209 L287 192 L314 191 Z"/><path class="paint-region" tabindex="0" role="button" data-paint="heart" aria-label="Colorir o coração" d="M211 205 C187 175 143 196 158 230 C169 254 211 276 211 276 C211 276 253 254 264 230 C279 196 235 175 211 205 Z"/><g id="brushLayer"></g></svg>';
@@ -525,7 +578,11 @@ function renderColoring() {
     const selected = index === 0 ? " is-selected" : "";
     return '<button class="paint-swatch' + selected + '" type="button" data-color="' + color.hex + '" aria-label="Escolher ' + color.name + '" style="background:' + color.hex + '"></button>';
   }).join("");
-  $("#coloringStage").innerHTML = coloringSvg(content.drawing);
+  if (!coloringGallery.some((item) => item.id === selectedDrawingType)) selectedDrawingType = content.drawing;
+  renderColorGallery();
+  $("#coloringStage").innerHTML = coloringSvg(selectedDrawingType);
+  $("#color-modal-title").textContent = coloringGallery.find((item) => item.id === selectedDrawingType).title;
+  $("#colorModalCopy").textContent = "Escolha uma ilustração, selecione as cores e crie do seu jeito.";
   $("#colorReward").hidden = true;
   $("#colorProgress").textContent = "0 DE " + content.regions + " PARTES COLORIDAS";
   $("#undoColor").disabled = true;
@@ -623,6 +680,7 @@ function undoPaint() {
 }
 
 function openColoring(trigger) {
+  selectedDrawingType = ageContent[selectedAge].drawing;
   renderColoring();
   openModal("#colorModal", trigger);
 }
@@ -724,6 +782,11 @@ $$(".paint-tool[data-tool]").forEach((button) => {
   button.addEventListener("click", () => setPaintTool(button.dataset.tool));
 });
 
+$("#colorGallery").addEventListener("click", (event) => {
+  const button = event.target.closest("[data-drawing]");
+  if (button) chooseColoringPage(button.dataset.drawing);
+});
+$("#downloadColor").addEventListener("click", downloadColoring);
 $("#undoColor").addEventListener("click", undoPaint);
 $("#clearColor").addEventListener("click", renderColoring);
 
