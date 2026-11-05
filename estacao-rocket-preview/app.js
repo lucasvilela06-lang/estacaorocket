@@ -675,7 +675,7 @@ $("#heartField").addEventListener("click", (event) => {
   if (button) collectHeart(button);
 });
 
-$("[data-start-story]").forEach((button) => {
+$$("[data-start-story]").forEach((button) => {
   button.addEventListener("click", () => startStory(button));
 });
 
