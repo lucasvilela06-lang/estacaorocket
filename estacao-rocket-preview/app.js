@@ -599,10 +599,10 @@ let paintCanvasState = null;
 let redoHistory = [];
 let activeCanvasStroke = null;
 const PAINT_HISTORY_LIMIT = 15;
-const PAINT_CANVAS_WIDTH = 672;
-const PAINT_CANVAS_HEIGHT = 800;
+const PAINT_CANVAS_WIDTH = 1000;
+const PAINT_CANVAS_HEIGHT = 1200;
 
-const COLORING_SHEET_URL = "/assets/coloring/rocket-original.png";
+const COLORING_SHEET_URL = "/assets/coloring/rocket-original-hires.png";
 
 function ensureColoringSheet() {
   return Promise.resolve(COLORING_SHEET_URL);
@@ -759,7 +759,9 @@ function renderColoring() {
       const [column, row] = selectedPage.artCell || [0, 0];
       lineContext.fillStyle = "#ffffff";
       lineContext.fillRect(0, 0, PAINT_CANVAS_WIDTH, PAINT_CANVAS_HEIGHT);
-      const cellSize = 400;
+      lineContext.imageSmoothingEnabled = true;
+      lineContext.imageSmoothingQuality = "high";
+      const cellSize = 500;
       const scale = Math.min(PAINT_CANVAS_WIDTH / cellSize, PAINT_CANVAS_HEIGHT / cellSize);
       const drawWidth = cellSize * scale;
       const drawHeight = cellSize * scale;
@@ -837,7 +839,6 @@ function fillCanvasRegion(event) {
   const queue = new Int32Array(total);
   let head = 0;
   let tail = 0;
-  let touchesEdge = false;
   const enqueue = (index) => {
     if (visited[index]) return;
     visited[index] = 1;
@@ -846,7 +847,6 @@ function fillCanvasRegion(event) {
   enqueue(start);
   while (head < tail) {
     const index = queue[head++];
-    if (index % width === 0 || index % width === width - 1 || index < width || index >= total - width) touchesEdge = true;
     if (index >= width) enqueue(index - width);
     if (index + width < total) enqueue(index + width);
     if (index % width) enqueue(index - 1);
@@ -854,10 +854,9 @@ function fillCanvasRegion(event) {
   }
 
   if (!tail) return;
-  if (touchesEdge || tail > total * 0.52) {
-    showToast("Essa região não está totalmente fechada. Tente outra parte do desenho.");
-    return;
-  }
+  // Regiões ligadas à borda são o fundo externo da ilustração.
+  // Elas também devem poder ser preenchidas com o balde: a arte permanece
+  // numa camada superior e os contornos continuam visíveis sobre a cor.
 
   const before = rememberPaintState();
   const pixels = context.getImageData(0, 0, width, height);
