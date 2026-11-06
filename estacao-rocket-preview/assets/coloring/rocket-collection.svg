@@ -1,0 +1,151 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="600" viewBox="0 0 900 600">
+<title>Estação Rocket — coleção de desenhos para colorir</title>
+<desc>Seis páginas de colorir com foguete, astronautas, nave, rover, estação espacial e Jesus com a tripulação.</desc>
+<defs>
+  <style>
+    .ink{fill:#fff;stroke:#21163b;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+    .detail{fill:none;stroke:#21163b;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
+    .small{fill:#fff;stroke:#21163b;stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round}
+  </style>
+</defs>
+<rect width="900" height="600" fill="#fff"/>
+<!-- 1. Foguete sorridente -->
+<g transform="translate(0 0)">
+  <path class="ink" d="M148 24 C204 73 215 160 178 233 L121 233 C84 160 94 73 148 24Z"/>
+  <path class="ink" d="M110 178 C79 193 58 224 51 267 L126 235Z"/>
+  <path class="ink" d="M188 178 C219 193 240 224 247 267 L172 235Z"/>
+  <path class="ink" d="M124 221 L116 270 L148 294 L180 270 L172 221Z"/>
+  <path class="ink" d="M129 250 C116 281 124 301 148 316 C172 301 180 281 167 250Z"/>
+  <circle class="ink" cx="148" cy="143" r="32"/>
+  <circle class="small" cx="138" cy="139" r="5"/><circle class="small" cx="158" cy="139" r="5"/>
+  <path class="detail" d="M137 154 Q148 166 160 154"/>
+  <path class="detail" d="M121 73 Q148 57 175 73 M118 203 Q148 216 178 203"/>
+  <circle class="small" cx="148" cy="188" r="7"/>
+  <path class="ink" d="M25 279 Q11 259 27 244 Q46 227 62 244 Q70 216 99 224 Q115 228 118 246 Q139 231 155 247 Q172 266 155 283Z"/>
+  <path class="ink" d="M167 282 Q153 263 168 248 Q185 232 204 247 Q214 221 239 230 Q257 236 258 254 Q279 240 291 257 Q304 274 286 289Z"/>
+  <path class="ink" d="M217 51 Q242 25 267 45 Q281 58 269 78 Q251 97 228 83 Q208 69 217 51Z"/>
+  <path class="detail" d="M215 68 Q245 56 274 67 M236 40 Q244 60 263 85"/>
+  <path class="ink" d="M40 104 L47 121 L65 123 L51 135 L55 153 L40 143 L25 153 L29 135 L15 123 L33 121Z"/>
+  <path class="ink" d="M252 151 L258 164 L272 165 L261 175 L264 189 L252 181 L240 189 L243 175 L232 165 L246 164Z"/>
+  <circle class="small" cx="76" cy="61" r="6"/><circle class="small" cx="198" cy="108" r="5"/><circle class="small" cx="83" cy="186" r="5"/>
+</g>
+<!-- 2. Capitão lunar -->
+<g transform="translate(300 0)">
+  <circle class="ink" cx="230" cy="66" r="35"/>
+  <path class="detail" d="M205 51 Q230 35 255 51 M207 76 Q230 90 253 76"/>
+  <path class="ink" d="M95 257 Q94 207 111 176 Q129 152 165 155 Q203 153 220 180 Q232 207 227 257 L215 286 L103 286Z"/>
+  <path class="ink" d="M112 178 Q84 184 76 216 L91 239 L124 219Z"/>
+  <path class="ink" d="M202 180 Q225 172 242 146 L259 155 Q255 197 222 220 L204 218Z"/>
+  <path class="ink" d="M120 251 L112 282 L104 296 L148 296 L153 263Z"/>
+  <path class="ink" d="M170 252 L177 282 L190 297 L231 293 L216 274 L211 251Z"/>
+  <path class="ink" d="M99 287 Q122 279 151 288 L151 305 Q125 315 93 306Z"/>
+  <path class="ink" d="M176 285 Q199 278 226 287 L241 305 Q207 316 181 305Z"/>
+  <circle class="ink" cx="157" cy="112" r="69"/>
+  <path class="ink" d="M120 109 Q120 69 158 66 Q195 68 195 110 Q193 153 158 159 Q122 151 120 109Z"/>
+  <path class="ink" d="M102 101 Q98 52 145 39 Q190 28 211 74 L203 99 L184 80 L163 87 L146 69 L126 91Z"/>
+  <path class="detail" d="M137 112 Q145 101 153 112 M166 112 Q174 101 182 112 M143 133 Q159 148 175 133"/>
+  <path class="detail" d="M145 177 L157 195 L171 177 M124 216 L160 234 L197 215"/>
+  <path class="small" d="M112 200 L137 190 L145 210 L123 226Z"/><path class="small" d="M183 191 L205 200 L195 224 L174 214Z"/>
+  <path class="ink" d="M35 278 Q50 257 75 269 Q91 251 107 268 L113 292 L29 292Z"/>
+  <path class="ink" d="M250 277 Q268 259 284 275 L292 294 L230 294Z"/>
+  <path class="small" d="M53 244 Q63 233 73 244 L79 258 L48 258Z"/>
+  <path class="ink" d="M257 172 Q271 184 274 208 L265 226 L245 206Z"/>
+  <path class="detail" d="M258 192 L275 183 M261 203 L280 198"/>
+  <path class="ink" d="M16 292 Q74 267 126 287 Q180 268 239 288 Q274 274 298 294 L298 316 L16 316Z"/>
+  <path class="detail" d="M33 306 L50 301 M81 310 L99 306 M245 308 L264 303"/>
+  <circle class="small" cx="38" cy="87" r="6"/><circle class="small" cx="275" cy="112" r="7"/>
+</g>
+<!-- 3. Capitã Bia no cockpit -->
+<g transform="translate(600 0)">
+  <path class="ink" d="M16 34 Q150 -17 284 34 L284 230 Q150 204 16 230Z"/>
+  <path class="detail" d="M29 52 Q150 7 271 52 M29 208 Q150 185 271 208"/>
+  <circle class="ink" cx="239" cy="86" r="29"/>
+  <path class="detail" d="M221 87 Q238 68 257 87 M226 101 Q240 112 254 101"/>
+  <path class="ink" d="M101 194 Q101 149 127 129 Q149 116 176 129 Q202 149 204 194 L212 283 L94 283Z"/>
+  <path class="ink" d="M111 167 Q81 170 74 203 L92 228 L123 203Z"/>
+  <path class="ink" d="M190 164 Q222 161 231 197 L214 227 L185 204Z"/>
+  <path class="ink" d="M108 84 Q112 34 158 32 Q205 34 208 84 Q210 140 158 148 Q111 137 108 84Z"/>
+  <path class="ink" d="M92 87 Q82 36 129 15 Q186 -8 219 39 L215 108 L198 82 L185 58 Q163 84 132 86 L112 112Z"/>
+  <path class="detail" d="M130 88 Q138 77 147 88 M169 88 Q178 77 187 88 M139 112 Q158 127 177 112"/>
+  <path class="detail" d="M118 152 Q158 178 198 152"/>
+  <path class="ink" d="M16 242 Q150 208 284 242 L274 313 L26 313Z"/>
+  <path class="small" d="M42 263 L82 253 L86 282 L44 291Z"/><path class="small" d="M98 257 L135 252 L139 280 L101 286Z"/>
+  <circle class="small" cx="179" cy="268" r="13"/><circle class="small" cx="222" cy="268" r="13"/>
+  <path class="small" d="M247 251 L270 254 L267 289 L244 286Z"/>
+  <path class="detail" d="M58 303 L58 313 M72 299 L72 313 M114 301 L114 313 M128 298 L128 313"/>
+  <path class="small" d="M145 195 Q158 184 171 195 L176 221 L140 221Z"/>
+  <path class="detail" d="M151 206 L165 206 M158 199 L158 213"/>
+  <circle class="small" cx="43" cy="114" r="6"/><path class="ink" d="M252 142 L258 157 L274 160 L262 170 L266 187 L252 178 L238 187 L242 170 L230 160 L246 157Z"/>
+</g>
+<!-- 4. Dupla na Lua com rover -->
+<g transform="translate(0 300)">
+  <circle class="ink" cx="228" cy="57" r="44"/>
+  <path class="detail" d="M203 48 Q228 29 252 48 M210 70 Q228 84 246 70"/>
+  <path class="ink" d="M15 269 Q66 234 120 265 L128 293 L14 293Z"/>
+  <path class="ink" d="M112 260 Q166 228 219 260 L228 294 L104 294Z"/>
+  <circle class="ink" cx="75" cy="133" r="47"/>
+  <path class="ink" d="M45 132 Q45 98 76 95 Q107 98 107 132 Q103 166 76 170 Q48 163 45 132Z"/>
+  <path class="ink" d="M34 121 Q28 80 67 72 Q105 67 120 105 L108 126 L93 103 L73 111 L53 99Z"/>
+  <path class="ink" d="M34 181 Q76 161 112 184 L123 258 L26 258Z"/>
+  <path class="ink" d="M37 194 Q12 182 10 211 L25 232 L48 215Z"/>
+  <path class="ink" d="M106 191 Q130 175 143 201 L132 224 L111 219Z"/>
+  <path class="detail" d="M58 132 Q66 122 73 132 M82 132 Q91 122 98 132 M60 150 Q77 162 94 150"/>
+  <path class="detail" d="M52 189 L76 205 L100 189 M52 225 L99 225"/>
+  <circle class="ink" cx="174" cy="157" r="40"/>
+  <path class="ink" d="M149 156 Q149 128 175 125 Q201 128 201 156 Q198 183 175 187 Q151 181 149 156Z"/>
+  <path class="ink" d="M143 148 Q142 112 178 110 Q207 115 211 143 L196 150 L184 135 L166 143 L151 159Z"/>
+  <path class="ink" d="M140 199 Q175 180 207 201 L213 258 L133 258Z"/>
+  <path class="detail" d="M160 155 Q168 148 174 155 M180 155 Q187 148 194 155 M164 171 Q177 182 190 171"/>
+  <path class="ink" d="M178 238 L272 238 L289 267 L162 267Z"/>
+  <circle class="ink" cx="187" cy="277" r="21"/><circle class="ink" cx="269" cy="277" r="21"/>
+  <circle class="small" cx="187" cy="277" r="9"/><circle class="small" cx="269" cy="277" r="9"/>
+  <path class="ink" d="M219 238 L228 207 L245 207 L254 238Z"/><circle class="small" cx="236" cy="195" r="8"/>
+  <path class="detail" d="M196 251 L257 251 M229 221 L242 221"/>
+  <path class="detail" d="M18 300 Q73 286 126 300 M218 300 Q265 286 296 299"/>
+</g>
+<!-- 5. Estação espacial -->
+<g transform="translate(300 300)">
+  <circle class="ink" cx="53" cy="57" r="35"/><circle class="small" cx="42" cy="51" r="7"/><circle class="small" cx="65" cy="63" r="8"/>
+  <path class="ink" d="M106 113 L191 113 L205 211 L94 211Z"/>
+  <path class="ink" d="M120 80 L178 80 L191 113 L106 113Z"/>
+  <path class="ink" d="M124 211 L174 211 L183 252 L115 252Z"/>
+  <path class="ink" d="M15 137 L91 122 L101 193 L24 207Z"/>
+  <path class="ink" d="M207 122 L284 137 L274 207 L197 193Z"/>
+  <path class="detail" d="M31 146 L94 134 M36 169 L97 157 M42 191 L99 180 M211 134 L278 146 M204 157 L275 169 M201 180 L269 191"/>
+  <circle class="ink" cx="146" cy="150" r="18"/><circle class="ink" cx="146" cy="188" r="18"/>
+  <path class="detail" d="M146 80 L146 53 L132 40 L160 40 L146 53 M146 252 L146 282"/>
+  <path class="ink" d="M226 38 Q250 7 278 31 Q292 44 276 61 Q247 78 226 58Z"/>
+  <path class="detail" d="M224 48 Q252 34 284 46 M244 21 Q253 42 272 66"/>
+  <path class="ink" d="M34 244 L73 230 L86 265 L47 279Z"/><circle class="small" cx="61" cy="254" r="10"/>
+  <path class="ink" d="M211 248 Q237 222 267 244 Q280 258 264 275 Q235 291 211 270Z"/>
+  <path class="detail" d="M206 257 Q240 245 274 258 M235 234 L245 212 L254 234"/>
+  <circle class="small" cx="91" cy="35" r="5"/><circle class="small" cx="286" cy="100" r="6"/>
+  <path class="ink" d="M7 91 L14 107 L31 108 L18 120 L22 137 L7 128 L-7 137 L-3 120 L-16 108 L1 107Z"/>
+</g>
+<!-- 6. Jesus e a tripulação -->
+<g transform="translate(600 300)">
+  <circle class="ink" cx="244" cy="68" r="43"/>
+  <path class="detail" d="M217 57 Q244 38 270 57 M225 83 Q244 98 263 83"/>
+  <path class="ink" d="M105 130 Q149 105 192 130 L211 286 L83 286Z"/>
+  <path class="ink" d="M118 128 Q87 110 65 132 L22 195 Q18 211 37 217 L102 179Z"/>
+  <path class="ink" d="M180 128 Q213 106 236 130 L281 195 Q285 211 266 217 L197 179Z"/>
+  <path class="ink" d="M125 118 Q125 67 158 61 Q196 66 196 118 Q194 155 160 165 Q128 157 125 118Z"/>
+  <path class="ink" d="M117 115 Q105 50 158 34 Q215 30 217 99 L198 128 L191 85 Q174 101 151 88 L131 130Z"/>
+  <path class="ink" d="M125 91 Q119 126 133 151 L115 175 Q91 151 98 115Z"/>
+  <path class="ink" d="M195 91 Q207 127 188 154 L205 174 Q229 146 218 111Z"/>
+  <path class="detail" d="M141 119 Q149 110 157 119 M169 119 Q178 110 186 119 M145 137 Q162 150 181 137"/>
+  <path class="detail" d="M145 161 L161 182 L178 161 M160 183 L159 279"/>
+  <path class="ink" d="M25 243 Q42 218 70 232 L82 291 L10 291Z"/>
+  <circle class="ink" cx="49" cy="215" r="34"/>
+  <path class="ink" d="M19 215 Q19 183 49 182 Q80 183 80 215 Q77 243 49 248 Q22 240 19 215Z"/>
+  <path class="ink" d="M15 207 Q9 176 43 169 Q74 166 86 197 L72 212 L59 193 L41 198 L25 218Z"/>
+  <path class="detail" d="M35 214 Q42 207 48 214 M54 214 Q61 207 67 214 M37 230 Q50 239 63 230"/>
+  <path class="ink" d="M220 244 Q246 219 274 233 L292 291 L211 291Z"/>
+  <circle class="ink" cx="255" cy="215" r="34"/>
+  <path class="ink" d="M225 215 Q225 183 255 182 Q286 183 286 215 Q282 243 255 248 Q228 240 225 215Z"/>
+  <path class="ink" d="M221 207 Q217 177 249 168 Q281 166 292 196 L280 216 L265 190 L245 198 L230 218Z"/>
+  <path class="detail" d="M241 214 Q248 207 254 214 M262 214 Q269 207 275 214 M243 230 Q256 239 270 230"/>
+  <circle class="small" cx="28" cy="47" r="6"/><circle class="small" cx="286" cy="112" r="7"/>
+  <path class="ink" d="M148 9 L155 25 L172 27 L159 39 L163 56 L148 47 L133 56 L137 39 L124 27 L141 25Z"/>
+</g>
+</svg>
