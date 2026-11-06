@@ -623,3 +623,25 @@ button:disabled, [aria-disabled="true"] {
     transform: none;
   }
 }
+
+
+/* CORREÇÃO DO RECORTE DAS MINIATURAS: CADA CÉLULA DA FOLHA É QUADRADA */
+.gallery-preview {
+  display: block;
+  width: min(100%, 156px);
+  height: auto !important;
+  min-height: 0;
+  aspect-ratio: 1 / 1;
+  flex: 0 0 auto;
+  align-self: center;
+  background-size: 300% 200%;
+  background-repeat: no-repeat;
+  background-color: #fff;
+}
+@media (max-width: 760px) {
+  .gallery-preview {
+    width: min(100%, 148px);
+    height: auto !important;
+    aspect-ratio: 1 / 1;
+  }
+}
