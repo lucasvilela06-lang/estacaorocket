@@ -371,7 +371,7 @@ function updateAge(age, silent) {
   if (!ageContent[age]) return;
   selectedAge = age;
   const content = ageContent[age];
-  $(".age-option").forEach((button) => {
+  $$(".age-option").forEach((button) => {
     const active = button.dataset.age === age;
     button.classList.toggle("is-active", active);
     button.setAttribute("aria-pressed", String(active));
@@ -766,7 +766,7 @@ function setPaintTool(tool) {
   paintTool = tool;
   const stage = $("#coloringStage");
   if (stage) stage.dataset.tool = tool;
-  $(".paint-tool[data-tool]").forEach((button) => {
+  $$(".paint-tool[data-tool]").forEach((button) => {
     const active = button.dataset.tool === tool;
     button.classList.toggle("is-active", active);
     button.setAttribute("aria-pressed", String(active));
@@ -842,7 +842,7 @@ function renderColoring() {
   $$(".paint-swatch").forEach((swatch) => {
     swatch.addEventListener("click", () => {
       selectedPaintColor = swatch.dataset.color;
-      $(".paint-swatch").forEach((item) => {
+      $$(".paint-swatch").forEach((item) => {
         const selected = item === swatch;
         item.classList.toggle("is-selected", selected);
         item.setAttribute("aria-pressed", String(selected));
