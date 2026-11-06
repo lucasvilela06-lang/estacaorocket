@@ -22,8 +22,22 @@ module.exports=async function handler(req,res){
   const title=action==="save"?String(body.title||"").trim():(existing?.title||seed?.title||body.title||"ILUSTRAÇÃO");
   if(action==="save"&&(!title||title.length>70))return json(res,400,{error:"INFORME UM TÍTULO COM ATÉ 70 CARACTERES."});
   const row={id:artworkId,title,description:action==="save"?String(body.description||"").slice(0,1000):(existing?.description||seed?.detail||""),age_groups:ages,difficulty:action==="save"?(["simple","medium","detailed"].includes(body.difficulty)?body.difficulty:"medium"):(existing?.difficulty||seed?.difficulty||"medium"),category:action==="save"?String(body.category||"ESPAÇO").slice(0,50):(existing?.category||seed?.category||"ESPAÇO"),file_path:filePath,published:action!=="archive",is_archived:action==="archive",updated_at:new Date().toISOString()};
-  if(kind==="builtin"){row.builtin_key=builtinKey;const r=await fetch(url+"/rest/v1/coloring_artworks?on_conflict=builtin_key",{method:"POST",headers:supabaseHeaders(key,{"Content-Type":"application/json","Prefer":"resolution=merge-duplicates,return=representation"}),body:JSON.stringify(row)});const detail=await r.text();if(!r.ok)return json(res,502,{error:"NÃO FOI POSSÍVEL SALVAR A ILUSTRAÇÃO. EXECUTE A NOVA MIGRAÇÃO: "+detail.slice(0,200)});}
-  else{const r=await fetch(url+"/rest/v1/coloring_artworks?id=eq."+encodeURIComponent(id),{method:"PATCH",headers:supabaseHeaders(key,{"Content-Type":"application/json","Prefer":"return=representation"}),body:JSON.stringify(row)});const detail=await r.text();if(!r.ok)return json(res,502,{error:"NÃO FOI POSSÍVEL ATUALIZAR A ILUSTRAÇÃO: "+detail.slice(0,200)});}
+  if(kind==="builtin"){
+   row.builtin_key=builtinKey;
+   if(existing){
+    const r=await fetch(url+"/rest/v1/coloring_artworks?id=eq."+encodeURIComponent(existing.id),{method:"PATCH",headers:supabaseHeaders(key,{"Content-Type":"application/json","Prefer":"return=representation"}),body:JSON.stringify(row)});
+    const detail=await r.text();
+    if(!r.ok)return json(res,502,{error:"NÃO FOI POSSÍVEL ATUALIZAR A ILUSTRAÇÃO: "+detail.slice(0,200)});
+   }else{
+    const r=await fetch(url+"/rest/v1/coloring_artworks",{method:"POST",headers:supabaseHeaders(key,{"Content-Type":"application/json","Prefer":"return=representation"}),body:JSON.stringify(row)});
+    const detail=await r.text();
+    if(!r.ok)return json(res,502,{error:"NÃO FOI POSSÍVEL CADASTRAR A ILUSTRAÇÃO: "+detail.slice(0,200)});
+   }
+  }else{
+   const r=await fetch(url+"/rest/v1/coloring_artworks?id=eq."+encodeURIComponent(id),{method:"PATCH",headers:supabaseHeaders(key,{"Content-Type":"application/json","Prefer":"return=representation"}),body:JSON.stringify(row)});
+   const detail=await r.text();
+   if(!r.ok)return json(res,502,{error:"NÃO FOI POSSÍVEL ATUALIZAR A ILUSTRAÇÃO: "+detail.slice(0,200)});
+  }
   return json(res,200,{id:artworkId,builtinKey:kind==="builtin"?builtinKey:null,archived:action==="archive",restored:action==="restore"});
  }catch(e){return json(res,502,{error:e.message||"FALHA AO GERENCIAR A ILUSTRAÇÃO."});}
 };
