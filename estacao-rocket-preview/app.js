@@ -307,6 +307,7 @@ const ageContent = {
 let selectedAge = "2-4";
 let storyIndex = 0;
 let lastTrigger = null;
+let activeModal = null;
 let toastTimer;
 let selectedPaintColor = "#FFD23F";
 let coloredRegions = new Set();
@@ -354,13 +355,26 @@ function updateHeartContent(content) {
   field.dataset.difficulty = selectedAge;
 }
 
+function updateMissionProgress(age = selectedAge) {
+  const storyComplete = localStorage.getItem("estacao-rocket-story-" + age) === "complete";
+  const activityComplete = localStorage.getItem("estacao-rocket-heart-mission-" + age) === "complete"
+    || localStorage.getItem("estacao-rocket-heart-mission") === "complete";
+  const colorComplete = localStorage.getItem("estacao-rocket-color-" + age) === "complete";
+  const discoveryComplete = localStorage.getItem("estacao-rocket-discovery-" + age) === "complete";
+  $("#storyStep").classList.toggle("complete", storyComplete);
+  $("#activityStep").classList.toggle("complete", activityComplete);
+  $("#colorStep").classList.toggle("complete", colorComplete);
+  $("#discoveryStep").classList.toggle("complete", discoveryComplete);
+}
+
 function updateAge(age, silent) {
+  if (!ageContent[age]) return;
   selectedAge = age;
   const content = ageContent[age];
-  $$(".age-option").forEach((button) => {
+  $(".age-option").forEach((button) => {
     const active = button.dataset.age === age;
     button.classList.toggle("is-active", active);
-    button.setAttribute("aria-selected", String(active));
+    button.setAttribute("aria-pressed", String(active));
   });
   $("#ageFeedback").textContent = content.feedback;
   $("#heroDuration").textContent = content.duration;
@@ -397,23 +411,42 @@ function updateAge(age, silent) {
   $("#discoveryRewardText").textContent = content.discoveryReward;
   updateHeartContent(content);
   localStorage.setItem("estacao-rocket-age", age);
+  updateMissionProgress(age);
   if (!silent) showToast("CAMINHO " + content.path + " SELECIONADO.");
 }
 
 function openModal(id, trigger) {
-  lastTrigger = trigger || document.activeElement;
   const modal = $(id);
+  if (!modal) return;
+  if (activeModal && activeModal !== modal) closeModal(activeModal);
+  lastTrigger = trigger || document.activeElement;
+  activeModal = modal;
   modal.hidden = false;
+  modal.setAttribute("aria-hidden", "false");
   document.body.style.overflow = "hidden";
-  window.setTimeout(() => modal.querySelector("button")?.focus(), 0);
+  window.requestAnimationFrame(() => {
+    const firstControl = modal.querySelector(".modal-close") || modal.querySelector("button, a[href], input, summary");
+    if (firstControl) firstControl.focus();
+    else modal.focus();
+  });
+}
+
+function getModalFocusableElements(modal) {
+  return Array.from(modal.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), summary, [tabindex]:not([tabindex="-1"])'))
+    .filter((element) => element.getAttribute("aria-hidden") !== "true" && element.getClientRects().length > 0);
 }
 
 function closeModal(backdrop) {
-  const modal = backdrop || document.querySelector(".modal-backdrop:not([hidden])");
+  const modal = backdrop || activeModal || document.querySelector(".modal-backdrop:not([hidden])");
   if (!modal) return;
   modal.hidden = true;
+  modal.setAttribute("aria-hidden", "true");
+  if (activeModal === modal) activeModal = null;
   document.body.style.overflow = "";
-  if (lastTrigger && typeof lastTrigger.focus === "function") lastTrigger.focus();
+  const trigger = lastTrigger;
+  if (trigger && typeof trigger.focus === "function") {
+    window.requestAnimationFrame(() => trigger.focus());
+  }
 }
 
 function storyArtwork(scene) {
@@ -439,7 +472,9 @@ function showStory(index) {
   $("#storyScene").setAttribute("aria-label", slide.title);
   $("#storyScene").setAttribute("aria-hidden", "false");
   $(".story-progress").innerHTML = slides.map((item, stepIndex) => '<span class="'+(stepIndex <= index ? "is-current" : "")+'"></span>').join("");
-  $(".story-progress").setAttribute("aria-label", "Cena "+(index+1)+" de "+slides.length);
+  $(".story-progress").setAttribute("aria-valuemax", String(slides.length));
+  $(".story-progress").setAttribute("aria-valuenow", String(index + 1));
+  $(".story-progress").setAttribute("aria-label", ("CENA " + (index + 1) + " DE " + slides.length).toLocaleUpperCase("pt-BR"));
   $("#nextStory").innerHTML = index === slides.length - 1 ? "GUARDAR NO CORAÇÃO <span aria-hidden=\"true\">♡</span>" : "PRÓXIMA CENA <span aria-hidden=\"true\">→</span>";
 }
 
@@ -598,14 +633,33 @@ let activeGalleryFilter = "all";
 let paintCanvasState = null;
 let redoHistory = [];
 let activeCanvasStroke = null;
-const PAINT_HISTORY_LIMIT = 15;
+const PAINT_HISTORY_LIMIT = 6;
 const PAINT_CANVAS_WIDTH = 1000;
 const PAINT_CANVAS_HEIGHT = 1200;
 
 const COLORING_SHEET_URL = "/assets/coloring/rocket-original-hires.png";
+let coloringSheetPromise = null;
 
 function ensureColoringSheet() {
-  return Promise.resolve(COLORING_SHEET_URL);
+  if (coloringSheetPromise) return coloringSheetPromise;
+  coloringSheetPromise = new Promise((resolve, reject) => {
+    const image = new Image();
+    image.decoding = "async";
+    image.onload = () => {
+      if (image.naturalWidth !== 1500 || image.naturalHeight !== 1000) {
+        coloringSheetPromise = null;
+        reject(new Error("A coleção de ilustrações não tem as dimensões esperadas."));
+        return;
+      }
+      resolve(image);
+    };
+    image.onerror = () => {
+      coloringSheetPromise = null;
+      reject(new Error("Não foi possível carregar a coleção de ilustrações."));
+    };
+    image.src = COLORING_SHEET_URL;
+  });
+  return coloringSheetPromise;
 }
 
 
@@ -630,15 +684,18 @@ function renderColorGallery() {
     button.setAttribute("aria-pressed", String(active));
   });
 
-  ensureColoringSheet().then((url) => {
+  gallery.setAttribute("aria-busy", "true");
+  ensureColoringSheet().then(() => {
     if (!gallery.isConnected) return;
     gallery.querySelectorAll(".gallery-preview[data-art-cell]").forEach((preview) => {
       const [column, row] = preview.dataset.artCell.split(",").map(Number);
-      preview.style.backgroundImage = 'url("' + url + '")';
+      preview.style.backgroundImage = 'url("' + COLORING_SHEET_URL + '")';
       preview.style.backgroundSize = "300% 200%";
       preview.style.backgroundPosition = (column * 50) + "% " + (row * 100) + "%";
     });
+    gallery.setAttribute("aria-busy", "false");
   }).catch((error) => {
+    gallery.setAttribute("aria-busy", "false");
     console.error("Falha ao carregar a arte original da galeria:", error);
     showToast("Não foi possível carregar as ilustrações originais. Tente novamente.");
   });
@@ -704,7 +761,9 @@ function updateColorProgress() {
 
 function setPaintTool(tool) {
   paintTool = tool;
-  $$(".paint-tool[data-tool]").forEach((button) => {
+  const stage = $("#coloringStage");
+  if (stage) stage.dataset.tool = tool;
+  $(".paint-tool[data-tool]").forEach((button) => {
     const active = button.dataset.tool === tool;
     button.classList.toggle("is-active", active);
     button.setAttribute("aria-pressed", String(active));
