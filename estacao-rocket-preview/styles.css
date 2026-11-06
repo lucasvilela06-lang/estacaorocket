@@ -329,7 +329,7 @@ a { color: inherit; }
   .color-modal { max-height: calc(100dvh - 16px); padding: 22px 14px 16px; border-radius: 22px; }
   .color-gallery { gap: 8px; }
   .color-gallery-item { min-height: 155px; padding: 7px; }
-  .gallery-preview { height: 94px; }
+  .gallery-preview { width: min(100%, 132px); height: auto; }
   .color-gallery-filters { gap: 6px; }
   .color-gallery-filters button { padding: 8px 10px; font-size: 11px; }
   .paint-tools .paint-tool { min-height: 48px; font-size: 12px; }
@@ -341,7 +341,7 @@ a { color: inherit; }
 }
 
 /* Miniaturas recortadas da coleção ilustrada de colorir */
-.gallery-preview { display: block; width: 100%; height: 112px; border-radius: 10px; background-color: #fff; background-image: url("/assets/coloring/rocket-collection.svg"); background-size: 300% 200%; background-repeat: no-repeat; }
+.gallery-preview { display: block; width: min(100%, 148px); height: auto; aspect-ratio: 1 / 1; justify-self: center; border-radius: 10px; background-color: #fff; background-image: url("/assets/coloring/rocket-collection.svg"); background-size: 300% 200%; background-repeat: no-repeat; }
 .color-gallery-item { min-height: 170px; }
 .color-gallery-item .gallery-copy { margin-top: 3px; }
 @media (max-width: 760px) {
