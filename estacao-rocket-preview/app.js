@@ -722,7 +722,10 @@ function showColorGallery() {
   $("#colorModal").setAttribute("aria-labelledby", "color-gallery-title");
   $("#colorModal").setAttribute("aria-describedby", "color-gallery-description");
   renderColorGallery();
-  if (activeModal === $("#colorModal")) $("#color-gallery-title").focus({ preventScroll: true });
+  if (activeModal === $("#colorModal")) {
+    const selectedFilter = $("#colorGalleryFilters .is-active") || $("#colorGalleryFilters button");
+    selectedFilter?.focus({ preventScroll: true });
+  }
 }
 
 function showColorEditor() {
@@ -731,7 +734,7 @@ function showColorEditor() {
   $("#colorModal").setAttribute("aria-labelledby", "color-modal-title");
   $("#colorModal").setAttribute("aria-describedby", "colorModalCopy");
   $("#colorModal").scrollTop = 0;
-  $("#color-modal-title").focus({ preventScroll: true });
+  $("#backColorGallery").focus({ preventScroll: true });
 }
 
 function chooseColoringPage(type) {
@@ -818,7 +821,10 @@ function renderColoring() {
   $("#coloringStage").innerHTML = '<div class="rocket-paint-stack" aria-label="ÁREA DE PINTURA"><canvas id="paintCanvas" width="' + PAINT_CANVAS_WIDTH + '" height="' + PAINT_CANVAS_HEIGHT + '" role="img" aria-label="TELA DE PINTURA"></canvas><canvas id="lineCanvas" width="' + PAINT_CANVAS_WIDTH + '" height="' + PAINT_CANVAS_HEIGHT + '" aria-hidden="true"></canvas></div>';
   $("#color-modal-title").textContent = selectedPage.title;
   $("#colorModalCopy").textContent = "Escolha uma cor e pinte cada detalhe do seu jeito.";
-  $("#colorReward").hidden = true;
+  const coloringWasCompleted = localStorage.getItem("estacao-rocket-color-" + selectedAge) === "complete";
+  $("#colorReward").hidden = !coloringWasCompleted;
+  $("#finishColoring").disabled = coloringWasCompleted;
+  $("#finishColoring").textContent = coloringWasCompleted ? "MISSÃO CONCLUÍDA ♡" : "CONCLUIR MISSÃO ♡";
   setPaintTool("bucket");
   updatePaintHistoryButtons();
 
@@ -1029,8 +1035,10 @@ function completeColoring() {
   localStorage.setItem("estacao-rocket-color-" + selectedAge, "complete");
   updateMissionProgress();
   $("#colorReward").hidden = false;
-  showToast("MISSÃO DE PINTURA CONCLUÍDA!");
-  closeModal($("#colorModal"));
+  $("#finishColoring").disabled = true;
+  $("#finishColoring").textContent = "MISSÃO CONCLUÍDA ♡";
+  showToast("MISSÃO DE PINTURA CONCLUÍDA! VOCÊ FEZ UM ÓTIMO TRABALHO!");
+  $("#colorReward").scrollIntoView({ behavior: "smooth", block: "nearest" });
 }
 
 function downloadColoring() {
