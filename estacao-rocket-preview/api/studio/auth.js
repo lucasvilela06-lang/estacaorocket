@@ -9,10 +9,19 @@ module.exports = async function handler(req, res) {
   }
   const password = process.env.ROCKET_STUDIO_PASSWORD;
   const secret = process.env.ROCKET_STUDIO_SESSION_SECRET;
-  if (!password || !secret || secret.length < 32) {
+  res.setHeader("Content-Type", "application/json; charset=utf-8");
+  res.setHeader("Cache-Control", "no-store");
+  if (!password) {
     res.statusCode = 503;
-    res.setHeader("Content-Type", "application/json; charset=utf-8");
-    return res.end(JSON.stringify({ error: "CONFIGURE ROCKET_STUDIO_PASSWORD E UM ROCKET_STUDIO_SESSION_SECRET COM PELO MENOS 32 CARACTERES NA VERCEL." }));
+    return res.end(JSON.stringify({ error: "FALTA CONFIGURAR ROCKET_STUDIO_PASSWORD NAS VARIÁVEIS DE AMBIENTE DO PROJETO VERCEL, NO AMBIENTE PRODUCTION." }));
+  }
+  if (!secret) {
+    res.statusCode = 503;
+    return res.end(JSON.stringify({ error: "FALTA CONFIGURAR ROCKET_STUDIO_SESSION_SECRET NAS VARIÁVEIS DE AMBIENTE DO PROJETO VERCEL, NO AMBIENTE PRODUCTION." }));
+  }
+  if (secret.length < 32) {
+    res.statusCode = 503;
+    return res.end(JSON.stringify({ error: "ROCKET_STUDIO_SESSION_SECRET ESTÁ CONFIGURADA, MAS TEM MENOS DE 32 CARACTERES. GERE OUTRA COM: openssl rand -hex 32" }));
   }
   let submitted = "";
   try {
