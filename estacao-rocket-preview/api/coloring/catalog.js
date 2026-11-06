@@ -14,7 +14,7 @@ module.exports = async function handler(req, res) {
       id: item.id, title: item.title, detail: item.description || "",
       ages: item.age_groups || [], difficulty: item.difficulty || "medium",
       category: item.category || "ESPAÇO",
-      src: url + "/storage/v1/object/public/rocket-coloring/" + item.file_path,
+      src: "/api/coloring/image?id=" + encodeURIComponent(item.id),
       width: item.width, height: item.height
     }));
     return json(res, 200, { artworks });

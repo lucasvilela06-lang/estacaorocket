@@ -686,10 +686,23 @@ function loadColoringArt(item) {
   const promise = new Promise((resolve, reject) => {
     const image = new Image();
     image.decoding = "async";
-    image.onload = () => resolve(image);
+    image.crossOrigin = "anonymous";
+    image.referrerPolicy = "no-referrer";
+    image.onload = async () => {
+      try {
+        if (typeof image.decode === "function") await image.decode();
+      } catch (_) {
+        // Alguns navegadores rejeitam decode() mesmo com a imagem já carregada.
+      }
+      if (image.naturalWidth > 0 && image.naturalHeight > 0) resolve(image);
+      else {
+        coloringArtPromises.delete(source);
+        reject(new Error("A ilustração foi recebida, mas não pôde ser decodificada."));
+      }
+    };
     image.onerror = () => {
       coloringArtPromises.delete(source);
-      reject(new Error("Não foi possível carregar a ilustração: " + source));
+      reject(new Error("Não foi possível carregar a ilustração. Confira a publicação e tente novamente."));
     };
     image.src = source;
   });
@@ -867,8 +880,14 @@ function renderColoring() {
     updateColorProgress();
   }).catch((error) => {
     $("#coloringStage").setAttribute("aria-busy", "false");
-    console.error("Falha ao carregar a ilustração para pintura:", error);
-    showToast("NÃO FOI POSSÍVEL CARREGAR A ILUSTRAÇÃO. VERIFIQUE A CONEXÃO E TENTE NOVAMENTE.");
+    paintCanvasState = paintCanvasState && paintCanvasState.lineCanvas === lineCanvas
+      ? { ...paintCanvasState, barriers: null, loadError: error }
+      : paintCanvasState;
+    console.error("Falha ao preparar a ilustração para pintura:", error);
+    const securityError = error && error.name === "SecurityError";
+    showToast(securityError
+      ? "O NAVEGADOR BLOQUEOU A LEITURA DA IMAGEM. RECARREGUE O DESENHO."
+      : "NÃO FOI POSSÍVEL PREPARAR O DESENHO PARA PINTURA. REABRA A ILUSTRAÇÃO.");
   });
 
 
@@ -889,6 +908,7 @@ function getCanvasPoint(event) {
   if (!canvas) return null;
   const rect = canvas.getBoundingClientRect();
   if (!rect.width || !rect.height) return null;
+  if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) return null;
   return {
     x: Math.max(0, Math.min(PAINT_CANVAS_WIDTH - 1, Math.floor((event.clientX - rect.left) / rect.width * PAINT_CANVAS_WIDTH))),
     y: Math.max(0, Math.min(PAINT_CANVAS_HEIGHT - 1, Math.floor((event.clientY - rect.top) / rect.height * PAINT_CANVAS_HEIGHT)))
@@ -903,7 +923,7 @@ function buildPaintBarrierMap(imageData, width, height) {
   for (let i = 0; i < total; i++) {
     const offset = i * 4;
     const luminance = (data[offset] * 0.299) + (data[offset + 1] * 0.587) + (data[offset + 2] * 0.114);
-    source[i] = luminance < 188 ? 1 : 0;
+    source[i] = luminance < 210 ? 1 : 0;
   }
   // Dilata os contornos em um pixel para fechar pequenos espaços do antialiasing.
   const barriers = source.slice();
@@ -921,7 +941,11 @@ function buildPaintBarrierMap(imageData, width, height) {
 }
 
 function fillCanvasRegion(event) {
-  if (!paintCanvasState || !paintCanvasState.barriers) return;
+  if (!paintCanvasState) return;
+  if (!paintCanvasState.barriers) {
+    if (!paintCanvasState.loadError) showToast("PREPARANDO AS ÁREAS PARA COLORIR. TENTE NOVAMENTE EM UM INSTANTE.");
+    return;
+  }
   const point = getCanvasPoint(event);
   if (!point) return;
   const { barriers, context } = paintCanvasState;
