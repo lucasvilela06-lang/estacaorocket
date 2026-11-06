@@ -594,6 +594,7 @@ const coloringGallery = [
 ];
 const defaultDrawingByAge = { "2-4": "rocket-launch", "5-7": "captain-moon", "8-11": "cosmic-friends" };
 let selectedDrawingType = defaultDrawingByAge[selectedAge] || "rocket-launch";
+let activeGalleryFilter = "all";
 let paintCanvasState = null;
 let redoHistory = [];
 let activeCanvasStroke = null;
@@ -602,10 +603,13 @@ const PAINT_CANVAS_WIDTH = 672;
 const PAINT_CANVAS_HEIGHT = 800;
 
 
+
 function renderColorGallery() {
   const gallery = $("#colorGallery");
   if (!gallery) return;
-  const visible = coloringGallery.filter((item) => item.ages.includes(selectedAge));
+  const visible = coloringGallery.filter((item) =>
+    activeGalleryFilter === "all" || item.ages.includes(activeGalleryFilter)
+  );
   gallery.innerHTML = visible.map((item) => {
     const active = item.id === selectedDrawingType ? " is-selected" : "";
     const thumbnailSvg = coloringSvg(item.id)
@@ -616,8 +620,25 @@ function renderColorGallery() {
     return '<button class="color-gallery-item' + active + '" type="button" data-drawing="' + item.id + '" aria-pressed="' + (item.id === selectedDrawingType) + '">' +
       '<img class="gallery-preview" src="' + thumbnail + '" alt="" loading="lazy">' +
       '<span class="gallery-copy"><strong>' + item.title + '</strong><small>' + item.level + ' · ' + item.detail + '</small></span>' +
-      '<span class="gallery-check" aria-hidden="true">✓</span></button>';
+      '<span class="gallery-check" aria-hidden="true">✓</span><span class="gallery-start">✎ Começar</span></button>';
   }).join("");
+  $$("#colorGalleryFilters [data-gallery-filter]").forEach((button) => {
+    const active = button.dataset.galleryFilter === activeGalleryFilter;
+    button.classList.toggle("is-active", active);
+    button.setAttribute("aria-pressed", String(active));
+  });
+}
+
+function showColorGallery() {
+  $("#colorGalleryView").hidden = false;
+  $("#colorEditorView").hidden = true;
+  renderColorGallery();
+}
+
+function showColorEditor() {
+  $("#colorGalleryView").hidden = true;
+  $("#colorEditorView").hidden = false;
+  $("#colorModal").scrollTop = 0;
 }
 
 function chooseColoringPage(type) {
@@ -625,6 +646,7 @@ function chooseColoringPage(type) {
   if (!item) return;
   selectedDrawingType = type;
   renderColoring();
+  showColorEditor();
 }
 
 
@@ -694,7 +716,6 @@ function renderColoring() {
   const availablePage = coloringGallery.find((item) => item.id === selectedDrawingType && item.ages.includes(selectedAge));
   if (!availablePage) selectedDrawingType = defaultDrawingByAge[selectedAge] || "rocket-launch";
   const selectedPage = coloringGallery.find((item) => item.id === selectedDrawingType);
-  renderColorGallery();
   $("#coloringStage").innerHTML = '<div class="rocket-paint-stack" aria-label="Área de pintura"><canvas id="paintCanvas" width="' + PAINT_CANVAS_WIDTH + '" height="' + PAINT_CANVAS_HEIGHT + '" aria-label="Camada de cores"></canvas><canvas id="lineCanvas" width="' + PAINT_CANVAS_WIDTH + '" height="' + PAINT_CANVAS_HEIGHT + '" aria-hidden="true"></canvas></div>';
   $("#color-modal-title").textContent = selectedPage.title;
   $("#colorModalCopy").textContent = "Escolha uma cor e pinte cada detalhe do seu jeito.";
@@ -734,10 +755,12 @@ function renderColoring() {
       URL.revokeObjectURL(svgUrl);
       return;
     }
-    lineContext.clearRect(0, 0, PAINT_CANVAS_WIDTH, PAINT_CANVAS_HEIGHT);
+    lineContext.fillStyle = "#ffffff";
+    lineContext.fillRect(0, 0, PAINT_CANVAS_WIDTH, PAINT_CANVAS_HEIGHT);
     lineContext.drawImage(lineImage, 0, 0, PAINT_CANVAS_WIDTH, PAINT_CANVAS_HEIGHT);
     URL.revokeObjectURL(svgUrl);
     paintCanvasState.linePixels = lineContext.getImageData(0, 0, PAINT_CANVAS_WIDTH, PAINT_CANVAS_HEIGHT);
+    paintCanvasState.barriers = buildPaintBarrierMap(paintCanvasState.linePixels, PAINT_CANVAS_WIDTH, PAINT_CANVAS_HEIGHT);
     updateColorProgress();
   };
   lineImage.onerror = () => {
@@ -765,17 +788,41 @@ function getCanvasPoint(event) {
   };
 }
 
+
+function buildPaintBarrierMap(imageData, width, height) {
+  const total = width * height;
+  const source = new Uint8Array(total);
+  const data = imageData.data;
+  for (let i = 0; i < total; i++) {
+    const offset = i * 4;
+    const luminance = (data[offset] * 0.299) + (data[offset + 1] * 0.587) + (data[offset + 2] * 0.114);
+    source[i] = luminance < 188 ? 1 : 0;
+  }
+  // Dilata os contornos em um pixel para fechar pequenos espaços do antialiasing.
+  const barriers = source.slice();
+  for (let y = 1; y < height - 1; y++) {
+    const row = y * width;
+    for (let x = 1; x < width - 1; x++) {
+      const i = row + x;
+      if (!source[i]) continue;
+      barriers[i - width - 1] = 1; barriers[i - width] = 1; barriers[i - width + 1] = 1;
+      barriers[i - 1] = 1; barriers[i + 1] = 1;
+      barriers[i + width - 1] = 1; barriers[i + width] = 1; barriers[i + width + 1] = 1;
+    }
+  }
+  return barriers;
+}
+
 function fillCanvasRegion(event) {
-  if (!paintCanvasState || !paintCanvasState.linePixels) return;
+  if (!paintCanvasState || !paintCanvasState.barriers) return;
   const point = getCanvasPoint(event);
   if (!point) return;
-  const { linePixels, context } = paintCanvasState;
+  const { barriers, context } = paintCanvasState;
   const width = PAINT_CANVAS_WIDTH;
   const height = PAINT_CANVAS_HEIGHT;
   const total = width * height;
   const start = point.y * width + point.x;
-  const lineData = linePixels.data;
-  if (lineData[start * 4 + 3] > 90) return;
+  if (barriers[start]) return;
 
   const visited = new Uint8Array(total);
   const queue = new Int32Array(total);
@@ -785,7 +832,7 @@ function fillCanvasRegion(event) {
   const enqueue = (index) => {
     if (visited[index]) return;
     visited[index] = 1;
-    if (lineData[index * 4 + 3] < 90) queue[tail++] = index;
+    if (!barriers[index]) queue[tail++] = index;
   };
   enqueue(start);
   while (head < tail) {
@@ -798,8 +845,8 @@ function fillCanvasRegion(event) {
   }
 
   if (!tail) return;
-  if (touchesEdge || tail > total * 0.58) {
-    showToast("Essa área está aberta. Toque dentro de uma parte fechada do desenho.");
+  if (touchesEdge || tail > total * 0.52) {
+    showToast("Essa região não está totalmente fechada. Tente outra parte do desenho.");
     return;
   }
 
@@ -829,7 +876,7 @@ function startCanvasStroke(event) {
   context.globalCompositeOperation = paintTool === "eraser" ? "destination-out" : "source-over";
   context.strokeStyle = selectedPaintColor;
   context.fillStyle = selectedPaintColor;
-  context.lineWidth = selectedAge === "2-4" ? 24 : selectedAge === "5-7" ? 17 : 12;
+  context.lineWidth = Number($("#brushSize")?.value || (selectedAge === "2-4" ? 24 : selectedAge === "5-7" ? 17 : 12));
   context.lineCap = "round";
   context.lineJoin = "round";
   context.beginPath();
@@ -898,7 +945,9 @@ function downloadColoring() {
   context.fillStyle = "#fffdf8";
   context.fillRect(0, 0, output.width, output.height);
   context.drawImage(paintCanvasState.paintCanvas, 0, 0);
+  context.globalCompositeOperation = "multiply";
   context.drawImage(paintCanvasState.lineCanvas, 0, 0);
+  context.globalCompositeOperation = "source-over";
   output.toBlob((png) => {
     if (!png) { showToast("Não foi possível salvar o desenho neste navegador."); return; }
     const url = URL.createObjectURL(png);
@@ -912,9 +961,11 @@ function downloadColoring() {
     showToast("Seu desenho foi salvo no dispositivo!");
   }, "image/png");
 }
+
 function openColoring(trigger) {
   selectedDrawingType = defaultDrawingByAge[selectedAge] || "rocket-launch";
-  renderColoring();
+  activeGalleryFilter = "all";
+  showColorGallery();
   openModal("#colorModal", trigger);
 }
 
@@ -1013,15 +1064,23 @@ $("#nextStory").addEventListener("click", () => {
 });
 
 
+
 $("#colorGallery").addEventListener("click", (event) => {
   const button = event.target.closest("[data-drawing]");
   if (button) chooseColoringPage(button.dataset.drawing);
 });
+$("#colorGalleryFilters").addEventListener("click", (event) => {
+  const button = event.target.closest("[data-gallery-filter]");
+  if (!button) return;
+  activeGalleryFilter = button.dataset.galleryFilter;
+  renderColorGallery();
+});
+$("#backColorGallery").addEventListener("click", showColorGallery);
 $("#downloadColor").addEventListener("click", downloadColoring);
 $("#undoColor").addEventListener("click", undoPaint);
 $("#redoColor").addEventListener("click", redoPaint);
 $("#clearColor").addEventListener("click", clearPaintCanvas);
-$("#colorModal").querySelectorAll(".paint-tool[data-tool]").forEach((button) => {
+$("#colorEditorView").querySelectorAll(".paint-tool[data-tool]").forEach((button) => {
   button.addEventListener("click", () => setPaintTool(button.dataset.tool));
 });
 $("#coloringStage").addEventListener("pointerdown", (event) => {
