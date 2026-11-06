@@ -362,6 +362,7 @@ function updateHeartContent(content) {
     return '<span class="heart-decoration" aria-hidden="true" style="left:'+left+'%;top:'+top+'%;--tilt:'+((index*29)%55-27)+'deg">'+symbol+'</span>';
   }).join("");
   field.dataset.difficulty = selectedAge;
+  uppercaseAccessibilityLabels(field);
 }
 
 function updateMissionProgress(age = selectedAge) {
@@ -433,6 +434,7 @@ function openModal(id, trigger) {
   modal.hidden = false;
   modal.setAttribute("aria-hidden", "false");
   document.body.style.overflow = "hidden";
+  uppercaseAccessibilityLabels(modal);
   window.requestAnimationFrame(() => {
     const firstControl = modal.querySelector(".modal-close") || modal.querySelector("button, a[href], input, summary");
     if (firstControl) firstControl.focus();
@@ -478,13 +480,14 @@ function showStory(index) {
   $("#story-modal-title").textContent = slide.title;
   $("#storySlideText").textContent = slide.text;
   $("#storyScene").innerHTML = storyArtwork(slide.scene);
-  $("#storyScene").setAttribute("aria-label", slide.title);
+  $("#storyScene").setAttribute("aria-label", slide.title.toLocaleUpperCase("pt-BR"));
   $("#storyScene").setAttribute("aria-hidden", "false");
   $(".story-progress").innerHTML = slides.map((item, stepIndex) => '<span class="'+(stepIndex <= index ? "is-current" : "")+'"></span>').join("");
   $(".story-progress").setAttribute("aria-valuemax", String(slides.length));
   $(".story-progress").setAttribute("aria-valuenow", String(index + 1));
   $(".story-progress").setAttribute("aria-label", ("CENA " + (index + 1) + " DE " + slides.length).toLocaleUpperCase("pt-BR"));
   $("#nextStory").innerHTML = index === slides.length - 1 ? "GUARDAR NO CORAÇÃO <span aria-hidden=\"true\">♡</span>" : "PRÓXIMA CENA <span aria-hidden=\"true\">→</span>";
+  uppercaseAccessibilityLabels($("#storyModal"));
 }
 
 function startStory(trigger) {
@@ -689,6 +692,7 @@ function renderColorGallery() {
       preview + '<span class="gallery-copy"><strong>' + item.title + '</strong><small>' + item.level + ' · ' + item.detail + '</small></span>' +
       '<span class="gallery-check" aria-hidden="true">✓</span><span class="gallery-start">✎ Começar</span></button>';
   }).join("");
+  uppercaseAccessibilityLabels(gallery);
   $$("#colorGalleryFilters [data-gallery-filter]").forEach((button) => {
     const active = button.dataset.galleryFilter === activeGalleryFilter;
     button.classList.toggle("is-active", active);
@@ -715,12 +719,17 @@ function renderColorGallery() {
 function showColorGallery() {
   $("#colorGalleryView").hidden = false;
   $("#colorEditorView").hidden = true;
+  $("#colorModal").setAttribute("aria-labelledby", "color-gallery-title");
+  $("#colorModal").setAttribute("aria-describedby", "color-gallery-description");
   renderColorGallery();
+  if (activeModal === $("#colorModal")) $("#color-gallery-title").focus({ preventScroll: true });
 }
 
 function showColorEditor() {
   $("#colorGalleryView").hidden = true;
   $("#colorEditorView").hidden = false;
+  $("#colorModal").setAttribute("aria-labelledby", "color-modal-title");
+  $("#colorModal").setAttribute("aria-describedby", "colorModalCopy");
   $("#colorModal").scrollTop = 0;
   $("#color-modal-title").focus({ preventScroll: true });
 }
@@ -1067,6 +1076,7 @@ function renderDiscovery() {
   $("#discoveryReward").hidden = true;
   $("#discoveryStatus").textContent = "ENCONTRE TODAS AS RESPOSTAS.";
   $$(".discovery-item").forEach((item) => item.addEventListener("click", () => chooseDiscovery(item)));
+  uppercaseAccessibilityLabels($("#discoveryBoard"));
 }
 
 function chooseDiscovery(button) {
@@ -1219,3 +1229,4 @@ document.addEventListener("keydown", (event) => {
 const savedAge = localStorage.getItem("estacao-rocket-age");
 updateAge(savedAge && ageContent[savedAge] ? savedAge : selectedAge, true);
 updateMissionProgress();
+uppercaseAccessibilityLabels();
