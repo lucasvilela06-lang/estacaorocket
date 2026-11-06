@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 300 300">
+<title>Equipe na Lua — desenho para colorir</title>
+<defs>
+  <style>
+    .ink{fill:#fff;stroke:#21163b;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+    .detail{fill:none;stroke:#21163b;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
+    .small{fill:#fff;stroke:#21163b;stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round}
+  </style>
+</defs>
+<rect width="300" height="300" fill="#fff"/>
+<g transform="translate(0 -300)">
+  <circle class="ink" cx="228" cy="57" r="44"/>
+  <path class="detail" d="M203 48 Q228 29 252 48 M210 70 Q228 84 246 70"/>
+  <path class="ink" d="M15 269 Q66 234 120 265 L128 293 L14 293Z"/>
+  <path class="ink" d="M112 260 Q166 228 219 260 L228 294 L104 294Z"/>
+  <circle class="ink" cx="75" cy="133" r="47"/>
+  <path class="ink" d="M45 132 Q45 98 76 95 Q107 98 107 132 Q103 166 76 170 Q48 163 45 132Z"/>
+  <path class="ink" d="M34 121 Q28 80 67 72 Q105 67 120 105 L108 126 L93 103 L73 111 L53 99Z"/>
+  <path class="ink" d="M34 181 Q76 161 112 184 L123 258 L26 258Z"/>
+  <path class="ink" d="M37 194 Q12 182 10 211 L25 232 L48 215Z"/>
+  <path class="ink" d="M106 191 Q130 175 143 201 L132 224 L111 219Z"/>
+  <path class="detail" d="M58 132 Q66 122 73 132 M82 132 Q91 122 98 132 M60 150 Q77 162 94 150"/>
+  <path class="detail" d="M52 189 L76 205 L100 189 M52 225 L99 225"/>
+  <circle class="ink" cx="174" cy="157" r="40"/>
+  <path class="ink" d="M149 156 Q149 128 175 125 Q201 128 201 156 Q198 183 175 187 Q151 181 149 156Z"/>
+  <path class="ink" d="M143 148 Q142 112 178 110 Q207 115 211 143 L196 150 L184 135 L166 143 L151 159Z"/>
+  <path class="ink" d="M140 199 Q175 180 207 201 L213 258 L133 258Z"/>
+  <path class="detail" d="M160 155 Q168 148 174 155 M180 155 Q187 148 194 155 M164 171 Q177 182 190 171"/>
+  <path class="ink" d="M178 238 L272 238 L289 267 L162 267Z"/>
+  <circle class="ink" cx="187" cy="277" r="21"/><circle class="ink" cx="269" cy="277" r="21"/>
+  <circle class="small" cx="187" cy="277" r="9"/><circle class="small" cx="269" cy="277" r="9"/>
+  <path class="ink" d="M219 238 L228 207 L245 207 L254 238Z"/><circle class="small" cx="236" cy="195" r="8"/>
+  <path class="detail" d="M196 251 L257 251 M229 221 L242 221"/>
+  <path class="detail" d="M18 300 Q73 286 126 300 M218 300 Q265 286 296 299"/>
+</g>
+</svg>

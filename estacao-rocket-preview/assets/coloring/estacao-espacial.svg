@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 300 300">
+<title>Estação espacial — desenho para colorir</title>
+<defs>
+  <style>
+    .ink{fill:#fff;stroke:#21163b;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+    .detail{fill:none;stroke:#21163b;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
+    .small{fill:#fff;stroke:#21163b;stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round}
+  </style>
+</defs>
+<rect width="300" height="300" fill="#fff"/>
+<g transform="translate(-300 -300)">
+  <circle class="ink" cx="53" cy="57" r="35"/><circle class="small" cx="42" cy="51" r="7"/><circle class="small" cx="65" cy="63" r="8"/>
+  <path class="ink" d="M106 113 L191 113 L205 211 L94 211Z"/>
+  <path class="ink" d="M120 80 L178 80 L191 113 L106 113Z"/>
+  <path class="ink" d="M124 211 L174 211 L183 252 L115 252Z"/>
+  <path class="ink" d="M15 137 L91 122 L101 193 L24 207Z"/>
+  <path class="ink" d="M207 122 L284 137 L274 207 L197 193Z"/>
+  <path class="detail" d="M31 146 L94 134 M36 169 L97 157 M42 191 L99 180 M211 134 L278 146 M204 157 L275 169 M201 180 L269 191"/>
+  <circle class="ink" cx="146" cy="150" r="18"/><circle class="ink" cx="146" cy="188" r="18"/>
+  <path class="detail" d="M146 80 L146 53 L132 40 L160 40 L146 53 M146 252 L146 282"/>
+  <path class="ink" d="M226 38 Q250 7 278 31 Q292 44 276 61 Q247 78 226 58Z"/>
+  <path class="detail" d="M224 48 Q252 34 284 46 M244 21 Q253 42 272 66"/>
+  <path class="ink" d="M34 244 L73 230 L86 265 L47 279Z"/><circle class="small" cx="61" cy="254" r="10"/>
+  <path class="ink" d="M211 248 Q237 222 267 244 Q280 258 264 275 Q235 291 211 270Z"/>
+  <path class="detail" d="M206 257 Q240 245 274 258 M235 234 L245 212 L254 234"/>
+  <circle class="small" cx="91" cy="35" r="5"/><circle class="small" cx="286" cy="100" r="6"/>
+  <path class="ink" d="M7 91 L14 107 L31 108 L18 120 L22 137 L7 128 L-7 137 L-3 120 L-16 108 L1 107Z"/>
+</g>
+</svg>

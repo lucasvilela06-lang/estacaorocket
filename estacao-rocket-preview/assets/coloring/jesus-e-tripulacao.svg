@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 300 300">
+<title>Jesus e a tripulação — desenho para colorir</title>
+<defs>
+  <style>
+    .ink{fill:#fff;stroke:#21163b;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+    .detail{fill:none;stroke:#21163b;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
+    .small{fill:#fff;stroke:#21163b;stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round}
+  </style>
+</defs>
+<rect width="300" height="300" fill="#fff"/>
+<g transform="translate(-600 -300)">
+  <circle class="ink" cx="244" cy="68" r="43"/>
+  <path class="detail" d="M217 57 Q244 38 270 57 M225 83 Q244 98 263 83"/>
+  <path class="ink" d="M105 130 Q149 105 192 130 L211 286 L83 286Z"/>
+  <path class="ink" d="M118 128 Q87 110 65 132 L22 195 Q18 211 37 217 L102 179Z"/>
+  <path class="ink" d="M180 128 Q213 106 236 130 L281 195 Q285 211 266 217 L197 179Z"/>
+  <path class="ink" d="M125 118 Q125 67 158 61 Q196 66 196 118 Q194 155 160 165 Q128 157 125 118Z"/>
+  <path class="ink" d="M117 115 Q105 50 158 34 Q215 30 217 99 L198 128 L191 85 Q174 101 151 88 L131 130Z"/>
+  <path class="ink" d="M125 91 Q119 126 133 151 L115 175 Q91 151 98 115Z"/>
+  <path class="ink" d="M195 91 Q207 127 188 154 L205 174 Q229 146 218 111Z"/>
+  <path class="detail" d="M141 119 Q149 110 157 119 M169 119 Q178 110 186 119 M145 137 Q162 150 181 137"/>
+  <path class="detail" d="M145 161 L161 182 L178 161 M160 183 L159 279"/>
+  <path class="ink" d="M25 243 Q42 218 70 232 L82 291 L10 291Z"/>
+  <circle class="ink" cx="49" cy="215" r="34"/>
+  <path class="ink" d="M19 215 Q19 183 49 182 Q80 183 80 215 Q77 243 49 248 Q22 240 19 215Z"/>
+  <path class="ink" d="M15 207 Q9 176 43 169 Q74 166 86 197 L72 212 L59 193 L41 198 L25 218Z"/>
+  <path class="detail" d="M35 214 Q42 207 48 214 M54 214 Q61 207 67 214 M37 230 Q50 239 63 230"/>
+  <path class="ink" d="M220 244 Q246 219 274 233 L292 291 L211 291Z"/>
+  <circle class="ink" cx="255" cy="215" r="34"/>
+  <path class="ink" d="M225 215 Q225 183 255 182 Q286 183 286 215 Q282 243 255 248 Q228 240 225 215Z"/>
+  <path class="ink" d="M221 207 Q217 177 249 168 Q281 166 292 196 L280 216 L265 190 L245 198 L230 218Z"/>
+  <path class="detail" d="M241 214 Q248 207 254 214 M262 214 Q269 207 275 214 M243 230 Q256 239 270 230"/>
+  <circle class="small" cx="28" cy="47" r="6"/><circle class="small" cx="286" cy="112" r="7"/>
+  <path class="ink" d="M148 9 L155 25 L172 27 L159 39 L163 56 L148 47 L133 56 L137 39 L124 27 L141 25Z"/>
+</g>
+</svg>

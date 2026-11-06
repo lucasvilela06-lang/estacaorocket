@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 300 300">
+<title>Foguete sorridente — desenho para colorir</title>
+<defs>
+  <style>
+    .ink{fill:#fff;stroke:#21163b;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+    .detail{fill:none;stroke:#21163b;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
+    .small{fill:#fff;stroke:#21163b;stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round}
+  </style>
+</defs>
+<rect width="300" height="300" fill="#fff"/>
+<g transform="translate(0 0)">
+  <path class="ink" d="M148 24 C204 73 215 160 178 233 L121 233 C84 160 94 73 148 24Z"/>
+  <path class="ink" d="M110 178 C79 193 58 224 51 267 L126 235Z"/>
+  <path class="ink" d="M188 178 C219 193 240 224 247 267 L172 235Z"/>
+  <path class="ink" d="M124 221 L116 270 L148 294 L180 270 L172 221Z"/>
+  <path class="ink" d="M129 250 C116 281 124 301 148 316 C172 301 180 281 167 250Z"/>
+  <circle class="ink" cx="148" cy="143" r="32"/>
+  <circle class="small" cx="138" cy="139" r="5"/><circle class="small" cx="158" cy="139" r="5"/>
+  <path class="detail" d="M137 154 Q148 166 160 154"/>
+  <path class="detail" d="M121 73 Q148 57 175 73 M118 203 Q148 216 178 203"/>
+  <circle class="small" cx="148" cy="188" r="7"/>
+  <path class="ink" d="M25 279 Q11 259 27 244 Q46 227 62 244 Q70 216 99 224 Q115 228 118 246 Q139 231 155 247 Q172 266 155 283Z"/>
+  <path class="ink" d="M167 282 Q153 263 168 248 Q185 232 204 247 Q214 221 239 230 Q257 236 258 254 Q279 240 291 257 Q304 274 286 289Z"/>
+  <path class="ink" d="M217 51 Q242 25 267 45 Q281 58 269 78 Q251 97 228 83 Q208 69 217 51Z"/>
+  <path class="detail" d="M215 68 Q245 56 274 67 M236 40 Q244 60 263 85"/>
+  <path class="ink" d="M40 104 L47 121 L65 123 L51 135 L55 153 L40 143 L25 153 L29 135 L15 123 L33 121Z"/>
+  <path class="ink" d="M252 151 L258 164 L272 165 L261 175 L264 189 L252 181 L240 189 L243 175 L232 165 L246 164Z"/>
+  <circle class="small" cx="76" cy="61" r="6"/><circle class="small" cx="198" cy="108" r="5"/><circle class="small" cx="83" cy="186" r="5"/>
+</g>
+</svg>

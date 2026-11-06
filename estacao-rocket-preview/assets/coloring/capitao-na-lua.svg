@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 300 300">
+<title>Capitão na Lua — desenho para colorir</title>
+<defs>
+  <style>
+    .ink{fill:#fff;stroke:#21163b;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+    .detail{fill:none;stroke:#21163b;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
+    .small{fill:#fff;stroke:#21163b;stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round}
+  </style>
+</defs>
+<rect width="300" height="300" fill="#fff"/>
+<g transform="translate(-300 0)">
+  <circle class="ink" cx="230" cy="66" r="35"/>
+  <path class="detail" d="M205 51 Q230 35 255 51 M207 76 Q230 90 253 76"/>
+  <path class="ink" d="M95 257 Q94 207 111 176 Q129 152 165 155 Q203 153 220 180 Q232 207 227 257 L215 286 L103 286Z"/>
+  <path class="ink" d="M112 178 Q84 184 76 216 L91 239 L124 219Z"/>
+  <path class="ink" d="M202 180 Q225 172 242 146 L259 155 Q255 197 222 220 L204 218Z"/>
+  <path class="ink" d="M120 251 L112 282 L104 296 L148 296 L153 263Z"/>
+  <path class="ink" d="M170 252 L177 282 L190 297 L231 293 L216 274 L211 251Z"/>
+  <path class="ink" d="M99 287 Q122 279 151 288 L151 305 Q125 315 93 306Z"/>
+  <path class="ink" d="M176 285 Q199 278 226 287 L241 305 Q207 316 181 305Z"/>
+  <circle class="ink" cx="157" cy="112" r="69"/>
+  <path class="ink" d="M120 109 Q120 69 158 66 Q195 68 195 110 Q193 153 158 159 Q122 151 120 109Z"/>
+  <path class="ink" d="M102 101 Q98 52 145 39 Q190 28 211 74 L203 99 L184 80 L163 87 L146 69 L126 91Z"/>
+  <path class="detail" d="M137 112 Q145 101 153 112 M166 112 Q174 101 182 112 M143 133 Q159 148 175 133"/>
+  <path class="detail" d="M145 177 L157 195 L171 177 M124 216 L160 234 L197 215"/>
+  <path class="small" d="M112 200 L137 190 L145 210 L123 226Z"/><path class="small" d="M183 191 L205 200 L195 224 L174 214Z"/>
+  <path class="ink" d="M35 278 Q50 257 75 269 Q91 251 107 268 L113 292 L29 292Z"/>
+  <path class="ink" d="M250 277 Q268 259 284 275 L292 294 L230 294Z"/>
+  <path class="small" d="M53 244 Q63 233 73 244 L79 258 L48 258Z"/>
+  <path class="ink" d="M257 172 Q271 184 274 208 L265 226 L245 206Z"/>
+  <path class="detail" d="M258 192 L275 183 M261 203 L280 198"/>
+  <path class="ink" d="M16 292 Q74 267 126 287 Q180 268 239 288 Q274 274 298 294 L298 316 L16 316Z"/>
+  <path class="detail" d="M33 306 L50 301 M81 310 L99 306 M245 308 L264 303"/>
+  <circle class="small" cx="38" cy="87" r="6"/><circle class="small" cx="275" cy="112" r="7"/>
+</g>
+</svg>

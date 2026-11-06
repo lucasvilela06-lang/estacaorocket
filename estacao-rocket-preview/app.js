@@ -634,12 +634,12 @@ function coloringSvg(type) {
 }
 
 const coloringGallery = [
-  { id: "rocket-launch", title: "Foguete sorridente", level: "2–4 anos", detail: "Formas grandes", symbol: "🚀", ages: ["2-4"], artCell: [0, 0] },
-  { id: "captain-moon", title: "Capitão na Lua", level: "2–7 anos", detail: "Astronauta e foguete", symbol: "🚀", ages: ["2-4", "5-7"], artCell: [1, 0] },
-  { id: "bia-cockpit", title: "Capitã Bia no cockpit", level: "5–7 anos", detail: "Painel de comando", symbol: "👩‍🚀", ages: ["5-7"], artCell: [2, 0] },
-  { id: "moon-team", title: "Equipe na Lua", level: "5–11 anos", detail: "Dupla e rover", symbol: "🌕", ages: ["5-7", "8-11"], artCell: [0, 1] },
-  { id: "space-station", title: "Estação espacial", level: "8–11 anos", detail: "Satélites e planetas", symbol: "🛰️", ages: ["8-11"], artCell: [1, 1] },
-  { id: "cosmic-friends", title: "Jesus e a tripulação", level: "8–11 anos", detail: "Uma missão de fé", symbol: "✨", ages: ["8-11"], artCell: [2, 1] }
+  { id: "rocket-launch", title: "Foguete sorridente", level: "2–4 anos", detail: "Formas grandes", symbol: "🚀", ages: ["2-4"], artSrc: "/assets/coloring/foguete-sorridente.svg" },
+  { id: "captain-moon", title: "Capitão na Lua", level: "2–7 anos", detail: "Astronauta e foguete", symbol: "🚀", ages: ["2-4", "5-7"], artSrc: "/assets/coloring/capitao-na-lua.svg" },
+  { id: "bia-cockpit", title: "Capitã Bia no cockpit", level: "5–7 anos", detail: "Painel de comando", symbol: "👩‍🚀", ages: ["5-7"], artSrc: "/assets/coloring/capita-bia-cockpit.svg" },
+  { id: "moon-team", title: "Equipe na Lua", level: "5–11 anos", detail: "Dupla e rover", symbol: "🌕", ages: ["5-7", "8-11"], artSrc: "/assets/coloring/equipe-na-lua.svg" },
+  { id: "space-station", title: "Estação espacial", level: "8–11 anos", detail: "Satélites e planetas", symbol: "🛰️", ages: ["8-11"], artSrc: "/assets/coloring/estacao-espacial.svg" },
+  { id: "cosmic-friends", title: "Jesus e a tripulação", level: "8–11 anos", detail: "Uma missão de fé", symbol: "✨", ages: ["8-11"], artSrc: "/assets/coloring/jesus-e-tripulacao.svg" }
 ];
 const defaultDrawingByAge = { "2-4": "rocket-launch", "5-7": "captain-moon", "8-11": "cosmic-friends" };
 let selectedDrawingType = defaultDrawingByAge[selectedAge] || "rocket-launch";
@@ -651,32 +651,25 @@ const PAINT_HISTORY_LIMIT = 6;
 const PAINT_CANVAS_WIDTH = 1000;
 const PAINT_CANVAS_HEIGHT = 1200;
 
-const COLORING_SHEET_URL = "/assets/coloring/rocket-original-hires.png";
-let coloringSheetPromise = null;
+const coloringArtPromises = new Map();
 
-function ensureColoringSheet() {
-  if (coloringSheetPromise) return coloringSheetPromise;
-  coloringSheetPromise = new Promise((resolve, reject) => {
+function loadColoringArt(item) {
+  if (!item || !item.artSrc) return Promise.reject(new Error("Ilustração não configurada."));
+  const source = item.artSrc;
+  if (coloringArtPromises.has(source)) return coloringArtPromises.get(source);
+  const promise = new Promise((resolve, reject) => {
     const image = new Image();
     image.decoding = "async";
-    image.onload = () => {
-      if (image.naturalWidth !== 1500 || image.naturalHeight !== 1000) {
-        coloringSheetPromise = null;
-        reject(new Error("A coleção de ilustrações não tem as dimensões esperadas."));
-        return;
-      }
-      resolve(image);
-    };
+    image.onload = () => resolve(image);
     image.onerror = () => {
-      coloringSheetPromise = null;
-      reject(new Error("Não foi possível carregar a coleção de ilustrações."));
+      coloringArtPromises.delete(source);
+      reject(new Error("Não foi possível carregar a ilustração: " + source));
     };
-    image.src = COLORING_SHEET_URL;
+    image.src = source;
   });
-  return coloringSheetPromise;
+  coloringArtPromises.set(source, promise);
+  return promise;
 }
-
-
 
 function renderColorGallery() {
   const gallery = $("#colorGallery");
@@ -686,8 +679,7 @@ function renderColorGallery() {
   );
   gallery.innerHTML = visible.map((item) => {
     const active = item.id === selectedDrawingType ? " is-selected" : "";
-    const cell = item.artCell || [0, 0];
-    const preview = '<span class="gallery-preview" data-art-cell="' + cell[0] + ',' + cell[1] + '" role="img" aria-label="Prévia: ' + item.title + '"></span>';
+    const preview = '<span class="gallery-preview"><img class="gallery-preview-image" src="' + item.artSrc + '" alt="" loading="lazy" decoding="async"></span>';
     return '<button class="color-gallery-item' + active + '" type="button" data-drawing="' + item.id + '" aria-pressed="' + (item.id === selectedDrawingType) + '">' +
       preview + '<span class="gallery-copy"><strong>' + item.title + '</strong><small>' + item.level + ' · ' + item.detail + '</small></span>' +
       '<span class="gallery-check" aria-hidden="true">✓</span><span class="gallery-start">✎ Começar</span></button>';
@@ -698,21 +690,12 @@ function renderColorGallery() {
     button.classList.toggle("is-active", active);
     button.setAttribute("aria-pressed", String(active));
   });
-
-  gallery.setAttribute("aria-busy", "true");
-  ensureColoringSheet().then(() => {
-    if (!gallery.isConnected) return;
-    gallery.querySelectorAll(".gallery-preview[data-art-cell]").forEach((preview) => {
-      const [column, row] = preview.dataset.artCell.split(",").map(Number);
-      preview.style.backgroundImage = 'url("' + COLORING_SHEET_URL + '")';
-      preview.style.backgroundSize = "300% 200%";
-      preview.style.backgroundPosition = (column * 50) + "% " + (row * 100) + "%";
-    });
-    gallery.setAttribute("aria-busy", "false");
-  }).catch((error) => {
-    gallery.setAttribute("aria-busy", "false");
-    console.error("Falha ao carregar a arte original da galeria:", error);
-    showToast("Não foi possível carregar as ilustrações originais. Tente novamente.");
+  gallery.setAttribute("aria-busy", "false");
+  gallery.querySelectorAll(".gallery-preview-image").forEach((image) => {
+    image.addEventListener("error", () => {
+      image.closest(".gallery-preview")?.classList.add("image-unavailable");
+      console.error("Falha ao carregar miniatura:", image.src);
+    }, { once: true });
   });
 }
 
@@ -838,28 +821,28 @@ function renderColoring() {
 
 
 
-  ensureColoringSheet().then((sprite) => {
+  loadColoringArt(selectedPage).then((art) => {
     if (!paintCanvasState || paintCanvasState.lineCanvas !== lineCanvas) return;
-    const [column, row] = selectedPage.artCell || [0, 0];
     lineContext.fillStyle = "#ffffff";
     lineContext.fillRect(0, 0, PAINT_CANVAS_WIDTH, PAINT_CANVAS_HEIGHT);
     lineContext.imageSmoothingEnabled = true;
     lineContext.imageSmoothingQuality = "high";
-    const cellSize = 500;
-    const scale = Math.min(PAINT_CANVAS_WIDTH / cellSize, PAINT_CANVAS_HEIGHT / cellSize);
-    const drawWidth = cellSize * scale;
-    const drawHeight = cellSize * scale;
+    const artWidth = art.naturalWidth || 600;
+    const artHeight = art.naturalHeight || 600;
+    const scale = Math.min(PAINT_CANVAS_WIDTH / artWidth, PAINT_CANVAS_HEIGHT / artHeight);
+    const drawWidth = artWidth * scale;
+    const drawHeight = artHeight * scale;
     const drawX = (PAINT_CANVAS_WIDTH - drawWidth) / 2;
     const drawY = (PAINT_CANVAS_HEIGHT - drawHeight) / 2;
-    lineContext.drawImage(sprite, column * cellSize, row * cellSize, cellSize, cellSize, drawX, drawY, drawWidth, drawHeight);
+    lineContext.drawImage(art, drawX, drawY, drawWidth, drawHeight);
     paintCanvasState.linePixels = lineContext.getImageData(0, 0, PAINT_CANVAS_WIDTH, PAINT_CANVAS_HEIGHT);
     paintCanvasState.barriers = buildPaintBarrierMap(paintCanvasState.linePixels, PAINT_CANVAS_WIDTH, PAINT_CANVAS_HEIGHT);
     $("#coloringStage").setAttribute("aria-busy", "false");
     updateColorProgress();
   }).catch((error) => {
     $("#coloringStage").setAttribute("aria-busy", "false");
-    console.error("Falha ao montar o PNG original da pintura:", error);
-    showToast("NÃO FOI POSSÍVEL CARREGAR A ILUSTRAÇÃO ORIGINAL. VERIFIQUE A CONEXÃO E TENTE NOVAMENTE.");
+    console.error("Falha ao carregar a ilustração para pintura:", error);
+    showToast("NÃO FOI POSSÍVEL CARREGAR A ILUSTRAÇÃO. VERIFIQUE A CONEXÃO E TENTE NOVAMENTE.");
   });
 
 

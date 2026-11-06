@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 300 300">
+<title>Capitã Bia no cockpit — desenho para colorir</title>
+<defs>
+  <style>
+    .ink{fill:#fff;stroke:#21163b;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+    .detail{fill:none;stroke:#21163b;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
+    .small{fill:#fff;stroke:#21163b;stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round}
+  </style>
+</defs>
+<rect width="300" height="300" fill="#fff"/>
+<g transform="translate(-600 0)">
+  <path class="ink" d="M16 34 Q150 -17 284 34 L284 230 Q150 204 16 230Z"/>
+  <path class="detail" d="M29 52 Q150 7 271 52 M29 208 Q150 185 271 208"/>
+  <circle class="ink" cx="239" cy="86" r="29"/>
+  <path class="detail" d="M221 87 Q238 68 257 87 M226 101 Q240 112 254 101"/>
+  <path class="ink" d="M101 194 Q101 149 127 129 Q149 116 176 129 Q202 149 204 194 L212 283 L94 283Z"/>
+  <path class="ink" d="M111 167 Q81 170 74 203 L92 228 L123 203Z"/>
+  <path class="ink" d="M190 164 Q222 161 231 197 L214 227 L185 204Z"/>
+  <path class="ink" d="M108 84 Q112 34 158 32 Q205 34 208 84 Q210 140 158 148 Q111 137 108 84Z"/>
+  <path class="ink" d="M92 87 Q82 36 129 15 Q186 -8 219 39 L215 108 L198 82 L185 58 Q163 84 132 86 L112 112Z"/>
+  <path class="detail" d="M130 88 Q138 77 147 88 M169 88 Q178 77 187 88 M139 112 Q158 127 177 112"/>
+  <path class="detail" d="M118 152 Q158 178 198 152"/>
+  <path class="ink" d="M16 242 Q150 208 284 242 L274 313 L26 313Z"/>
+  <path class="small" d="M42 263 L82 253 L86 282 L44 291Z"/><path class="small" d="M98 257 L135 252 L139 280 L101 286Z"/>
+  <circle class="small" cx="179" cy="268" r="13"/><circle class="small" cx="222" cy="268" r="13"/>
+  <path class="small" d="M247 251 L270 254 L267 289 L244 286Z"/>
+  <path class="detail" d="M58 303 L58 313 M72 299 L72 313 M114 301 L114 313 M128 298 L128 313"/>
+  <path class="small" d="M145 195 Q158 184 171 195 L176 221 L140 221Z"/>
+  <path class="detail" d="M151 206 L165 206 M158 199 L158 213"/>
+  <circle class="small" cx="43" cy="114" r="6"/><path class="ink" d="M252 142 L258 157 L274 160 L262 170 L266 187 L252 178 L238 187 L242 170 L230 160 L246 157Z"/>
+</g>
+</svg>
