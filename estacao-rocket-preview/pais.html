@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&amp;family=Nunito:wght@500;600;700;800;900&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="pais-ui.css">
   </head>
   <body class="parents-page">
     <a class="skip-link" href="#guia">Pular para o conteúdo</a>
@@ -41,7 +42,9 @@
           </div>
         </section>
 
-        <section class="parents-section how-section" aria-labelledby="acompanhar-titulo">
+        <nav class="parents-quick-nav" aria-label="Navegação do guia"><a href="#passos">Por onde começar</a><a href="#idades">Cada idade</a><a href="#ferramentas">Colorir</a><a href="#conversa">Conversa em casa</a><a href="#seguranca">Segurança</a></nav>
+
+        <section class="parents-section how-section" id="passos" aria-labelledby="acompanhar-titulo">
           <p class="eyebrow soft"><span aria-hidden="true">⌖</span> Um caminho simples</p>
           <h2 id="acompanhar-titulo">Acompanhe em quatro passos.</h2>
           <div class="parent-steps">
@@ -68,7 +71,7 @@
           </div>
         </section>
 
-        <section class="parents-section age-guide" aria-labelledby="faixas-titulo">
+        <section class="parents-section age-guide" id="idades" aria-labelledby="faixas-titulo">
           <div class="parents-heading">
             <div>
               <p class="eyebrow soft"><span aria-hidden="true">⌁</span> Uma ajuda para cada fase</p>
@@ -113,7 +116,7 @@
           </div>
         </section>
 
-        <section class="parents-section tool-guide" aria-labelledby="ferramentas-titulo">
+        <section class="parents-section tool-guide" id="ferramentas" aria-labelledby="ferramentas-titulo">
           <div class="tool-copy">
             <p class="eyebrow soft"><span aria-hidden="true">✎</span> Atividade de colorir</p>
             <h2 id="ferramentas-titulo">Como usar as ferramentas.</h2>
@@ -127,7 +130,7 @@
           </div>
         </section>
 
-        <section class="parents-section conversation-section" aria-labelledby="conversa-titulo">
+        <section class="parents-section conversation-section" id="conversa" aria-labelledby="conversa-titulo">
           <div class="conversation-characters" aria-hidden="true">
             <span class="instructor-avatar lucas-avatar"></span>
             <span class="instructor-avatar bia-avatar"></span>
@@ -140,7 +143,7 @@
           </div>
         </section>
 
-        <section class="parents-section safety-section" aria-labelledby="seguranca-titulo">
+        <section class="parents-section safety-section" id="seguranca" aria-labelledby="seguranca-titulo">
           <p class="eyebrow soft"><span aria-hidden="true">✓</span> Uso seguro</p>
           <h2 id="seguranca-titulo">Feito para a família usar junto.</h2>
           <div>
