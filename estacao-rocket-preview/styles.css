@@ -683,3 +683,64 @@ button:disabled, [aria-disabled="true"] {
     height: 132px !important;
   }
 }
+
+/* PAIS.HTML — UX/UI RESPONSIVO */
+.parents-page{background:#f7f4fb;color:#30205f}
+.parents-page .site-shell{max-width:1160px;background:#fffdf9;box-shadow:0 18px 65px rgba(48,32,95,.08)}
+.parents-page .topbar{position:sticky;top:0;z-index:30;background:rgba(255,253,249,.96);backdrop-filter:blur(14px);border-bottom:1px solid #e6def1}
+.parents-page .parents-hero{display:grid;grid-template-columns:1.1fr .9fr;align-items:center;gap:32px;padding:clamp(38px,6vw,76px) clamp(24px,6vw,72px);background:linear-gradient(125deg,#f4efff,#fffaf1 75%);border-bottom:1px solid #e6def1}
+.parents-page .parents-hero h1{font-size:clamp(39px,5.3vw,64px);line-height:1.02;letter-spacing:-.04em;margin:0 0 18px}
+.parents-page .parents-hero>div:first-child>p:not(.eyebrow){max-width:570px;font-size:clamp(15px,1.6vw,18px);line-height:1.65;color:#746987;margin:0 0 25px}
+.parents-page .parents-hero .primary-button{display:inline-flex;align-items:center;gap:12px;min-height:50px;padding:0 21px;border-radius:14px;text-decoration:none}
+.parents-page .parent-rocket-art{width:min(100%,290px);height:260px;justify-self:center;position:relative;border-radius:42%;background:radial-gradient(circle at 50% 52%,#fff 0 34%,#eee5ff 35% 65%,transparent 66%);display:grid;place-items:center}
+.parents-page .parent-rocket-art .rocket-body{width:92px;height:178px;border:5px solid #38236e;border-radius:55% 55% 28% 28%;background:#fff;position:relative;transform:rotate(8deg);box-shadow:inset 0 -25px #e9ddff}
+.parents-page .parent-rocket-art .rocket-body:before{content:"";position:absolute;width:42px;height:42px;border:4px solid #38236e;border-radius:50%;background:#eee7fb;left:20px;top:43px}
+.parents-page .parent-rocket-art .rocket-body:after{content:"";position:absolute;left:15px;bottom:-27px;width:52px;height:48px;border-left:5px solid #38236e;border-right:5px solid #38236e;border-bottom:5px solid #38236e;border-radius:0 0 45% 45%}
+.parents-page .parent-rocket-art>span,.parents-page .parent-rocket-art>i,.parents-page .parent-rocket-art>b{position:absolute;color:#946fd0;font-size:30px;font-style:normal}
+.parents-page .parents-quick-nav{position:sticky;top:72px;z-index:20;display:flex;gap:8px;overflow-x:auto;padding:13px clamp(20px,5vw,58px);background:rgba(255,253,249,.97);border-bottom:1px solid #e6def1;scrollbar-width:thin}
+.parents-page .parents-quick-nav a{flex:0 0 auto;text-decoration:none;color:#5f4b83;background:#f3eff9;border:1px solid #e8e0f2;border-radius:999px;padding:9px 14px;font-size:12px;font-weight:900}
+.parents-page .parents-quick-nav a:hover,.parents-page .parents-quick-nav a:focus-visible{background:#4d2e8d;color:#fff}
+.parents-page .parents-section{padding:clamp(34px,5vw,60px) clamp(22px,5vw,58px);border-bottom:1px solid #e6def1;scroll-margin-top:140px}
+.parents-page .parents-section h2{font-size:clamp(27px,3.5vw,39px);line-height:1.1;letter-spacing:-.03em;margin:0 0 23px}
+.parents-page .parent-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
+.parents-page .parent-steps article,.parents-page .guidance-card,.parents-page .tool-cards article{min-width:0;background:#fff;border:1px solid #e6def1;border-radius:18px;padding:19px;box-shadow:0 7px 22px rgba(48,32,95,.035)}
+.parents-page .parent-steps article>span{width:34px;height:34px;display:grid;place-items:center;border-radius:11px;background:#eee7fb;color:#593894;font-weight:1000;margin-bottom:14px}
+.parents-page .parent-steps h3,.parents-page .guidance-card h3,.parents-page .tool-cards h3{font-size:17px;line-height:1.2;margin:0 0 9px}
+.parents-page .parent-steps p,.parents-page .guidance-card li,.parents-page .tool-cards p,.parents-page .safety-section p{font-size:14px;line-height:1.6;color:#746987}
+.parents-page .parent-steps p{margin:0}
+.parents-page .parents-heading{display:flex;justify-content:space-between;align-items:flex-end;gap:25px;margin-bottom:22px}
+.parents-page .parents-heading h2{margin-bottom:0}
+.parents-page .parent-guide-callout{display:flex;align-items:center;gap:12px;max-width:340px;padding:12px 15px;border-radius:15px;background:#f5f0ff}
+.parents-page .parent-guide-callout p{font-size:12px;line-height:1.5;color:#746987;margin:0}
+.parents-page .age-guidance-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.parents-page .guidance-card{padding:22px}
+.parents-page .guidance-card.tiny{border-top:4px solid #e8bd77}.parents-page .guidance-card.middle{border-top:4px solid #9c7ad3}.parents-page .guidance-card.older{border-top:4px solid #6e9eaa}
+.parents-page .guidance-card .card-label{font-size:11px;font-weight:1000;letter-spacing:.1em;color:#8064a9;margin:0 0 11px}
+.parents-page .guidance-card ul{padding-left:19px;margin:13px 0 0}.parents-page .guidance-card li{padding:0 0 7px}
+.parents-page .tool-guide{display:grid;grid-template-columns:.72fr 1.28fr;gap:35px;align-items:start;background:#faf7ff}
+.parents-page .tool-copy>p:not(.eyebrow){font-size:15px;line-height:1.65;color:#746987;margin:0;max-width:330px}
+.parents-page .tool-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.parents-page .tool-cards article{padding:18px}.parents-page .tool-cards article>span{width:37px;height:37px;display:grid;place-items:center;background:#f0eaff;border-radius:12px;color:#65429e;font-size:20px;margin-bottom:12px}.parents-page .tool-cards p{margin:0}
+.parents-page .conversation-section{display:grid;grid-template-columns:190px 1fr;gap:30px;align-items:center;background:#f4efff}
+.parents-page .conversation-characters{display:flex;justify-content:center;gap:9px}
+.parents-page .conversation-section h2{margin-bottom:14px}
+.parents-page .conversation-section blockquote{margin:0 0 12px;padding:18px 22px;border-left:4px solid #9873d1;border-radius:0 14px 14px 0;background:#fff;font-family:"Baloo 2",sans-serif;font-size:clamp(20px,2.5vw,27px);font-weight:700;line-height:1.25}
+.parents-page .conversation-section>div:last-child>p:last-child{font-size:14px;line-height:1.6;color:#746987;margin:0}
+.parents-page .safety-section{display:grid;grid-template-columns:.7fr 1.3fr;gap:35px;align-items:start}
+.parents-page .safety-section h2{margin:0}.parents-page .safety-section>div{display:grid;grid-template-columns:1fr 1fr;gap:16px}.parents-page .safety-section p{margin:0}
+.parents-page .footer{padding:25px clamp(22px,5vw,58px);background:#30205f;color:#e9e1f5}
+.parents-page .footer p{font-size:12px;line-height:1.5}
+.parents-page a:focus-visible,.parents-page button:focus-visible{outline:3px solid #a98add;outline-offset:3px}
+@media(max-width:850px){.parents-page .parent-steps{grid-template-columns:repeat(2,minmax(0,1fr))}.parents-page .parents-heading{align-items:flex-start;flex-direction:column}.parents-page .tool-guide{grid-template-columns:1fr;gap:20px}.parents-page .safety-section{grid-template-columns:1fr;gap:16px}}
+@media(max-width:600px){
+.parents-page .site-shell{width:100%}.parents-page .parents-hero{grid-template-columns:1fr;text-align:center;gap:15px;padding:36px 22px 28px}
+.parents-page .parents-hero>div:first-child{display:flex;flex-direction:column;align-items:center}.parents-page .parents-hero h1{font-size:clamp(37px,11vw,49px)}
+.parents-page .parent-rocket-art{height:190px;width:210px}.parents-page .parent-rocket-art .rocket-body{transform:scale(.78) rotate(8deg)}
+.parents-page .parents-quick-nav{top:71px;padding:10px 14px}.parents-page .parents-quick-nav a{font-size:11px;padding:8px 12px}
+.parents-page .parents-section{padding:34px 20px;scroll-margin-top:125px}.parents-page .parent-steps,.parents-page .age-guidance-grid{grid-template-columns:1fr}
+.parents-page .parent-steps article{padding:17px}.parents-page .age-guidance-grid{gap:10px}.parents-page .guidance-card{padding:19px}
+.parents-page .tool-cards{grid-template-columns:1fr 1fr;gap:9px}.parents-page .tool-cards article{padding:14px}.parents-page .tool-cards h3{font-size:15px}.parents-page .tool-cards p{font-size:12px}
+.parents-page .conversation-section{grid-template-columns:1fr;gap:15px}.parents-page .conversation-characters{justify-content:flex-start}
+.parents-page .safety-section>div{grid-template-columns:1fr;gap:8px}.parents-page .footer{padding:22px 20px}
+}
+@media(max-width:360px){.parents-page .tool-cards,.parents-page .parent-steps{grid-template-columns:1fr}}
