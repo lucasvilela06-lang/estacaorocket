@@ -641,6 +641,32 @@ const coloringGallery = [
   { id: "space-station", title: "Estação espacial", level: "8–11 anos", detail: "Satélites e planetas", symbol: "🛰️", ages: ["8-11"], artSrc: "/assets/coloring/estacao-espacial.svg" },
   { id: "cosmic-friends", title: "Jesus e a tripulação", level: "8–11 anos", detail: "Uma missão de fé", symbol: "✨", ages: ["8-11"], artSrc: "/assets/coloring/jesus-e-tripulacao.svg" }
 ];
+
+async function loadPublishedColoringArt() {
+  try {
+    const response = await fetch("/api/coloring/catalog", { cache: "no-store" });
+    if (!response.ok) return;
+    const result = await response.json();
+    const published = Array.isArray(result.artworks) ? result.artworks : [];
+    published.forEach((item) => {
+      if (!item.id || !item.src || coloringGallery.some((entry) => entry.id === "published-" + item.id)) return;
+      coloringGallery.push({
+        id: "published-" + item.id,
+        title: item.title || "NOVA ILUSTRAÇÃO",
+        level: (item.ages || []).map((age) => ({ "2-4": "2–4 ANOS", "5-7": "5–7 ANOS", "8-11": "8–11 ANOS" })[age] || age).join(" / ") || "TODAS AS IDADES",
+        detail: item.category || "NOVA MISSÃO",
+        symbol: "✦",
+        ages: (item.ages || []).filter((age) => ["2-4", "5-7", "8-11"].includes(age)),
+        artSrc: item.src
+      });
+    });
+    if ($("#colorGallery") && !$("#colorModal")?.hidden) renderColorGallery();
+  } catch (error) {
+    console.warn("CATÁLOGO ONLINE INDISPONÍVEL; MANTENDO AS ILUSTRAÇÕES LOCAIS.", error);
+  }
+}
+loadPublishedColoringArt();
+
 const defaultDrawingByAge = { "2-4": "rocket-launch", "5-7": "captain-moon", "8-11": "cosmic-friends" };
 let selectedDrawingType = defaultDrawingByAge[selectedAge] || "rocket-launch";
 let activeGalleryFilter = "all";

@@ -1,14 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 300 300">
-<title>Equipe na Lua — desenho para colorir</title>
-<defs>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="900" viewBox="0 0 300 300"><title>Equipe na Lua — desenho para colorir</title><defs>
   <style>
     .ink{fill:#fff;stroke:#21163b;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
     .detail{fill:none;stroke:#21163b;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
     .small{fill:#fff;stroke:#21163b;stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round}
   </style>
-</defs>
-<rect width="300" height="300" fill="#fff"/>
-<g transform="translate(0 -300)">
+</defs><rect width="300" height="300" fill="#fff"/><g>
   <circle class="ink" cx="228" cy="57" r="44"/>
   <path class="detail" d="M203 48 Q228 29 252 48 M210 70 Q228 84 246 70"/>
   <path class="ink" d="M15 269 Q66 234 120 265 L128 293 L14 293Z"/>
@@ -32,5 +28,4 @@
   <path class="ink" d="M219 238 L228 207 L245 207 L254 238Z"/><circle class="small" cx="236" cy="195" r="8"/>
   <path class="detail" d="M196 251 L257 251 M229 221 L242 221"/>
   <path class="detail" d="M18 300 Q73 286 126 300 M218 300 Q265 286 296 299"/>
-</g>
-</svg>
+</g></svg>

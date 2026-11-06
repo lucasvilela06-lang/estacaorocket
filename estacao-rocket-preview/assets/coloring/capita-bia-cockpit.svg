@@ -1,14 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 300 300">
-<title>Capitã Bia no cockpit — desenho para colorir</title>
-<defs>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="900" viewBox="0 0 300 300"><title>Capitã Bia no cockpit — desenho para colorir</title><defs>
   <style>
     .ink{fill:#fff;stroke:#21163b;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
     .detail{fill:none;stroke:#21163b;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
     .small{fill:#fff;stroke:#21163b;stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round}
   </style>
-</defs>
-<rect width="300" height="300" fill="#fff"/>
-<g transform="translate(-600 0)">
+</defs><rect width="300" height="300" fill="#fff"/><g>
   <path class="ink" d="M16 34 Q150 -17 284 34 L284 230 Q150 204 16 230Z"/>
   <path class="detail" d="M29 52 Q150 7 271 52 M29 208 Q150 185 271 208"/>
   <circle class="ink" cx="239" cy="86" r="29"/>
@@ -28,5 +24,4 @@
   <path class="small" d="M145 195 Q158 184 171 195 L176 221 L140 221Z"/>
   <path class="detail" d="M151 206 L165 206 M158 199 L158 213"/>
   <circle class="small" cx="43" cy="114" r="6"/><path class="ink" d="M252 142 L258 157 L274 160 L262 170 L266 187 L252 178 L238 187 L242 170 L230 160 L246 157Z"/>
-</g>
-</svg>
+</g></svg>

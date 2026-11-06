@@ -1,14 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 300 300">
-<title>Jesus e a tripulação — desenho para colorir</title>
-<defs>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="900" viewBox="0 0 300 300"><title>Jesus e a tripulação — desenho para colorir</title><defs>
   <style>
     .ink{fill:#fff;stroke:#21163b;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
     .detail{fill:none;stroke:#21163b;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
     .small{fill:#fff;stroke:#21163b;stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round}
   </style>
-</defs>
-<rect width="300" height="300" fill="#fff"/>
-<g transform="translate(-600 -300)">
+</defs><rect width="300" height="300" fill="#fff"/><g>
   <circle class="ink" cx="244" cy="68" r="43"/>
   <path class="detail" d="M217 57 Q244 38 270 57 M225 83 Q244 98 263 83"/>
   <path class="ink" d="M105 130 Q149 105 192 130 L211 286 L83 286Z"/>
@@ -32,5 +28,4 @@
   <path class="detail" d="M241 214 Q248 207 254 214 M262 214 Q269 207 275 214 M243 230 Q256 239 270 230"/>
   <circle class="small" cx="28" cy="47" r="6"/><circle class="small" cx="286" cy="112" r="7"/>
   <path class="ink" d="M148 9 L155 25 L172 27 L159 39 L163 56 L148 47 L133 56 L137 39 L124 27 L141 25Z"/>
-</g>
-</svg>
+</g></svg>

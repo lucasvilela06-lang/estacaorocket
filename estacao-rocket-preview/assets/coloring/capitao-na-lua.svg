@@ -1,14 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 300 300">
-<title>Capitão na Lua — desenho para colorir</title>
-<defs>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="900" viewBox="0 0 300 300"><title>Capitão na Lua — desenho para colorir</title><defs>
   <style>
     .ink{fill:#fff;stroke:#21163b;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
     .detail{fill:none;stroke:#21163b;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
     .small{fill:#fff;stroke:#21163b;stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round}
   </style>
-</defs>
-<rect width="300" height="300" fill="#fff"/>
-<g transform="translate(-300 0)">
+</defs><rect width="300" height="300" fill="#fff"/><g>
   <circle class="ink" cx="230" cy="66" r="35"/>
   <path class="detail" d="M205 51 Q230 35 255 51 M207 76 Q230 90 253 76"/>
   <path class="ink" d="M95 257 Q94 207 111 176 Q129 152 165 155 Q203 153 220 180 Q232 207 227 257 L215 286 L103 286Z"/>
@@ -32,5 +28,4 @@
   <path class="ink" d="M16 292 Q74 267 126 287 Q180 268 239 288 Q274 274 298 294 L298 316 L16 316Z"/>
   <path class="detail" d="M33 306 L50 301 M81 310 L99 306 M245 308 L264 303"/>
   <circle class="small" cx="38" cy="87" r="6"/><circle class="small" cx="275" cy="112" r="7"/>
-</g>
-</svg>
+</g></svg>

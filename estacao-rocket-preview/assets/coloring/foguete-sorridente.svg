@@ -1,14 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 300 300">
-<title>Foguete sorridente — desenho para colorir</title>
-<defs>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="900" viewBox="0 0 300 300"><title>Foguete sorridente — desenho para colorir</title><defs>
   <style>
     .ink{fill:#fff;stroke:#21163b;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
     .detail{fill:none;stroke:#21163b;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
     .small{fill:#fff;stroke:#21163b;stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round}
   </style>
-</defs>
-<rect width="300" height="300" fill="#fff"/>
-<g transform="translate(0 0)">
+</defs><rect width="300" height="300" fill="#fff"/><g>
   <path class="ink" d="M148 24 C204 73 215 160 178 233 L121 233 C84 160 94 73 148 24Z"/>
   <path class="ink" d="M110 178 C79 193 58 224 51 267 L126 235Z"/>
   <path class="ink" d="M188 178 C219 193 240 224 247 267 L172 235Z"/>
@@ -26,5 +22,4 @@
   <path class="ink" d="M40 104 L47 121 L65 123 L51 135 L55 153 L40 143 L25 153 L29 135 L15 123 L33 121Z"/>
   <path class="ink" d="M252 151 L258 164 L272 165 L261 175 L264 189 L252 181 L240 189 L243 175 L232 165 L246 164Z"/>
   <circle class="small" cx="76" cy="61" r="6"/><circle class="small" cx="198" cy="108" r="5"/><circle class="small" cx="83" cy="186" r="5"/>
-</g>
-</svg>
+</g></svg>
