@@ -601,7 +601,41 @@ let activeCanvasStroke = null;
 const PAINT_HISTORY_LIMIT = 15;
 const PAINT_CANVAS_WIDTH = 672;
 const PAINT_CANVAS_HEIGHT = 800;
-const COLORING_SHEET_URL = "/assets/coloring/rocket-collection.svg";
+
+let COLORING_SHEET_URL = null;
+let COLORING_SHEET_PROMISE = null;
+const COLORING_SHEET_PARTS = Array.from({ length: 13 }, (_, index) =>
+  "/assets/coloring/rocket-original.part" + String(index + 1).padStart(2, "0") + ".txt"
+);
+
+function ensureColoringSheet() {
+  if (COLORING_SHEET_URL) return Promise.resolve(COLORING_SHEET_URL);
+  if (COLORING_SHEET_PROMISE) return COLORING_SHEET_PROMISE;
+
+  COLORING_SHEET_PROMISE = Promise.all(COLORING_SHEET_PARTS.map(async (url) => {
+    const response = await fetch(url, { cache: "force-cache" });
+    if (!response.ok) throw new Error("Falha ao carregar " + url + " (" + response.status + ")");
+    return (await response.text()).trim();
+  })).then((parts) => {
+    const base64 = parts.join("");
+    if (base64.length !== 50592 || !base64.startsWith("iVBORw0KGgo") || !/^[A-Za-z0-9+/=]+$/.test(base64)) {
+      throw new Error("A coleção PNG original chegou incompleta ou inválida.");
+    }
+    const binary = atob(base64);
+    const bytes = new Uint8Array(binary.length);
+    for (let index = 0; index < binary.length; index++) bytes[index] = binary.charCodeAt(index);
+    const png = new Blob([bytes], { type: "image/png" });
+    COLORING_SHEET_URL = URL.createObjectURL(png);
+    return COLORING_SHEET_URL;
+  }).catch((error) => {
+    COLORING_SHEET_PROMISE = null;
+    throw error;
+  });
+
+  return COLORING_SHEET_PROMISE;
+}
+
+
 
 
 
@@ -615,9 +649,7 @@ function renderColorGallery() {
   gallery.innerHTML = visible.map((item) => {
     const active = item.id === selectedDrawingType ? " is-selected" : "";
     const cell = item.artCell || [0, 0];
-    const positionX = cell[0] * 50;
-    const positionY = cell[1] * 100;
-    const preview = '<span class="gallery-preview" role="img" aria-label="Prévia: ' + item.title + '" style="background-image:url(\'' + COLORING_SHEET_URL + '\');background-position:' + positionX + '% ' + positionY + '%"></span>';
+    const preview = '<span class="gallery-preview" data-art-cell="' + cell[0] + ',' + cell[1] + '" role="img" aria-label="Prévia: ' + item.title + '"></span>';
     return '<button class="color-gallery-item' + active + '" type="button" data-drawing="' + item.id + '" aria-pressed="' + (item.id === selectedDrawingType) + '">' +
       preview + '<span class="gallery-copy"><strong>' + item.title + '</strong><small>' + item.level + ' · ' + item.detail + '</small></span>' +
       '<span class="gallery-check" aria-hidden="true">✓</span><span class="gallery-start">✎ Começar</span></button>';
@@ -626,6 +658,19 @@ function renderColorGallery() {
     const active = button.dataset.galleryFilter === activeGalleryFilter;
     button.classList.toggle("is-active", active);
     button.setAttribute("aria-pressed", String(active));
+  });
+
+  ensureColoringSheet().then((url) => {
+    if (!gallery.isConnected) return;
+    gallery.querySelectorAll(".gallery-preview[data-art-cell]").forEach((preview) => {
+      const [column, row] = preview.dataset.artCell.split(",").map(Number);
+      preview.style.backgroundImage = 'url("' + url + '")';
+      preview.style.backgroundSize = "300% 200%";
+      preview.style.backgroundPosition = (column * 50) + "% " + (row * 100) + "%";
+    });
+  }).catch((error) => {
+    console.error("Falha ao carregar a arte original da galeria:", error);
+    showToast("Não foi possível carregar as ilustrações originais. Tente novamente.");
   });
 }
 
@@ -733,25 +778,33 @@ function renderColoring() {
   paintCanvasState = { paintCanvas, lineCanvas, context: paintContext, lineContext, linePixels: null };
 
 
-  const sprite = new Image();
-  sprite.onload = () => {
+
+  ensureColoringSheet().then((sheetUrl) => {
     if (!paintCanvasState || paintCanvasState.lineCanvas !== lineCanvas) return;
-    const [column, row] = selectedPage.artCell || [0, 0];
-    lineContext.fillStyle = "#ffffff";
-    lineContext.fillRect(0, 0, PAINT_CANVAS_WIDTH, PAINT_CANVAS_HEIGHT);
-    const cellSize = 300;
-    const scale = Math.min(PAINT_CANVAS_WIDTH / cellSize, PAINT_CANVAS_HEIGHT / cellSize);
-    const drawWidth = cellSize * scale;
-    const drawHeight = cellSize * scale;
-    const drawX = (PAINT_CANVAS_WIDTH - drawWidth) / 2;
-    const drawY = (PAINT_CANVAS_HEIGHT - drawHeight) / 2;
-    lineContext.drawImage(sprite, column * cellSize, row * cellSize, cellSize, cellSize, drawX, drawY, drawWidth, drawHeight);
-    paintCanvasState.linePixels = lineContext.getImageData(0, 0, PAINT_CANVAS_WIDTH, PAINT_CANVAS_HEIGHT);
-    paintCanvasState.barriers = buildPaintBarrierMap(paintCanvasState.linePixels, PAINT_CANVAS_WIDTH, PAINT_CANVAS_HEIGHT);
-    updateColorProgress();
-  };
-  sprite.onerror = () => showToast("Não foi possível carregar a página de colorir. Atualize a tela e tente novamente.");
-  sprite.src = COLORING_SHEET_URL + "?v=1";
+    const sprite = new Image();
+    sprite.onload = () => {
+      if (!paintCanvasState || paintCanvasState.lineCanvas !== lineCanvas) return;
+      const [column, row] = selectedPage.artCell || [0, 0];
+      lineContext.fillStyle = "#ffffff";
+      lineContext.fillRect(0, 0, PAINT_CANVAS_WIDTH, PAINT_CANVAS_HEIGHT);
+      const cellSize = 400;
+      const scale = Math.min(PAINT_CANVAS_WIDTH / cellSize, PAINT_CANVAS_HEIGHT / cellSize);
+      const drawWidth = cellSize * scale;
+      const drawHeight = cellSize * scale;
+      const drawX = (PAINT_CANVAS_WIDTH - drawWidth) / 2;
+      const drawY = (PAINT_CANVAS_HEIGHT - drawHeight) / 2;
+      lineContext.drawImage(sprite, column * cellSize, row * cellSize, cellSize, cellSize, drawX, drawY, drawWidth, drawHeight);
+      paintCanvasState.linePixels = lineContext.getImageData(0, 0, PAINT_CANVAS_WIDTH, PAINT_CANVAS_HEIGHT);
+      paintCanvasState.barriers = buildPaintBarrierMap(paintCanvasState.linePixels, PAINT_CANVAS_WIDTH, PAINT_CANVAS_HEIGHT);
+      updateColorProgress();
+    };
+    sprite.onerror = () => showToast("Não foi possível abrir o PNG original. Atualize a tela e tente novamente.");
+    sprite.src = sheetUrl;
+  }).catch((error) => {
+    console.error("Falha ao montar o PNG original da pintura:", error);
+    showToast("Não foi possível carregar a ilustração original. Verifique a conexão e tente novamente.");
+  });
+
 
   $$(".paint-swatch").forEach((swatch) => {
     swatch.addEventListener("click", () => {
