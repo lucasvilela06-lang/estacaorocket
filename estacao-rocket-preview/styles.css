@@ -348,3 +348,278 @@ a { color: inherit; }
   .gallery-preview { height: 94px; }
   .color-gallery-item { min-height: 150px; }
 }
+
+
+/* REFINAMENTO DE UI/UX INFANTIL — LEGIBILIDADE, TOQUE E ORIENTAÇÃO */
+html {
+  scroll-padding-top: 18px;
+  -webkit-text-size-adjust: 100%;
+}
+body, body * {
+  text-transform: uppercase;
+}
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 4px solid #f2ba36;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 2px #fff;
+}
+button, a, summary {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+button:disabled, [aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: .55;
+}
+.skip-link {
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+}
+.eyebrow, .card-label {
+  font-size: 12px;
+}
+.age-option small, .journey-step small, .gallery-copy small {
+  font-size: 12px;
+  line-height: 1.3;
+}
+.age-option {
+  min-height: 116px;
+}
+.journey-step button {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  min-height: 48px;
+}
+.modal-close {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  min-height: 48px;
+  display: grid;
+  place-items: center;
+}
+.color-modal {
+  scrollbar-width: thin;
+  scrollbar-color: #b39bdc #f4effb;
+}
+.color-modal .paint-step-label {
+  margin: 15px 0 6px;
+  color: #574579;
+  font-size: 13px;
+  font-weight: 1000;
+  letter-spacing: .04em;
+}
+.color-gallery-filters button {
+  min-height: 44px;
+  padding: 9px 15px;
+  font-size: 13px;
+}
+.color-gallery-item {
+  min-height: 180px;
+  padding: 12px;
+  border-width: 2px;
+  transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease;
+}
+.color-gallery-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(47, 27, 91, .10);
+}
+.color-gallery-item:focus-visible {
+  outline-offset: 2px;
+}
+.gallery-preview {
+  width: min(100%, 156px);
+  aspect-ratio: 1;
+}
+.gallery-copy strong {
+  font-size: 14px;
+  line-height: 1.2;
+}
+.gallery-copy small {
+  font-size: 11px;
+}
+.gallery-start {
+  font-size: 13px;
+}
+.color-back-button {
+  min-height: 44px;
+  padding: 8px 4px;
+  font-size: 14px;
+}
+.paint-palette {
+  gap: 11px;
+  margin: 10px 0 16px;
+}
+.color-modal .paint-swatch {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  min-height: 48px;
+  border: 3px solid rgba(47, 27, 91, .18);
+  box-shadow: 0 2px 0 rgba(47, 27, 91, .12);
+}
+.color-modal .paint-swatch.is-selected {
+  outline: 4px solid #4a2b86;
+  outline-offset: 3px;
+  border-color: #fff;
+  transform: scale(1.04);
+}
+.paint-tools .paint-tool {
+  min-height: 56px;
+  padding: 10px 8px;
+  font-size: 14px;
+  line-height: 1.15;
+}
+.paint-more-options summary {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+}
+.paint-more-grid .paint-tool,
+.paint-more-grid .secondary-button {
+  min-height: 48px;
+  padding: 9px 10px;
+  font-size: 12px;
+}
+.brush-size-control {
+  min-height: 48px;
+  font-size: 12px;
+}
+.brush-size-control input {
+  min-height: 28px;
+  width: 100%;
+  accent-color: #4a2b86;
+}
+.color-save-actions {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 10px;
+  margin-top: 14px;
+}
+.color-save-actions .primary-button,
+.color-save-actions .secondary-button {
+  min-height: 54px;
+  padding: 12px;
+  font-size: 13px;
+}
+.color-save-actions .color-finish-button {
+  margin-top: 0;
+}
+#coloringStage[aria-busy="true"] {
+  position: relative;
+  min-height: 160px;
+}
+#coloringStage[aria-busy="true"]::after {
+  content: "CARREGANDO ILUSTRAÇÃO...";
+  position: absolute;
+  z-index: 5;
+  inset: 12px;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  border-radius: 16px;
+  color: #4a2b86;
+  background: rgba(255, 253, 248, .92);
+  font-size: 13px;
+  font-weight: 1000;
+  letter-spacing: .04em;
+}
+.rocket-paint-stack {
+  width: min(100%, 560px);
+  border: 2px solid #e4d9f2;
+  border-radius: 20px;
+  background: #fff;
+}
+.mobile-nav a, .mobile-nav button {
+  min-height: 56px;
+}
+.mobile-nav a:focus-visible, .mobile-nav button:focus-visible {
+  outline-color: #ffd15c;
+  outline-offset: -2px;
+}
+@media (max-width: 760px) {
+  .age-option {
+    min-height: 84px;
+  }
+  .age-option small, .journey-step small {
+    font-size: 12px;
+  }
+  .journey-step button {
+    width: 48px;
+    height: 48px;
+  }
+  .modal-close {
+    width: 46px;
+    height: 46px;
+    min-width: 46px;
+    min-height: 46px;
+  }
+  .color-modal .paint-swatch {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+  }
+  .color-gallery-filters button {
+    min-height: 44px;
+    padding: 8px 11px;
+    font-size: 12px;
+  }
+  .color-gallery-item {
+    min-height: 158px;
+    padding: 8px;
+  }
+  .gallery-copy strong {
+    font-size: 13px;
+  }
+  .gallery-copy small {
+    font-size: 11px;
+  }
+  .color-save-actions {
+    grid-template-columns: 1fr;
+  }
+  .color-save-actions .primary-button,
+  .color-save-actions .secondary-button {
+    width: 100%;
+  }
+  .paint-tools .paint-tool {
+    min-height: 54px;
+    padding: 8px 5px;
+    font-size: 12px;
+  }
+  .paint-more-grid .paint-tool,
+  .paint-more-grid .secondary-button {
+    min-height: 48px;
+    font-size: 11px;
+  }
+  .coloring-stage {
+    overflow: visible;
+  }
+  .rocket-paint-stack {
+    width: min(100%, 420px);
+  }
+}
+@media (max-width: 380px) {
+  .color-gallery-filters {
+    gap: 5px;
+  }
+  .color-gallery-filters button {
+    flex: 1 1 calc(50% - 5px);
+    padding-inline: 7px;
+  }
+  .color-modal .paint-tools {
+    grid-template-columns: 1fr;
+  }
+  .paint-tools .paint-tool {
+    min-height: 48px;
+  }
+}
+@media (hover: none) {
+  .age-option:hover, .color-gallery-item:hover,
+  .primary-button:hover, .secondary-button:hover {
+    transform: none;
+  }
+}
