@@ -602,41 +602,11 @@ const PAINT_HISTORY_LIMIT = 15;
 const PAINT_CANVAS_WIDTH = 672;
 const PAINT_CANVAS_HEIGHT = 800;
 
-let COLORING_SHEET_URL = null;
-let COLORING_SHEET_PROMISE = null;
-const COLORING_SHEET_PARTS = Array.from({ length: 13 }, (_, index) =>
-  "/assets/coloring/rocket-original.part" + String(index + 1).padStart(2, "0") + ".txt"
-);
+const COLORING_SHEET_URL = "/assets/coloring/rocket-original.png";
 
 function ensureColoringSheet() {
-  if (COLORING_SHEET_URL) return Promise.resolve(COLORING_SHEET_URL);
-  if (COLORING_SHEET_PROMISE) return COLORING_SHEET_PROMISE;
-
-  COLORING_SHEET_PROMISE = Promise.all(COLORING_SHEET_PARTS.map(async (url) => {
-    const response = await fetch(url, { cache: "force-cache" });
-    if (!response.ok) throw new Error("Falha ao carregar " + url + " (" + response.status + ")");
-    return (await response.text()).trim();
-  })).then((parts) => {
-    const base64 = parts.join("");
-    if (base64.length !== 50592 || !base64.startsWith("iVBORw0KGgo") || !/^[A-Za-z0-9+/=]+$/.test(base64)) {
-      throw new Error("A coleção PNG original chegou incompleta ou inválida.");
-    }
-    const binary = atob(base64);
-    const bytes = new Uint8Array(binary.length);
-    for (let index = 0; index < binary.length; index++) bytes[index] = binary.charCodeAt(index);
-    const png = new Blob([bytes], { type: "image/png" });
-    COLORING_SHEET_URL = URL.createObjectURL(png);
-    return COLORING_SHEET_URL;
-  }).catch((error) => {
-    COLORING_SHEET_PROMISE = null;
-    throw error;
-  });
-
-  return COLORING_SHEET_PROMISE;
+  return Promise.resolve(COLORING_SHEET_URL);
 }
-
-
-
 
 
 
