@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#3b227c">
-    <meta name="description" content="Uma experiência semanal de histórias, atividades e conversas em família.">
-    <title>Estação Rocket | Deus Grandão</title>
+    <meta name="description" content="UMA EXPERIÊNCIA SEMANAL DE HISTÓRIAS, ATIVIDADES E CONVERSAS EM FAMÍLIA.">
+    <title>ESTAÇÃO ROCKET | DEUS GRANDÃO</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&amp;family=Nunito:wght@500;600;700;800;900&amp;display=swap" rel="stylesheet">
@@ -16,7 +16,7 @@
 
     <div class="site-shell">
       <header class="topbar">
-        <a class="brand" href="#inicio" aria-label="Estação Rocket, início">
+        <a class="brand" href="#inicio" aria-label="ESTAÇÃO ROCKET, INÍCIO">
           <span class="official-logo" aria-hidden="true"></span>
           <span class="sr-only">Estação Rocket</span>
         </a>
@@ -24,7 +24,7 @@
           <span class="live-dot" aria-hidden="true"></span>
           Série Deus Grandão
         </div>
-        <a class="family-link" href="pais.html">
+        <a class="family-link" href="pais.html" aria-label="ESPAÇO DA FAMÍLIA">
           <span aria-hidden="true">♡</span>
           Espaço da família
         </a>
@@ -75,16 +75,16 @@
             </div>
             <p>Escolha um caminho para receber o jeito certo de viver esta aventura.</p>
           </div>
-          <div class="age-picker" role="tablist" aria-label="Escolha da faixa etária">
-            <button class="age-option is-active" type="button" role="tab" aria-selected="true" data-age="2-4">
+          <div class="age-picker" role="group" aria-label="ESCOLHA DA FAIXA ETÁRIA">
+            <button class="age-option is-active" type="button" aria-pressed="true" data-age="2-4">
               <span class="age-icon" aria-hidden="true">☀</span>
               <span><strong>2–4 anos</strong><small>Pequenos passos</small></span>
             </button>
-            <button class="age-option" type="button" role="tab" aria-selected="false" data-age="5-7">
+            <button class="age-option" type="button" aria-pressed="false" data-age="5-7">
               <span class="age-icon" aria-hidden="true">☄</span>
               <span><strong>5–7 anos</strong><small>Descobertas</small></span>
             </button>
-            <button class="age-option" type="button" role="tab" aria-selected="false" data-age="8-11">
+            <button class="age-option" type="button" aria-pressed="false" data-age="8-11">
               <span class="age-icon" aria-hidden="true">✹</span>
               <span><strong>8–11 anos</strong><small>Em missão</small></span>
             </button>
@@ -99,7 +99,7 @@
             <p id="missionCopy">Veja a história, encontre palavras de adoração, pinte, descubra e converse em família.</p>
           </div>
           <ol class="journey">
-            <li class="journey-step complete">
+            <li class="journey-step" id="storyStep">
               <span class="step-badge" aria-hidden="true">1</span>
               <span><strong>Ouvir</strong><small id="storyLabel">História em imagens</small></span>
               <button type="button" data-start-story aria-label="Ouvir a história">→</button>
@@ -220,16 +220,16 @@
     </div>
 
     <nav class="mobile-nav" aria-label="Navegação principal">
-      <a href="#inicio" class="is-current"><span aria-hidden="true">⌂</span>Início</a>
-      <a href="#historias"><span aria-hidden="true">▤</span>Histórias</a>
+      <a href="#inicio" class="is-current" data-nav-target="#inicio" aria-current="page"><span aria-hidden="true">⌂</span>Início</a>
+      <a href="#historias" data-nav-target="#historias"><span aria-hidden="true">▤</span>Histórias</a>
       <button type="button" data-open-activity><span aria-hidden="true">✎</span>Atividades</button>
       <a href="pais.html"><span aria-hidden="true">♡</span>Família</a>
     </nav>
 
     <div class="modal-backdrop" id="storyModal" hidden>
-      <section class="modal story-modal" role="dialog" aria-modal="true" aria-labelledby="story-modal-title">
+      <section class="modal story-modal" role="dialog" aria-modal="true" aria-labelledby="story-modal-title" aria-describedby="storySlideText" tabindex="-1">
         <button class="modal-close" type="button" data-close-modal aria-label="Fechar">×</button>
-        <div class="story-progress" aria-label="Progresso da história"><span class="is-current"></span><span></span><span></span></div>
+        <div class="story-progress" role="progressbar" aria-label="PROGRESSO DA HISTÓRIA" aria-valuemin="1" aria-valuemax="8" aria-valuenow="1"><span class="is-current"></span><span></span><span></span></div>
         <div class="story-scene" id="storyScene" aria-hidden="true">
           <span class="scene-star">✦</span><span class="scene-star scene-star-two">✦</span><div class="scene-sun"></div><div class="scene-planet"></div><div class="scene-hill"></div>
         </div>
@@ -248,7 +248,7 @@
     </div>
 
     <div class="modal-backdrop" id="activityModal" hidden>
-      <section class="modal activity-modal" role="dialog" aria-modal="true" aria-labelledby="activity-modal-title">
+      <section class="modal activity-modal" role="dialog" aria-modal="true" aria-labelledby="activity-modal-title" aria-describedby="activityModalCopy" tabindex="-1">
         <button class="modal-close" type="button" data-close-modal aria-label="Fechar">×</button>
         <p class="eyebrow soft"><span aria-hidden="true">✦</span> Brincadeira da semana</p>
         <h2 id="activity-modal-title">Colecione corações de adoração!</h2>
@@ -274,12 +274,12 @@
 
     
 <div class="modal-backdrop" id="colorModal" hidden>
-  <section class="modal color-modal" role="dialog" aria-modal="true" aria-labelledby="color-gallery-title">
+  <section class="modal color-modal" role="dialog" aria-modal="true" aria-labelledby="color-gallery-title" aria-describedby="color-gallery-description" tabindex="-1">
     <button class="modal-close" type="button" data-close-modal aria-label="Fechar">×</button>
     <div id="colorGalleryView">
       <p class="eyebrow soft"><span aria-hidden="true">✎</span> Galeria de desenhos</p>
       <h2 id="color-gallery-title">Vamos colorir!</h2>
-      <p class="color-gallery-intro">Escolha uma missão para começar.</p>
+      <p class="color-gallery-intro" id="color-gallery-description">ESCOLHA UMA MISSÃO PARA COMEÇAR.</p>
       <div class="color-gallery-filters" id="colorGalleryFilters" role="group" aria-label="Filtrar desenhos por idade">
         <button type="button" data-gallery-filter="all" class="is-active" aria-pressed="true">Todas</button>
         <button type="button" data-gallery-filter="2-4" aria-pressed="false">2–4 anos</button>
@@ -294,21 +294,22 @@
       <p class="eyebrow soft"><span aria-hidden="true">✎</span> Minha missão de pintura</p>
       <h2 id="color-modal-title">Astronauta Rocket</h2>
       <p id="colorModalCopy">Escolha uma cor e pinte cada detalhe do seu jeito.</p>
-      <div class="color-progress"><span id="colorProgress">PRONTO PARA COLORIR</span></div>
-      <div class="paint-palette" id="paintPalette" role="group" aria-label="Escolha uma cor"></div>
-      <div class="paint-tools" id="paintTools" role="group" aria-label="Ferramentas principais">
-        <button class="paint-tool is-active" type="button" data-tool="bucket" aria-pressed="true"><span aria-hidden="true">▰</span> Balde</button>
-        <button class="paint-tool" type="button" data-tool="brush" aria-pressed="false"><span aria-hidden="true">╱</span> Pincel</button>
-        <button class="paint-tool undo-tool" type="button" id="undoColor" disabled><span aria-hidden="true">↶</span> Desfazer</button>
+      <div class="color-progress"><span id="colorProgress" aria-live="polite">PRONTO PARA COLORIR</span></div>
+      <p class="paint-step-label">1. ESCOLHA UMA COR</p>
+      <div class="paint-palette" id="paintPalette" role="group" aria-label="ESCOLHA UMA COR"></div>
+      <p class="paint-step-label">2. ESCOLHA COMO PINTAR</p>
+      <div class="paint-tools" id="paintTools" role="group" aria-label="FERRAMENTAS DE PINTURA">
+        <button class="paint-tool is-active" type="button" data-tool="bucket" aria-pressed="true"><span aria-hidden="true">▰</span> BALDE</button>
+        <button class="paint-tool" type="button" data-tool="brush" aria-pressed="false"><span aria-hidden="true">╱</span> PINCEL</button>
+        <button class="paint-tool" type="button" data-tool="eraser" aria-pressed="false"><span aria-hidden="true">⌫</span> BORRACHA</button>
       </div>
       <details class="paint-more-options">
-        <summary>Mais opções</summary>
+        <summary>MAIS OPÇÕES</summary>
         <div class="paint-more-grid">
-          <button class="paint-tool" type="button" data-tool="eraser" aria-pressed="false"><span aria-hidden="true">⌫</span> Borracha</button>
-          <button class="paint-tool undo-tool" type="button" id="redoColor" disabled><span aria-hidden="true">↷</span> Refazer</button>
-          <button class="paint-tool" type="button" id="clearColor"><span aria-hidden="true">⟲</span> Limpar desenho</button>
-          <label class="brush-size-control" for="brushSize">Tamanho do pincel <input id="brushSize" type="range" min="6" max="34" value="18"></label>
-          <button class="secondary-button" type="button" id="downloadColor">Baixar desenho <span aria-hidden="true">↓</span></button>
+          <button class="paint-tool undo-tool" type="button" id="undoColor" disabled><span aria-hidden="true">↶</span> DESFAZER</button>
+          <button class="paint-tool undo-tool" type="button" id="redoColor" disabled><span aria-hidden="true">↷</span> REFAZER</button>
+          <button class="paint-tool" type="button" id="clearColor"><span aria-hidden="true">⟲</span> LIMPAR DESENHO</button>
+          <label class="brush-size-control" for="brushSize">TAMANHO DO PINCEL <input id="brushSize" type="range" min="6" max="34" value="18"></label>
         </div>
       </details>
       <div class="coloring-stage" id="coloringStage" aria-live="polite"></div>
@@ -317,13 +318,16 @@
         <strong>Desenho concluído!</strong>
         <p>Sua criação está ganhando vida!</p>
       </div>
-      <button class="primary-button color-finish-button" type="button" data-close-modal>Concluir <span aria-hidden="true">♡</span></button>
+      <div class="color-save-actions">
+        <button class="secondary-button" type="button" id="downloadColor">SALVAR MEU DESENHO <span aria-hidden="true">↓</span></button>
+        <button class="primary-button color-finish-button" type="button" id="finishColoring">CONCLUIR MISSÃO <span aria-hidden="true">♡</span></button>
+      </div>
     </div>
   </section>
 </div>
 
 <div class="modal-backdrop" id="discoveryModal" hidden>
-      <section class="modal discovery-modal" role="dialog" aria-modal="true" aria-labelledby="discovery-modal-title">
+      <section class="modal discovery-modal" role="dialog" aria-modal="true" aria-labelledby="discovery-modal-title" aria-describedby="discoveryModalCopy" tabindex="-1">
         <button class="modal-close" type="button" data-close-modal aria-label="Fechar">×</button>
         <p class="eyebrow soft"><span aria-hidden="true">⌁</span> Jogo da criação</p>
         <h2 id="discovery-modal-title">Quem fez essas coisas?</h2>
@@ -344,7 +348,7 @@
     </div>
 
     <div class="modal-backdrop" id="familyModal" hidden>
-      <section class="modal family-modal" role="dialog" aria-modal="true" aria-labelledby="family-modal-title">
+      <section class="modal family-modal" role="dialog" aria-modal="true" aria-labelledby="family-modal-title" aria-describedby="guidePractice" tabindex="-1">
         <button class="modal-close" type="button" data-close-modal aria-label="Fechar">×</button>
         <p class="eyebrow soft"><span aria-hidden="true">♡</span> Guia para a família</p>
         <h2 id="family-modal-title">Uma conversa de cinco minutos.</h2>
