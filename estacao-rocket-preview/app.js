@@ -585,12 +585,12 @@ function coloringSvg(type) {
 }
 
 const coloringGallery = [
-  { id: "rocket-launch", title: "Foguete sorridente", level: "2–4 anos", detail: "Formas grandes", symbol: "🚀", ages: ["2-4"] },
-  { id: "captain-moon", title: "Explorador lunar", level: "2–7 anos", detail: "Astronauta e foguete", symbol: "🌙", ages: ["2-4", "5-7"] },
-  { id: "bia-cockpit", title: "Pilota espacial", level: "5–7 anos", detail: "Painel de comando", symbol: "👩‍🚀", ages: ["5-7"] },
-  { id: "moon-team", title: "Equipe na Lua", level: "5–11 anos", detail: "Dupla e rover", symbol: "🌕", ages: ["5-7", "8-11"] },
-  { id: "space-station", title: "Estação espacial", level: "8–11 anos", detail: "Satélites e planetas", symbol: "🛰️", ages: ["8-11"] },
-  { id: "cosmic-friends", title: "Amigos do cosmos", level: "8–11 anos", detail: "Missão pelo universo", symbol: "✨", ages: ["8-11"] }
+  { id: "rocket-launch", title: "Foguete sorridente", level: "2–4 anos", detail: "Formas grandes", symbol: "🚀", ages: ["2-4"], artCell: [0, 0] },
+  { id: "captain-moon", title: "Capitão na Lua", level: "2–7 anos", detail: "Astronauta e foguete", symbol: "🚀", ages: ["2-4", "5-7"], artCell: [1, 0] },
+  { id: "bia-cockpit", title: "Capitã Bia no cockpit", level: "5–7 anos", detail: "Painel de comando", symbol: "👩‍🚀", ages: ["5-7"], artCell: [2, 0] },
+  { id: "moon-team", title: "Equipe na Lua", level: "5–11 anos", detail: "Dupla e rover", symbol: "🌕", ages: ["5-7", "8-11"], artCell: [0, 1] },
+  { id: "space-station", title: "Estação espacial", level: "8–11 anos", detail: "Satélites e planetas", symbol: "🛰️", ages: ["8-11"], artCell: [1, 1] },
+  { id: "cosmic-friends", title: "Jesus e a tripulação", level: "8–11 anos", detail: "Uma missão de fé", symbol: "✨", ages: ["8-11"], artCell: [2, 1] }
 ];
 const defaultDrawingByAge = { "2-4": "rocket-launch", "5-7": "captain-moon", "8-11": "cosmic-friends" };
 let selectedDrawingType = defaultDrawingByAge[selectedAge] || "rocket-launch";
@@ -601,6 +601,8 @@ let activeCanvasStroke = null;
 const PAINT_HISTORY_LIMIT = 15;
 const PAINT_CANVAS_WIDTH = 672;
 const PAINT_CANVAS_HEIGHT = 800;
+const COLORING_SHEET_URL = "/assets/coloring/rocket-collection.svg";
+
 
 
 
@@ -612,14 +614,12 @@ function renderColorGallery() {
   );
   gallery.innerHTML = visible.map((item) => {
     const active = item.id === selectedDrawingType ? " is-selected" : "";
-    const thumbnailSvg = coloringSvg(item.id)
-      .replace(/class="paint-region"/g, 'fill="#fffdf8" stroke="#25134d" stroke-width="4"')
-      .replace(/class="art-line"/g, "")
-      .replace("<svg ", '<svg xmlns="http://www.w3.org/2000/svg" ');
-    const thumbnail = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(thumbnailSvg);
+    const cell = item.artCell || [0, 0];
+    const positionX = cell[0] * 50;
+    const positionY = cell[1] * 100;
+    const preview = '<span class="gallery-preview" role="img" aria-label="Prévia: ' + item.title + '" style="background-image:url(\'' + COLORING_SHEET_URL + '\');background-position:' + positionX + '% ' + positionY + '%"></span>';
     return '<button class="color-gallery-item' + active + '" type="button" data-drawing="' + item.id + '" aria-pressed="' + (item.id === selectedDrawingType) + '">' +
-      '<img class="gallery-preview" src="' + thumbnail + '" alt="" loading="lazy">' +
-      '<span class="gallery-copy"><strong>' + item.title + '</strong><small>' + item.level + ' · ' + item.detail + '</small></span>' +
+      preview + '<span class="gallery-copy"><strong>' + item.title + '</strong><small>' + item.level + ' · ' + item.detail + '</small></span>' +
       '<span class="gallery-check" aria-hidden="true">✓</span><span class="gallery-start">✎ Começar</span></button>';
   }).join("");
   $$("#colorGalleryFilters [data-gallery-filter]").forEach((button) => {
@@ -733,41 +733,26 @@ function renderColoring() {
   lineContext.clearRect(0, 0, PAINT_CANVAS_WIDTH, PAINT_CANVAS_HEIGHT);
   paintCanvasState = { paintCanvas, lineCanvas, context: paintContext, lineContext, linePixels: null };
 
-  const svgDocument = new DOMParser().parseFromString(coloringSvg(selectedDrawingType), "image/svg+xml");
-  if (svgDocument.querySelector("parsererror")) {
-    showToast("Não foi possível abrir esta ilustração.");
-    return;
-  }
-  svgDocument.querySelectorAll(".paint-region").forEach((shape) => {
-    shape.setAttribute("fill", "none");
-    shape.setAttribute("stroke", "#25134d");
-    shape.setAttribute("stroke-width", "4");
-  });
-  const svgElement = svgDocument.documentElement;
-  svgElement.setAttribute("xmlns", "http://www.w3.org/2000/svg");
-  svgElement.setAttribute("width", String(PAINT_CANVAS_WIDTH));
-  svgElement.setAttribute("height", String(PAINT_CANVAS_HEIGHT));
-  const svgBlob = new Blob([new XMLSerializer().serializeToString(svgElement)], { type: "image/svg+xml;charset=utf-8" });
-  const svgUrl = URL.createObjectURL(svgBlob);
-  const lineImage = new Image();
-  lineImage.onload = () => {
-    if (!paintCanvasState || paintCanvasState.lineCanvas !== lineCanvas) {
-      URL.revokeObjectURL(svgUrl);
-      return;
-    }
+
+  const sprite = new Image();
+  sprite.onload = () => {
+    if (!paintCanvasState || paintCanvasState.lineCanvas !== lineCanvas) return;
+    const [column, row] = selectedPage.artCell || [0, 0];
     lineContext.fillStyle = "#ffffff";
     lineContext.fillRect(0, 0, PAINT_CANVAS_WIDTH, PAINT_CANVAS_HEIGHT);
-    lineContext.drawImage(lineImage, 0, 0, PAINT_CANVAS_WIDTH, PAINT_CANVAS_HEIGHT);
-    URL.revokeObjectURL(svgUrl);
+    const cellSize = 300;
+    const scale = Math.min(PAINT_CANVAS_WIDTH / cellSize, PAINT_CANVAS_HEIGHT / cellSize);
+    const drawWidth = cellSize * scale;
+    const drawHeight = cellSize * scale;
+    const drawX = (PAINT_CANVAS_WIDTH - drawWidth) / 2;
+    const drawY = (PAINT_CANVAS_HEIGHT - drawHeight) / 2;
+    lineContext.drawImage(sprite, column * cellSize, row * cellSize, cellSize, cellSize, drawX, drawY, drawWidth, drawHeight);
     paintCanvasState.linePixels = lineContext.getImageData(0, 0, PAINT_CANVAS_WIDTH, PAINT_CANVAS_HEIGHT);
     paintCanvasState.barriers = buildPaintBarrierMap(paintCanvasState.linePixels, PAINT_CANVAS_WIDTH, PAINT_CANVAS_HEIGHT);
     updateColorProgress();
   };
-  lineImage.onerror = () => {
-    URL.revokeObjectURL(svgUrl);
-    showToast("Não foi possível preparar o desenho. Tente escolher outra ilustração.");
-  };
-  lineImage.src = svgUrl;
+  sprite.onerror = () => showToast("Não foi possível carregar a página de colorir. Atualize a tela e tente novamente.");
+  sprite.src = COLORING_SHEET_URL + "?v=1";
 
   $$(".paint-swatch").forEach((swatch) => {
     swatch.addEventListener("click", () => {
