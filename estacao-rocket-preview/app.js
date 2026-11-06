@@ -319,9 +319,18 @@ let discoveryFound = new Set();
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => Array.from(document.querySelectorAll(selector));
 
+function uppercaseAccessibilityLabels(root = document) {
+  root.querySelectorAll("[aria-label], [title], img[alt]").forEach((element) => {
+    ["aria-label", "title", "alt"].forEach((attribute) => {
+      const value = element.getAttribute(attribute);
+      if (value) element.setAttribute(attribute, value.toLocaleUpperCase("pt-BR"));
+    });
+  });
+}
+
 function showToast(message) {
   const toast = $("#toast");
-  toast.textContent = message;
+  toast.textContent = String(message).toLocaleUpperCase("pt-BR");
   toast.classList.add("is-visible");
   window.clearTimeout(toastTimer);
   toastTimer = window.setTimeout(() => toast.classList.remove("is-visible"), 3100);
