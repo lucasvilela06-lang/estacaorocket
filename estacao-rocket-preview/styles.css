@@ -339,3 +339,12 @@ a { color: inherit; }
   .coloring-stage { padding: 7px; }
   .rocket-paint-stack { width: min(100%, 390px); }
 }
+
+/* Miniaturas recortadas da coleção ilustrada de colorir */
+.gallery-preview { display: block; width: 100%; height: 112px; border-radius: 10px; background-color: #fff; background-image: url("/assets/coloring/rocket-collection.svg"); background-size: 300% 200%; background-repeat: no-repeat; }
+.color-gallery-item { min-height: 170px; }
+.color-gallery-item .gallery-copy { margin-top: 3px; }
+@media (max-width: 760px) {
+  .gallery-preview { height: 94px; }
+  .color-gallery-item { min-height: 150px; }
+}
