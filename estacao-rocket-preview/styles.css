@@ -744,3 +744,8 @@ button:disabled, [aria-disabled="true"] {
 .parents-page .safety-section>div{grid-template-columns:1fr;gap:8px}.parents-page .footer{padding:22px 20px}
 }
 @media(max-width:360px){.parents-page .tool-cards,.parents-page .parent-steps{grid-template-columns:1fr}}
+
+/* Leitura natural na área dos responsáveis */
+.parents-page{ text-transform:none; }
+.parents-page .parents-hero h1,.parents-page .parents-section h2,.parents-page .parents-section h3{ text-transform:none; }
+.parents-page .eyebrow,.parents-page .card-label{ text-transform:uppercase; }
