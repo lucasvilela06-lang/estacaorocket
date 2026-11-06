@@ -11,7 +11,7 @@ No projeto conectado ao repositório, abra **Settings → Environment Variables*
 | `OPENAI_API_KEY` | Chave da API da OpenAI para gerar imagens |
 | `ROCKET_STUDIO_PASSWORD` | Senha escolhida para entrar no Studio |
 | `ROCKET_STUDIO_SESSION_SECRET` | Segredo aleatório com pelo menos 32 caracteres |
-| `OPENAI_IMAGE_MODEL` | Opcional. Padrão: `gpt-image-2.6-sunburst` |
+| `OPENAI_IMAGE_MODEL` | Opcional. Padrão: `gpt-image-2.5-sunburst` (modelo listado na página oficial de preços da API). |
 | `SUPABASE_URL` | URL do projeto Supabase |
 | `SUPABASE_SERVICE_ROLE_KEY` | Chave de serviço do Supabase, somente no servidor |
 

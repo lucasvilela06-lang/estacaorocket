@@ -41,7 +41,7 @@ module.exports = async function handler(req, res) {
   try {
     recent.push(now);
     globalThis.__rocketStudioGenTimes.set(sessionCookie, recent);
-    const model = process.env.OPENAI_IMAGE_MODEL || "gpt-image-2.6-sunburst";
+    const model = process.env.OPENAI_IMAGE_MODEL || "gpt-image-2.5-sunburst";
     const response = await fetch("https://api.openai.com/v1/images/generations", {
       method: "POST",
       headers: { "Authorization": "Bearer " + apiKey, "Content-Type": "application/json" },
