@@ -1203,6 +1203,32 @@ $("[data-say-verse]").addEventListener("click", () => {
   }
 });
 
+function updateMobileNavigation(target) {
+  $$(".mobile-nav [data-nav-target]").forEach((link) => {
+    const active = link.dataset.navTarget === target;
+    link.classList.toggle("is-current", active);
+    if (active) link.setAttribute("aria-current", "page");
+    else link.removeAttribute("aria-current");
+  });
+}
+
+$$(".mobile-nav [data-nav-target]").forEach((link) => {
+  link.addEventListener("click", () => updateMobileNavigation(link.dataset.navTarget));
+});
+
+if ("IntersectionObserver" in window) {
+  const navObserver = new IntersectionObserver((entries) => {
+    const visible = entries.filter((entry) => entry.isIntersecting);
+    const current = visible.sort((left, right) => right.intersectionRatio - left.intersectionRatio)[0];
+    if (current) updateMobileNavigation("#" + current.target.id);
+  }, { rootMargin: "-18% 0px -66% 0px", threshold: [0.1, 0.25, 0.5] });
+
+  ["inicio", "historias"].forEach((id) => {
+    const section = $("#" + id);
+    if (section) navObserver.observe(section);
+  });
+}
+
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape" && activeModal) {
     closeModal(activeModal);
