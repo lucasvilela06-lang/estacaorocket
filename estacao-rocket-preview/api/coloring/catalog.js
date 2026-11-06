@@ -1,13 +1,12 @@
+const { json, getSupabaseConfig, supabaseHeaders } = require("../../lib/studio-auth");
 module.exports = async function handler(req, res) {
-  res.setHeader("Content-Type", "application/json; charset=utf-8");
   res.setHeader("Cache-Control", "public, s-maxage=60, stale-while-revalidate=300");
-  if (req.method !== "GET") { res.statusCode = 405; return res.end(JSON.stringify({ error: "MÉTODO NÃO PERMITIDO." })); }
-  const url = String(process.env.SUPABASE_URL || "").replace(/\/$/, "");
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !key) { res.statusCode = 200; return res.end(JSON.stringify({ artworks: [] })); }
+  if (req.method !== "GET") return json(res, 405, { error: "MÉTODO NÃO PERMITIDO." });
+  const { url, key } = getSupabaseConfig();
+  if (!url || !key) return json(res, 200, { artworks: [] });
   try {
     const response = await fetch(url + "/rest/v1/coloring_artworks?select=id,title,description,age_groups,difficulty,category,file_path,width,height&published=eq.true&order=created_at.desc", {
-      headers: { "Authorization": "Bearer " + key, "apikey": key }
+      headers: supabaseHeaders(key)
     });
     const data = await response.json();
     if (!response.ok) throw new Error("CATÁLOGO INDISPONÍVEL");
@@ -18,8 +17,8 @@ module.exports = async function handler(req, res) {
       src: url + "/storage/v1/object/public/rocket-coloring/" + item.file_path,
       width: item.width, height: item.height
     }));
-    return res.end(JSON.stringify({ artworks }));
+    return json(res, 200, { artworks });
   } catch (_) {
-    return res.end(JSON.stringify({ artworks: [] }));
+    return json(res, 200, { artworks: [] });
   }
 };

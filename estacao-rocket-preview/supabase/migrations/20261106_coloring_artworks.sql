@@ -14,6 +14,7 @@ create table if not exists public.coloring_artworks (
 );
 
 alter table public.coloring_artworks enable row level security;
+grant all on table public.coloring_artworks to service_role;
 drop policy if exists "Public can read published coloring artworks" on public.coloring_artworks;
 create policy "Public can read published coloring artworks"
   on public.coloring_artworks for select

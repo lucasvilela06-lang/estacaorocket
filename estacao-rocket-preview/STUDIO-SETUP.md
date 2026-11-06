@@ -13,18 +13,19 @@ No projeto conectado ao repositório, abra **Settings → Environment Variables*
 | `ROCKET_STUDIO_SESSION_SECRET` | Segredo aleatório com pelo menos 32 caracteres |
 | `OPENAI_IMAGE_MODEL` | Opcional. Padrão: `gpt-image-2.5-sunburst` (modelo listado na página oficial de preços da API). |
 | `SUPABASE_URL` | URL do projeto Supabase |
-| `SUPABASE_SERVICE_ROLE_KEY` | Chave de serviço do Supabase, somente no servidor |
+| `SUPABASE_SECRET_KEY` | Chave secreta `sb_secret_...` do Supabase, somente no servidor |
 
-Aplique as variáveis aos ambientes Production e Preview conforme a necessidade. Nunca coloque `OPENAI_API_KEY` ou `SUPABASE_SERVICE_ROLE_KEY` em arquivos públicos, no HTML ou em scripts do navegador. Depois de salvar variáveis, faça um novo deploy.
+Aplique as variáveis aos ambientes Production e Preview conforme a necessidade. `SUPABASE_SECRET_KEY` é uma credencial privilegiada: mantenha-a somente nas variáveis do servidor Vercel; nunca a coloque no navegador, HTML, GitHub ou mensagens. Depois de salvar variáveis, faça um novo deploy.
 
 ## 2. Preparar a biblioteca compartilhada
 
-1. Crie um projeto Supabase.
-2. No SQL Editor do Supabase, execute `supabase/migrations/20261106_coloring_artworks.sql`.
-3. Copie a Project URL para `SUPABASE_URL`.
-4. Copie a chave **service_role** para `SUPABASE_SERVICE_ROLE_KEY`, exclusivamente como variável de ambiente da Vercel.
+1. Crie um projeto no [Supabase](https://supabase.com/dashboard).
+2. Abra o **SQL Editor**, crie uma nova consulta, copie o conteúdo de `supabase/migrations/20261106_coloring_artworks.sql` do GitHub e execute-o.
+3. Em **Project Settings → API Keys**, copie a **Project URL** para `SUPABASE_URL`.
+4. Na mesma área, crie ou copie a **Secret key** que começa com `sb_secret_` e adicione-a como `SUPABASE_SECRET_KEY` na Vercel. Não use a Publishable key.
+5. Faça um novo deployment da Vercel.
 
-O bucket `rocket-coloring` será público para leitura das imagens aprovadas. Escritas e publicações são feitas pela função de servidor, com a chave de serviço.
+O bucket `rocket-coloring` será público para leitura das imagens aprovadas. Escritas e publicações são feitas pela função de servidor, usando a Secret key. Ela possui acesso elevado e nunca deve ser exposta no navegador.
 
 ## 3. Acessar o Studio
 

@@ -1,11 +1,10 @@
-const { isStudioSession, readBody, json } = require("../../lib/studio-auth");
+const { isStudioSession, readBody, json, supabaseHeaders, getSupabaseConfig } = require("../../lib/studio-auth");
 const crypto = require("crypto");
 module.exports = async function handler(req, res) {
   if (req.method !== "POST") return json(res, 405, { error: "MÉTODO NÃO PERMITIDO." });
   if (!isStudioSession(req)) return json(res, 401, { error: "SESSÃO EXPIRADA. ENTRE NOVAMENTE NO STUDIO." });
-  const url = String(process.env.SUPABASE_URL || "").replace(/\/$/, "");
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !key) return json(res, 503, { error: "SUPABASE_URL E SUPABASE_SERVICE_ROLE_KEY AINDA NÃO ESTÃO CONFIGURADAS." });
+  const { url, key } = getSupabaseConfig();
+  if (!url || !key) return json(res, 503, { error: "BIBLIOTECA COMPARTILHADA NÃO CONFIGURADA. ADICIONE SUPABASE_URL E SUPABASE_SECRET_KEY NAS VARIÁVEIS DA VERCEL E FAÇA UM NOVO DEPLOY." });
   let item;
   try { item = readBody(req); } catch (_) { return json(res, 400, { error: "DADOS INVÁLIDOS." }); }
   const title = String(item.title || "").trim();
@@ -20,30 +19,26 @@ module.exports = async function handler(req, res) {
   try {
     const upload = await fetch(url + "/storage/v1/object/rocket-coloring/" + filePath, {
       method: "POST",
-      headers: { "Authorization": "Bearer " + key, "apikey": key, "Content-Type": "image/png", "x-upsert": "true", "Cache-Control": "public, max-age=31536000" },
+      headers: supabaseHeaders(key, { "Content-Type": "image/png", "x-upsert": "true", "Cache-Control": "public, max-age=31536000" }),
       body: bytes
     });
-    if (!upload.ok) {
-      const detail = await upload.text();
-      return json(res, 502, { error: "FALHA AO ENVIAR PARA O STORAGE: " + detail.slice(0, 220) });
-    }
+    if (!upload.ok) return json(res, 502, { error: "FALHA AO ENVIAR A IMAGEM PARA O SUPABASE STORAGE: " + (await upload.text()).slice(0, 240) });
     const metadata = {
       id, title, description: String(item.prompt || "").slice(0, 1000),
       age_groups: [String(item.ageGroup || "5-7")],
       difficulty: String(item.difficulty || "medium"),
       category: String(item.category || "ESPAÇO").slice(0, 50),
-      file_path: filePath, width: bytes.readUInt32BE(16), height: bytes.readUInt32BE(20),
-      published: true
+      file_path: filePath, width: bytes.readUInt32BE(16), height: bytes.readUInt32BE(20), published: true
     };
     const save = await fetch(url + "/rest/v1/coloring_artworks", {
       method: "POST",
-      headers: { "Authorization": "Bearer " + key, "apikey": key, "Content-Type": "application/json", "Prefer": "return=representation" },
+      headers: supabaseHeaders(key, { "Content-Type": "application/json", "Prefer": "return=representation" }),
       body: JSON.stringify(metadata)
     });
     const savedText = await save.text();
-    if (!save.ok) return json(res, 502, { error: "ARQUIVO ENVIADO, MAS FALHOU AO SALVAR O CATÁLOGO: " + savedText.slice(0, 220) });
+    if (!save.ok) return json(res, 502, { error: "IMAGEM ENVIADA, MAS NÃO FOI POSSÍVEL SALVAR O REGISTRO NA TABELA coloring_artworks. CONFIRA A MIGRAÇÃO SQL NO SUPABASE: " + savedText.slice(0, 240) });
     return json(res, 200, { published: true, id, publicUrl: url + "/storage/v1/object/public/rocket-coloring/" + filePath });
   } catch (_) {
-    return json(res, 502, { error: "NÃO FOI POSSÍVEL CONCLUIR A PUBLICAÇÃO. VERIFIQUE O SUPABASE." });
+    return json(res, 502, { error: "NÃO FOI POSSÍVEL CONCLUIR A PUBLICAÇÃO. VERIFIQUE A URL E A CHAVE DO SUPABASE." });
   }
 };

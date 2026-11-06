@@ -26,4 +26,15 @@ function json(res, status, body) {
   res.setHeader("Cache-Control", "no-store");
   res.end(JSON.stringify(body));
 }
-module.exports = { isStudioSession, readBody, json };
+function supabaseHeaders(key, extra = {}) {
+  const headers = { apikey: key, ...extra };
+  if (key.startsWith("eyJ")) headers.Authorization = "Bearer " + key;
+  return headers;
+}
+function getSupabaseConfig() {
+  return {
+    url: String(process.env.SUPABASE_URL || "").replace(/\/$/, ""),
+    key: process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY || ""
+  };
+}
+module.exports = { isStudioSession, readBody, json, supabaseHeaders, getSupabaseConfig };
