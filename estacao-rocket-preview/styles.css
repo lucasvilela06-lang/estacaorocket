@@ -341,7 +341,7 @@ a { color: inherit; }
 }
 
 /* Miniaturas recortadas da coleção ilustrada de colorir */
-.gallery-preview { display: block; width: min(100%, 148px); height: auto; aspect-ratio: 1 / 1; justify-self: center; border-radius: 10px; background-color: #fff; background-image: url("/assets/coloring/rocket-collection.svg"); background-size: 300% 200%; background-repeat: no-repeat; }
+.gallery-preview { display: block; width: min(100%, 148px); height: auto; aspect-ratio: 1 / 1; justify-self: center; border-radius: 10px; background-color: #fff; background-size: 300% 200%; background-repeat: no-repeat; }
 .color-gallery-item { min-height: 170px; }
 .color-gallery-item .gallery-copy { margin-top: 3px; }
 @media (max-width: 760px) {
