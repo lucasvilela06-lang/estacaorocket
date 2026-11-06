@@ -508,15 +508,17 @@ function collectHeart(button) {
     return;
   }
   button.classList.add("is-found");
+  button.setAttribute("aria-pressed", "true");
   button.disabled = true;
   const found = $(".collect-heart.is-found").length;
   $("#activityStatus").textContent = "VOCÊ ENCONTROU " + found + " DE 3 CORAÇÕES.";
   showToast(button.dataset.heart + "!");
+  button.setAttribute("aria-pressed", "true");
   if (found === 3) {
     $("#activityReward").hidden = false;
     $("#activityStatus").textContent = "TODAS AS VERDADES FORAM ENCONTRADAS!";
-    $("#activityStep").classList.add("complete");
-    localStorage.setItem("estacao-rocket-heart-mission", "complete");
+    localStorage.setItem("estacao-rocket-heart-mission-" + selectedAge, "complete");
+    updateMissionProgress();
   }
 }
 
@@ -711,6 +713,7 @@ function showColorEditor() {
   $("#colorGalleryView").hidden = true;
   $("#colorEditorView").hidden = false;
   $("#colorModal").scrollTop = 0;
+  $("#color-modal-title").focus({ preventScroll: true });
 }
 
 function chooseColoringPage(type) {
@@ -784,19 +787,20 @@ function renderColoring() {
   redoHistory = [];
   activeCanvasStroke = null;
   $("#paintPalette").innerHTML = content.colors.map((color, index) => {
-    const selected = index === 0 ? " is-selected" : "";
-    return '<button class="paint-swatch' + selected + '" type="button" data-color="' + color.hex + '" aria-label="Escolher ' + color.name + '" style="background:' + color.hex + '"></button>';
+    const selected = index === 0;
+    const selectedClass = selected ? " is-selected" : "";
+    const colorName = color.name.toLocaleUpperCase("pt-BR");
+    return '<button class="paint-swatch' + selectedClass + '" type="button" data-color="' + color.hex + '" aria-label="ESCOLHER ' + colorName + '" aria-pressed="' + selected + '" title="' + colorName + '" style="background:' + color.hex + '"></button>';
   }).join("");
 
   const selectedPageExists = coloringGallery.some((item) => item.id === selectedDrawingType);
   if (!selectedPageExists) selectedDrawingType = defaultDrawingByAge[selectedAge] || "rocket-launch";
   const selectedPage = coloringGallery.find((item) => item.id === selectedDrawingType);
-  $("#coloringStage").innerHTML = '<div class="rocket-paint-stack" aria-label="Área de pintura"><canvas id="paintCanvas" width="' + PAINT_CANVAS_WIDTH + '" height="' + PAINT_CANVAS_HEIGHT + '" aria-label="Camada de cores"></canvas><canvas id="lineCanvas" width="' + PAINT_CANVAS_WIDTH + '" height="' + PAINT_CANVAS_HEIGHT + '" aria-hidden="true"></canvas></div>';
+  $("#coloringStage").setAttribute("aria-busy", "true");
+  $("#coloringStage").innerHTML = '<div class="rocket-paint-stack" aria-label="ÁREA DE PINTURA"><canvas id="paintCanvas" width="' + PAINT_CANVAS_WIDTH + '" height="' + PAINT_CANVAS_HEIGHT + '" role="img" aria-label="TELA DE PINTURA"></canvas><canvas id="lineCanvas" width="' + PAINT_CANVAS_WIDTH + '" height="' + PAINT_CANVAS_HEIGHT + '" aria-hidden="true"></canvas></div>';
   $("#color-modal-title").textContent = selectedPage.title;
   $("#colorModalCopy").textContent = "Escolha uma cor e pinte cada detalhe do seu jeito.";
   $("#colorReward").hidden = true;
-  $("#colorStep").classList.remove("complete");
-  localStorage.removeItem("estacao-rocket-color-" + selectedAge);
   setPaintTool("bucket");
   updatePaintHistoryButtons();
 
@@ -810,39 +814,39 @@ function renderColoring() {
 
 
 
-  ensureColoringSheet().then((sheetUrl) => {
+  ensureColoringSheet().then((sprite) => {
     if (!paintCanvasState || paintCanvasState.lineCanvas !== lineCanvas) return;
-    const sprite = new Image();
-    sprite.onload = () => {
-      if (!paintCanvasState || paintCanvasState.lineCanvas !== lineCanvas) return;
-      const [column, row] = selectedPage.artCell || [0, 0];
-      lineContext.fillStyle = "#ffffff";
-      lineContext.fillRect(0, 0, PAINT_CANVAS_WIDTH, PAINT_CANVAS_HEIGHT);
-      lineContext.imageSmoothingEnabled = true;
-      lineContext.imageSmoothingQuality = "high";
-      const cellSize = 500;
-      const scale = Math.min(PAINT_CANVAS_WIDTH / cellSize, PAINT_CANVAS_HEIGHT / cellSize);
-      const drawWidth = cellSize * scale;
-      const drawHeight = cellSize * scale;
-      const drawX = (PAINT_CANVAS_WIDTH - drawWidth) / 2;
-      const drawY = (PAINT_CANVAS_HEIGHT - drawHeight) / 2;
-      lineContext.drawImage(sprite, column * cellSize, row * cellSize, cellSize, cellSize, drawX, drawY, drawWidth, drawHeight);
-      paintCanvasState.linePixels = lineContext.getImageData(0, 0, PAINT_CANVAS_WIDTH, PAINT_CANVAS_HEIGHT);
-      paintCanvasState.barriers = buildPaintBarrierMap(paintCanvasState.linePixels, PAINT_CANVAS_WIDTH, PAINT_CANVAS_HEIGHT);
-      updateColorProgress();
-    };
-    sprite.onerror = () => showToast("Não foi possível abrir o PNG original. Atualize a tela e tente novamente.");
-    sprite.src = sheetUrl;
+    const [column, row] = selectedPage.artCell || [0, 0];
+    lineContext.fillStyle = "#ffffff";
+    lineContext.fillRect(0, 0, PAINT_CANVAS_WIDTH, PAINT_CANVAS_HEIGHT);
+    lineContext.imageSmoothingEnabled = true;
+    lineContext.imageSmoothingQuality = "high";
+    const cellSize = 500;
+    const scale = Math.min(PAINT_CANVAS_WIDTH / cellSize, PAINT_CANVAS_HEIGHT / cellSize);
+    const drawWidth = cellSize * scale;
+    const drawHeight = cellSize * scale;
+    const drawX = (PAINT_CANVAS_WIDTH - drawWidth) / 2;
+    const drawY = (PAINT_CANVAS_HEIGHT - drawHeight) / 2;
+    lineContext.drawImage(sprite, column * cellSize, row * cellSize, cellSize, cellSize, drawX, drawY, drawWidth, drawHeight);
+    paintCanvasState.linePixels = lineContext.getImageData(0, 0, PAINT_CANVAS_WIDTH, PAINT_CANVAS_HEIGHT);
+    paintCanvasState.barriers = buildPaintBarrierMap(paintCanvasState.linePixels, PAINT_CANVAS_WIDTH, PAINT_CANVAS_HEIGHT);
+    $("#coloringStage").setAttribute("aria-busy", "false");
+    updateColorProgress();
   }).catch((error) => {
+    $("#coloringStage").setAttribute("aria-busy", "false");
     console.error("Falha ao montar o PNG original da pintura:", error);
-    showToast("Não foi possível carregar a ilustração original. Verifique a conexão e tente novamente.");
+    showToast("NÃO FOI POSSÍVEL CARREGAR A ILUSTRAÇÃO ORIGINAL. VERIFIQUE A CONEXÃO E TENTE NOVAMENTE.");
   });
 
 
   $$(".paint-swatch").forEach((swatch) => {
     swatch.addEventListener("click", () => {
       selectedPaintColor = swatch.dataset.color;
-      $$(".paint-swatch").forEach((item) => item.classList.toggle("is-selected", item === swatch));
+      $(".paint-swatch").forEach((item) => {
+        const selected = item === swatch;
+        item.classList.toggle("is-selected", selected);
+        item.setAttribute("aria-pressed", String(selected));
+      });
     });
   });
 }
@@ -1003,6 +1007,14 @@ function clearPaintCanvas() {
   updateColorProgress();
 }
 
+function completeColoring() {
+  localStorage.setItem("estacao-rocket-color-" + selectedAge, "complete");
+  updateMissionProgress();
+  $("#colorReward").hidden = false;
+  showToast("MISSÃO DE PINTURA CONCLUÍDA!");
+  closeModal($("#colorModal"));
+}
+
 function downloadColoring() {
   if (!paintCanvasState) return;
   const output = document.createElement("canvas");
@@ -1041,7 +1053,7 @@ function renderDiscovery() {
   const content = ageContent[selectedAge];
   discoveryFound = new Set();
   $("#discoveryBoard").innerHTML = content.discovery.map((item, index) => {
-    return '<button class="discovery-item" type="button" data-discovery="' + index + '" data-correct="' + item.correct + '" aria-label="Escolher ' + item.label + '"><span aria-hidden="true">' + item.icon + '</span><strong>' + item.label + '</strong></button>';
+    return '<button class="discovery-item" type="button" data-discovery="' + index + '" data-correct="' + item.correct + '" aria-label="ESCOLHER ' + item.label.toLocaleUpperCase("pt-BR") + '" aria-pressed="false"><span aria-hidden="true">' + item.icon + '</span><strong>' + item.label + '</strong></button>';
   }).join("");
   $("#discoveryReward").hidden = true;
   $("#discoveryStatus").textContent = "ENCONTRE TODAS AS RESPOSTAS.";
@@ -1066,8 +1078,8 @@ function chooseDiscovery(button) {
   if (discoveryFound.size === total) {
     $("#discoveryReward").hidden = false;
     $("#discoveryStatus").textContent = "MISSÃO COMPLETA!";
-    $("#discoveryStep").classList.add("complete");
     localStorage.setItem("estacao-rocket-discovery-" + selectedAge, "complete");
+    updateMissionProgress();
   }
 }
 
@@ -1122,6 +1134,8 @@ $$(".collect-heart").forEach((heart) => {
 $("#nextStory").addEventListener("click", () => {
   const slides = ageContent[selectedAge].slides;
   if (storyIndex === slides.length - 1) {
+    localStorage.setItem("estacao-rocket-story-" + selectedAge, "complete");
+    updateMissionProgress();
     closeModal($("#storyModal"));
     showToast("VOCÊ GUARDOU ESSA HISTÓRIA NO CORAÇÃO!");
     return;
@@ -1144,6 +1158,7 @@ $("#colorGalleryFilters").addEventListener("click", (event) => {
 });
 $("#backColorGallery").addEventListener("click", showColorGallery);
 $("#downloadColor").addEventListener("click", downloadColoring);
+$("#finishColoring").addEventListener("click", completeColoring);
 $("#undoColor").addEventListener("click", undoPaint);
 $("#redoColor").addEventListener("click", redoPaint);
 $("#clearColor").addEventListener("click", clearPaintCanvas);
@@ -1170,11 +1185,28 @@ $("[data-say-verse]").addEventListener("click", () => {
 });
 
 document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") closeModal();
+  if (event.key === "Escape" && activeModal) {
+    closeModal(activeModal);
+    return;
+  }
+  if (event.key !== "Tab" || !activeModal) return;
+  const focusable = getModalFocusableElements(activeModal);
+  if (!focusable.length) {
+    event.preventDefault();
+    activeModal.focus();
+    return;
+  }
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+  if (event.shiftKey && (document.activeElement === first || !activeModal.contains(document.activeElement))) {
+    event.preventDefault();
+    last.focus();
+  } else if (!event.shiftKey && (document.activeElement === last || !activeModal.contains(document.activeElement))) {
+    event.preventDefault();
+    first.focus();
+  }
 });
 
 const savedAge = localStorage.getItem("estacao-rocket-age");
-if (savedAge && ageContent[savedAge]) updateAge(savedAge, true);
-if (localStorage.getItem("estacao-rocket-heart-mission") === "complete") $("#activityStep").classList.add("complete");
-if (localStorage.getItem("estacao-rocket-color-" + selectedAge) === "complete") $("#colorStep").classList.add("complete");
-if (localStorage.getItem("estacao-rocket-discovery-" + selectedAge) === "complete") $("#discoveryStep").classList.add("complete");
+updateAge(savedAge && ageContent[savedAge] ? savedAge : selectedAge, true);
+updateMissionProgress();
