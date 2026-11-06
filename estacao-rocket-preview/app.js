@@ -657,9 +657,11 @@ function showColorEditor() {
 }
 
 function chooseColoringPage(type) {
-  const item = coloringGallery.find((entry) => entry.id === type && entry.ages.includes(selectedAge));
+  // A galeria já determina quais páginas estão visíveis pelo filtro etário.
+  // A faixa etária global do app não deve bloquear a escolha de outra página.
+  const item = coloringGallery.find((entry) => entry.id === type);
   if (!item) return;
-  selectedDrawingType = type;
+  selectedDrawingType = item.id;
   renderColoring();
   showColorEditor();
 }
@@ -727,8 +729,8 @@ function renderColoring() {
     return '<button class="paint-swatch' + selected + '" type="button" data-color="' + color.hex + '" aria-label="Escolher ' + color.name + '" style="background:' + color.hex + '"></button>';
   }).join("");
 
-  const availablePage = coloringGallery.find((item) => item.id === selectedDrawingType && item.ages.includes(selectedAge));
-  if (!availablePage) selectedDrawingType = defaultDrawingByAge[selectedAge] || "rocket-launch";
+  const selectedPageExists = coloringGallery.some((item) => item.id === selectedDrawingType);
+  if (!selectedPageExists) selectedDrawingType = defaultDrawingByAge[selectedAge] || "rocket-launch";
   const selectedPage = coloringGallery.find((item) => item.id === selectedDrawingType);
   $("#coloringStage").innerHTML = '<div class="rocket-paint-stack" aria-label="Área de pintura"><canvas id="paintCanvas" width="' + PAINT_CANVAS_WIDTH + '" height="' + PAINT_CANVAS_HEIGHT + '" aria-label="Camada de cores"></canvas><canvas id="lineCanvas" width="' + PAINT_CANVAS_WIDTH + '" height="' + PAINT_CANVAS_HEIGHT + '" aria-hidden="true"></canvas></div>';
   $("#color-modal-title").textContent = selectedPage.title;
