@@ -675,15 +675,14 @@ function hexToRgb(hex) {
   return [parseInt(value.slice(0, 2), 16), parseInt(value.slice(2, 4), 16), parseInt(value.slice(4, 6), 16)];
 }
 
+
 function updateColorProgress() {
   const actions = paintHistory.length + (activeCanvasStroke ? 1 : 0);
-  $("#colorProgress").textContent = actions === 0 ? "PRONTO PARA COLORIR" : actions + (actions === 1 ? " AÇÃO DE PINTURA" : " AÇÕES DE PINTURA");
+  $("#colorProgress").textContent = actions === 0
+    ? "ESCOLHA UMA COR PARA COMEÇAR"
+    : actions + (actions === 1 ? " AÇÃO DE PINTURA" : " AÇÕES DE PINTURA");
   updatePaintHistoryButtons();
-  if (actions >= 3) {
-    $("#colorReward").hidden = false;
-    const message = $("#colorReward p");
-    if (message) message.textContent = "Sua criação está ganhando vida! Continue explorando as cores.";
-  }
+  $("#colorReward").hidden = true;
 }
 
 function setPaintTool(tool) {
