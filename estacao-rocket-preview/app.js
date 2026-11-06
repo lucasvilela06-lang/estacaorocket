@@ -647,6 +647,19 @@ async function loadPublishedColoringArt() {
     const response = await fetch("/api/coloring/catalog", { cache: "no-store" });
     if (!response.ok) return;
     const result = await response.json();
+    const hidden = new Set(Array.isArray(result.hiddenBuiltinIds) ? result.hiddenBuiltinIds : []);
+    for (let index = coloringGallery.length - 1; index >= 0; index--) {
+      if (hidden.has(coloringGallery[index].id)) coloringGallery.splice(index, 1);
+    }
+    (Array.isArray(result.builtinOverrides) ? result.builtinOverrides : []).forEach((override) => {
+      const existing = coloringGallery.find((item) => item.id === override.builtinKey);
+      if (!existing) return;
+      existing.title = override.title || existing.title;
+      existing.detail = override.category || existing.detail;
+      existing.level = (override.ages || existing.ages).map((age) => ({ "2-4": "2–4 ANOS", "5-7": "5–7 ANOS", "8-11": "8–11 ANOS" })[age] || age).join(" / ");
+      existing.ages = (override.ages || existing.ages).filter((age) => ["2-4", "5-7", "8-11"].includes(age));
+      if (override.src) existing.artSrc = override.src;
+    });
     const published = Array.isArray(result.artworks) ? result.artworks : [];
     published.forEach((item) => {
       if (!item.id || !item.src || coloringGallery.some((entry) => entry.id === "published-" + item.id)) return;
