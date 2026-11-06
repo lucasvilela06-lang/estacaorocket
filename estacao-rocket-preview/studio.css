@@ -19,3 +19,34 @@
 .edit-artwork-preview img{display:block;max-width:100%;max-height:100%;object-fit:contain}
 .edit-modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:14px}
 @media(max-width:620px){.edit-artwork-dialog{padding:18px}.edit-modal-actions{flex-direction:column-reverse}.edit-modal-actions>*{width:100%}}
+
+
+/* PREVIA DO MODAL DE EDIÇÃO: limita a imagem ao seu próprio quadro */
+.edit-artwork-dialog{
+  position:relative;
+  z-index:101;
+  isolation:isolate;
+}
+.edit-artwork-preview{
+  position:relative;
+  width:100%;
+  height:190px;
+  min-width:0;
+  min-height:0;
+  overflow:hidden;
+  contain:layout paint;
+}
+.edit-artwork-preview img{
+  position:static !important;
+  display:block;
+  width:auto !important;
+  height:auto !important;
+  min-width:0 !important;
+  min-height:0 !important;
+  max-width:100% !important;
+  max-height:100% !important;
+  object-fit:contain;
+  object-position:center;
+  box-shadow:none;
+  border-radius:6px;
+}
