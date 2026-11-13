@@ -491,12 +491,18 @@ function updateHeartContent(content) {
   uppercaseAccessibilityLabels(field);
 }
 
+function missionProgressKey(step, age = selectedAge) {
+  const missionPrefix = $("#missionExperience")?.dataset.mission === "shepherd" ? "shepherd-" : "";
+  return "estacao-rocket-" + missionPrefix + step + "-" + age;
+}
+
 function updateMissionProgress(age = selectedAge) {
-  const storyComplete = localStorage.getItem("estacao-rocket-story-" + age) === "complete";
-  const activityComplete = localStorage.getItem("estacao-rocket-heart-mission-" + age) === "complete"
-    || localStorage.getItem("estacao-rocket-heart-mission") === "complete";
-  const colorComplete = localStorage.getItem("estacao-rocket-color-" + age) === "complete";
-  const discoveryComplete = localStorage.getItem("estacao-rocket-discovery-" + age) === "complete";
+  const storyComplete = localStorage.getItem(missionProgressKey("story", age)) === "complete";
+  const activityComplete = localStorage.getItem(missionProgressKey("heart-mission", age)) === "complete"
+    || (!$("#missionExperience")?.dataset.mission || $("#missionExperience").dataset.mission === "creation")
+      && localStorage.getItem("estacao-rocket-heart-mission") === "complete";
+  const colorComplete = localStorage.getItem(missionProgressKey("color", age)) === "complete";
+  const discoveryComplete = localStorage.getItem(missionProgressKey("discovery", age)) === "complete";
   $("#storyStep").classList.toggle("complete", storyComplete);
   $("#activityStep").classList.toggle("complete", activityComplete);
   $("#colorStep").classList.toggle("complete", colorComplete);
@@ -666,7 +672,7 @@ function collectHeart(button) {
   if (found === totalActions) {
     $("#activityReward").hidden = false;
     $("#activityStatus").textContent = $("#missionExperience")?.dataset.mission === "shepherd" ? "VOCÊ DESCOBRIU FORMAS DE ADORAR!" : "TODAS AS VERDADES FORAM ENCONTRADAS!";
-    localStorage.setItem("estacao-rocket-heart-mission-" + selectedAge, "complete");
+    localStorage.setItem(missionProgressKey("heart-mission"), "complete");
     updateMissionProgress();
   }
 }
@@ -1288,7 +1294,7 @@ function chooseDiscovery(button) {
   if (discoveryFound.size === total) {
     $("#discoveryReward").hidden = false;
     $("#discoveryStatus").textContent = $("#missionExperience")?.dataset.mission === "shepherd" ? "BANDA DE ADORAÇÃO COMPLETA!" : "MISSÃO COMPLETA!";
-    localStorage.setItem("estacao-rocket-discovery-" + selectedAge, "complete");
+    localStorage.setItem(missionProgressKey("discovery"), "complete");
     updateMissionProgress();
   }
 }
@@ -1344,7 +1350,7 @@ $$(".collect-heart").forEach((heart) => {
 $("#nextStory").addEventListener("click", () => {
   const slides = ageContent[selectedAge].slides;
   if (storyIndex === slides.length - 1) {
-    localStorage.setItem("estacao-rocket-story-" + selectedAge, "complete");
+    localStorage.setItem(missionProgressKey("story"), "complete");
     updateMissionProgress();
     closeModal($("#storyModal"));
     showToast("VOCÊ GUARDOU ESSA HISTÓRIA NO CORAÇÃO!");
