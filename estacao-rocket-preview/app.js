@@ -377,11 +377,7 @@ function updateMissionProgress(age = selectedAge) {
   $("#discoveryStep").classList.toggle("complete", discoveryComplete);
 }
 
-function updateAge(age, silent) {
-  if (!ageContent[age]) return;
-  selectedAge = age;
-  const content = ageContent[age];
-  const missionRegistry = {
+const missionRegistry = {
   creation: { id: "creation", seriesId: "deus-grandao", title: "Deus é Grandão!", status: "available" },
   shepherd: { id: "shepherd", seriesId: "deus-grandao", title: "O Senhor é meu Pastor!", status: "preparing" }
 };
@@ -409,6 +405,10 @@ $("[data-show-missions]").forEach((button) => {
   button.addEventListener("click", showMissionCatalog);
 });
 
+function updateAge(age, silent) {
+  if (!ageContent[age]) return;
+  selectedAge = age;
+  const content = ageContent[age];
 $(".age-option").forEach((button) => {
     const active = button.dataset.age === age;
     button.classList.toggle("is-active", active);
