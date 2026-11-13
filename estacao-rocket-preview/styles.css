@@ -808,3 +808,7 @@ button:disabled, [aria-disabled="true"] {
   .family-link { font-size:10px; }
   .mission-choice { grid-template-columns:92px minmax(0,1fr); }
 }
+
+@media (max-width: 760px) {
+  body:has(#missionCatalog:not([hidden])) .mobile-nav { display: none !important; }
+}
