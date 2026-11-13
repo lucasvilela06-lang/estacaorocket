@@ -24,6 +24,7 @@
           <span class="live-dot" aria-hidden="true"></span>
           Série Deus Grandão
         </div>
+        <button class="missions-link" type="button" data-show-missions>Missões</button>
         <a class="family-link" href="pais.html" aria-label="ESPAÇO DA FAMÍLIA">
           <span aria-hidden="true">♡</span>
           Espaço da família
@@ -31,6 +32,33 @@
       </header>
 
       <main id="principal">
+        <section class="mission-catalog" id="missionCatalog" aria-labelledby="catalog-title">
+          <div class="catalog-heading">
+            <p class="eyebrow soft">✦ ESTAÇÃO ROCKET • CENTRAL DE MISSÕES</p>
+            <h1 id="catalog-title">Escolha sua <em>missão!</em></h1>
+            <p>Escolha uma aventura da série Deus Grandão e continue descobrindo quem Deus é.</p>
+          </div>
+          <section class="catalog-series" aria-labelledby="catalog-series-title">
+            <div class="catalog-series-heading">
+              <div><span class="series-kicker">SÉRIE ATUAL</span><h2 id="catalog-series-title">Deus Grandão</h2><p>Infinitamente Bom</p></div>
+              <span class="series-symbol" aria-hidden="true">✦</span>
+            </div>
+            <div class="mission-cards">
+              <article class="mission-choice mission-choice-ready">
+                <div class="mission-choice-art creation-art" aria-hidden="true"><span>☀</span><b>✦</b><i>☁</i></div>
+                <div class="mission-choice-copy"><span class="mission-number">MISSÃO 01</span><h3>Deus é Grandão!</h3><p>Descubra a grandeza de Deus por meio de tudo o que Ele criou.</p><span class="mission-reference">GÊNESIS 1 • SALMO 145:3</span>
+                <button class="primary-button" type="button" data-select-mission="creation">Entrar na missão <span aria-hidden="true">→</span></button></div>
+              </article>
+              <article class="mission-choice mission-choice-upcoming">
+                <div class="mission-choice-art shepherd-art" aria-hidden="true"><span>🐑</span><b>☘</b><i>✦</i></div>
+                <div class="mission-choice-copy"><span class="mission-number">MISSÃO 02</span><h3>O Senhor é meu Pastor!</h3><p>Uma aventura pelo Salmo 23 para descobrir como Deus cuida de nós.</p><span class="mission-reference">SALMO 23</span>
+                <span class="mission-status">CONTEÚDO EM PREPARAÇÃO</span></div>
+              </article>
+            </div>
+          </section>
+          <p class="catalog-footer">Novas missões serão adicionadas aqui conforme avançamos pela série.</p>
+        </section>
+        <div id="missionExperience" hidden>
         <section class="hero" id="inicio" aria-labelledby="titulo-principal">
           <div class="hero-copy">
             <p class="eyebrow"><span aria-hidden="true">✦</span> Série da semana</p>
@@ -211,6 +239,7 @@
             <a class="secondary-button" href="pais.html">Ver instruções para os pais <span aria-hidden="true">→</span></a>
           </div>
         </section>
+        </div>
       </main>
 
       <footer class="footer">
