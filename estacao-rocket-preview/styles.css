@@ -749,3 +749,62 @@ button:disabled, [aria-disabled="true"] {
 .parents-page{ text-transform:none; }
 .parents-page .parents-hero h1,.parents-page .parents-section h2,.parents-page .parents-section h3{ text-transform:none; }
 .parents-page .eyebrow,.parents-page .card-label{ text-transform:uppercase; }
+
+
+/* CATÁLOGO DE SÉRIES E MISSÕES */
+[hidden] { display: none !important; }
+.missions-link { border:1px solid rgba(255,255,255,.35); border-radius:12px; padding:10px 15px; color:#fff; background:rgba(255,255,255,.1); font-weight:900; }
+.missions-link:hover { background:rgba(255,255,255,.2); }
+.mission-catalog { max-width:1180px; min-height:calc(100vh - 86px); margin:0 auto; padding:clamp(34px,6vw,72px) clamp(22px,6vw,76px) 54px; background:linear-gradient(180deg,#fff9eb 0%,#f2edff 100%); }
+.catalog-heading { max-width:680px; margin:0 auto 38px; text-align:center; }
+.catalog-heading h1 { margin:0; color:#30205f; font-family:"Baloo 2",sans-serif; font-size:clamp(42px,6vw,68px); line-height:1; }
+.catalog-heading h1 em { color:#865bc4; font-style:normal; }
+.catalog-heading>p:last-child { max-width:540px; margin:14px auto 0; color:#6d6380; font-size:17px; font-weight:700; line-height:1.5; }
+.catalog-series { max-width:900px; margin:0 auto; padding:clamp(20px,3vw,32px); border:1px solid #e7def3; border-radius:28px; background:rgba(255,255,255,.78); box-shadow:0 16px 42px rgba(48,32,95,.08); }
+.catalog-series-heading { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:22px; }
+.series-kicker,.mission-number { color:#8b6bb5; font-size:11px; font-weight:1000; letter-spacing:.12em; }
+.catalog-series-heading h2 { margin:4px 0 0; color:#30205f; font-size:36px; }
+.catalog-series-heading p { margin:2px 0 0; color:#7b6e8d; font-weight:800; }
+.series-symbol { display:grid; place-items:center; width:54px; height:54px; border-radius:18px; color:#8d65c5; background:#f1eaff; font-size:29px; }
+.mission-cards { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.mission-choice { overflow:hidden; display:flex; flex-direction:column; min-width:0; border:1px solid #e8e0f0; border-radius:22px; background:#fff; }
+.mission-choice-art { min-height:155px; display:grid; place-items:center; position:relative; overflow:hidden; }
+.mission-choice-art span { font-size:78px; filter:drop-shadow(0 8px 7px rgba(50,35,90,.12)); }
+.mission-choice-art b,.mission-choice-art i { position:absolute; font-style:normal; font-size:27px; }
+.creation-art { background:linear-gradient(145deg,#d9eaff,#fff0c8); }.creation-art b { top:20px; right:22%; color:#e9ae35; }.creation-art i { bottom:13px; left:20%; color:#fff; }
+.shepherd-art { background:linear-gradient(145deg,#dcf3e4,#f5f0d9); }.shepherd-art b { bottom:15px; left:20%; color:#6aab75; }.shepherd-art i { top:20px; right:22%; color:#d7a83c; }
+.mission-choice-copy { display:flex; flex:1; flex-direction:column; align-items:flex-start; padding:20px; }
+.mission-choice-copy h3 { margin:6px 0 0; color:#30205f; font-size:27px; line-height:1.05; }
+.mission-choice-copy p { margin:10px 0 14px; color:#6e647d; font-size:14px; font-weight:700; line-height:1.5; }
+.mission-reference { margin-top:auto; color:#8c7ca0; font-size:10px; font-weight:1000; letter-spacing:.08em; }
+.mission-choice-copy .primary-button { width:100%; margin-top:17px; }
+.mission-status { display:inline-flex; margin-top:17px; padding:9px 12px; border-radius:99px; color:#786a89; background:#f2eff5; font-size:10px; font-weight:1000; letter-spacing:.06em; }
+.mission-choice-upcoming { opacity:.88; }
+.catalog-footer { margin:22px auto 0; color:#847992; text-align:center; font-size:13px; font-weight:700; }
+#missionExperience[hidden],#missionCatalog[hidden] { display:none !important; }
+@media(max-width:700px) {
+  .topbar { gap:10px; padding-inline:14px; }
+  .official-logo { width:142px; height:44px; }
+  .topbar-copy { display:none; }
+  .missions-link { margin-left:auto; padding:9px 11px; font-size:12px; }
+  .family-link { padding:9px 10px; font-size:12px; white-space:nowrap; }
+  .mission-catalog { min-height:calc(100vh - 70px); padding:35px 16px 40px; }
+  .catalog-heading { margin-bottom:26px; }
+  .catalog-heading>p:last-child { font-size:15px; }
+  .catalog-series { padding:17px; border-radius:22px; }
+  .catalog-series-heading h2 { font-size:30px; }
+  .mission-cards { grid-template-columns:1fr; }
+  .mission-choice { display:grid; grid-template-columns:112px minmax(0,1fr); }
+  .mission-choice-art { min-height:100%; }
+  .mission-choice-art span { font-size:53px; }
+  .mission-choice-copy { padding:14px; }
+  .mission-choice-copy h3 { font-size:22px; }
+  .mission-choice-copy p { font-size:12px; margin:7px 0 10px; }
+  .mission-choice-copy .primary-button { min-height:43px; margin-top:12px; padding:9px; font-size:12px; }
+  .mission-status { font-size:9px; padding:8px 9px; }
+}
+@media(max-width:390px) {
+  .brand .official-logo { width:116px; }
+  .family-link { font-size:10px; }
+  .mission-choice { grid-template-columns:92px minmax(0,1fr); }
+}
