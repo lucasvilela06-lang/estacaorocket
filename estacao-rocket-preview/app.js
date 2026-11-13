@@ -317,7 +317,7 @@ let activeBrushPath = null;
 let discoveryFound = new Set();
 
 const $ = (selector) => document.querySelector(selector);
-const $ = (selector) => Array.from(document.querySelectorAll(selector));
+const $$ = (selector) => Array.from(document.querySelectorAll(selector));
 
 const missionRegistry = {
   creation: { id: "creation", seriesId: "deus-grandao", title: "Deus é Grandão!", status: "available" },
