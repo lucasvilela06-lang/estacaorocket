@@ -309,15 +309,15 @@ const ageContent = {
 const shepherdAgeContent = {
  "2-4": {
   path:"Pequenos passos",feedback:"Deus cuida de mim, me guia, me protege e está sempre comigo.",duration:"8 min",
-  hero:"O Senhor é meu Pastor! Ele cuida de mim e está sempre comigo.",mission:"Conheça a canção de Davi, cuide das ovelhinhas e adore a Deus com música.",
+  hero:"O Senhor é meu Pastor! Ele cuida de mim e está sempre comigo.",mission:"Comece com a lata da adoração, conheça a canção de Davi e descubra como cuidar das ovelhinhas.",
   storyLabel:"A canção de Davi — Salmo 23",activityLabel:"A lata da adoração",colorLabel:"Etapa não utilizada",discoveryLabel:"Nossa banda de adoração",talkLabel:"Louvor e oração em família",
-  storySummary:"Davi aprendeu que Deus cuida dele como um pastor cuida das ovelhas.",activityTitle:"A lata da adoração",activitySummary:"Descubra jeitos de adorar: cantar, bater palmas, dançar, orar e tocar.",
-  activityModal:"Toque nos cartões e imite cada forma de adoração.",hearts:["Cantar","Bater palmas","Dançar","Orar","Tocar"],
+  storySummary:"Davi aprendeu que Deus cuida dele como um pastor cuida das ovelhas.",activityTitle:"Vamos cuidar das ovelhinhas?",activitySummary:"Escolha o que as ovelhinhas precisam: pasto, água e proteção.",
+  activityModal:"Toque nos cartões que mostram como um pastor cuida das ovelhas.",hearts:["Pasto","Água","Proteção"],
   verse:"O Senhor é meu pastor, e nada me faltará.",reference:"Salmo 23:1",question:"Quem cuida de você como um bom pastor cuida das ovelhinhas?",
   practice:"Cantem “Meu Deus é um Deus Grandão”, criem um ritmo com a latinha e façam uma oração juntos.",
   colorTitle:"Colorir",colorSummary:"Esta etapa não faz parte das atividades desta missão.",colorModal:"Esta missão tem outras experiências.",
   colors:[{name:"Verde",hex:"#72D68E"}],regions:1,drawing:"little",
-  biaGuide:"Vamos descobrir diferentes jeitos de mostrar nosso amor por Deus!",lucasGuide:"Davi escreveu uma canção para contar que Deus cuida dele. Deus também cuida de você!",
+  biaGuide:"Pegue sua lata da adoração! Vamos começar louvando a Deus e depois cuidar das ovelhinhas.",lucasGuide:"Davi escreveu uma canção para contar que Deus cuida dele. Deus também cuida de você!",
   storyGuide:"Repita comigo: O Senhor é meu Pastor!",heartGuide:"Toque em um cartão e imite a forma de adoração.",colorGuide:"Etapa não utilizada nesta missão.",
   discoveryGuide:"Siga as cores e faça música com sua latinha!",discoveryTitle:"Nossa banda de adoração",discoverySummary:"Siga os cartões coloridos e toque o ritmo com sua latinha.",
   discoveryModal:"Amarelo: uma batida. Rosa: duas. Verde: três. Azul: pausa e silêncio.",discoveryReward:"Você participou da banda de adoração!",
@@ -332,15 +332,15 @@ const shepherdAgeContent = {
  },
  "5-7": {
   path:"Descobertas",feedback:"Observe como o Pastor cuida, orienta e protege. Descubra como responder com adoração.",duration:"10 min",
-  hero:"O Senhor é meu Pastor: Ele cuida de mim, me guia, me protege e está sempre comigo.",mission:"Explore o Salmo 23, descubra formas de adoração e participe das atividades do rebanho e da banda.",
+  hero:"O Senhor é meu Pastor: Ele cuida de mim, me guia, me protege e está sempre comigo.",mission:"Comece com a lata da adoração, explore o Salmo 23 e participe das atividades do rebanho e da banda.",
   storyLabel:"A canção de Davi — Salmo 23",activityLabel:"A lata da adoração",colorLabel:"Etapa não utilizada",discoveryLabel:"Nossa banda de adoração",talkLabel:"Louvor e conversa em família",
-  storySummary:"Entenda as imagens do Salmo 23 e o que elas ensinam sobre o cuidado de Deus.",activityTitle:"A lata da adoração",activitySummary:"Descubra cinco maneiras de expressar amor e gratidão a Deus.",
-  activityModal:"Revele os cartões e complete cada desafio de adoração.",hearts:["Cantar","Bater palmas","Dançar","Orar","Tocar"],
+  storySummary:"Entenda as imagens do Salmo 23 e o que elas ensinam sobre o cuidado de Deus.",activityTitle:"Vamos cuidar das ovelhinhas?",activitySummary:"Identifique o que o rebanho precisa para estar bem cuidado.",
+  activityModal:"Revele os cartões e identifique os cuidados que o rebanho precisa.",hearts:["Pasto","Água","Proteção"],
   verse:"O Senhor é meu pastor, e nada me faltará.",reference:"Salmo 23:1",question:"Em qual situação você precisa lembrar que Deus está com você e pode mostrar o caminho?",
   practice:"Conversem sobre uma situação da semana em que perceberam o cuidado de Deus. Cantem “Meu Deus é um Deus Grandão” e orem juntos.",
   colorTitle:"Colorir",colorSummary:"Esta etapa não faz parte das atividades desta missão.",colorModal:"Esta missão tem outras experiências.",
   colors:[{name:"Verde",hex:"#72D68E"}],regions:1,drawing:"little",
-  biaGuide:"Cada cartão traz uma forma de adorar. Descubra e experimente todas!",lucasGuide:"O Salmo 23 mostra que Deus cuida, orienta e permanece conosco.",
+  biaGuide:"Nossa aventura começa com a lata da adoração. Depois, vamos descobrir como cuidar do rebanho!",lucasGuide:"O Salmo 23 mostra que Deus cuida, orienta e permanece conosco.",
   storyGuide:"Observe cada parte do Salmo 23 e pense no que ela revela sobre Deus.",heartGuide:"Revele os cartões e complete os gestos de adoração.",colorGuide:"Etapa não utilizada nesta missão.",
   discoveryGuide:"Leia a sequência de cores e reproduza o ritmo com sua latinha!",discoveryTitle:"Nossa banda de adoração",discoverySummary:"Reproduza os ritmos usando as quatro cores.",
   discoveryModal:"Amarelo: uma batida. Rosa: duas. Verde: três. Azul: pausa e silêncio.",discoveryReward:"Você participou da banda de adoração!",
@@ -355,15 +355,15 @@ const shepherdAgeContent = {
  },
  "8-11": {
   path:"Em missão",feedback:"Leia o Salmo 23 com atenção e conecte cada imagem do texto ao cuidado, à direção e à presença de Deus.",duration:"12 min",
-  hero:"O Senhor é meu Pastor: seu cuidado, sua direção e sua presença me acompanham em todo caminho.",mission:"Investigue o Salmo 23, identifique formas de adoração e pratique confiança no cuidado de Deus.",
+  hero:"O Senhor é meu Pastor: seu cuidado, sua direção e sua presença me acompanham em todo caminho.",mission:"Comece com a lata da adoração, investigue o Salmo 23 e coloque em prática o cuidado do Pastor.",
   storyLabel:"Investigue o Salmo 23",activityLabel:"A lata da adoração",colorLabel:"Etapa não utilizada",discoveryLabel:"Nossa banda de adoração",talkLabel:"Aplicação e oração em família",
-  storySummary:"Relacione as imagens do Salmo 23 à confiança no cuidado e na presença de Deus.",activityTitle:"A lata da adoração",activitySummary:"Identifique formas de adoração e pense como expressar gratidão a Deus.",
-  activityModal:"Revele cada cartão e associe a ação a uma resposta de adoração.",hearts:["Cantar","Bater palmas","Dançar","Orar","Tocar"],
+  storySummary:"Relacione as imagens do Salmo 23 à confiança no cuidado e na presença de Deus.",activityTitle:"Vamos cuidar das ovelhinhas?",activitySummary:"Analise as necessidades do rebanho e escolha os cuidados essenciais.",
+  activityModal:"Revele os cartões e avalie quais cuidados são essenciais para o rebanho.",hearts:["Pasto","Água","Proteção"],
   verse:"O Senhor é meu pastor, e nada me faltará.",reference:"Salmo 23:1",question:"Como o Salmo 23 muda a maneira de enfrentar medo, decisões e necessidades?",
   practice:"Leiam o Salmo 23 em família. Cada pessoa compartilha uma frase que revela o caráter de Deus. Depois cantem “Meu Deus é um Deus Grandão” e orem.",
   colorTitle:"Colorir",colorSummary:"Esta etapa não faz parte das atividades desta missão.",colorModal:"Esta missão tem outras experiências.",
   colors:[{name:"Verde",hex:"#72D68E"}],regions:1,drawing:"little",
-  biaGuide:"A adoração envolve todo o nosso coração. Pense em como cada gesto expressa gratidão.",lucasGuide:"O Pastor não apenas oferece recursos: Ele permanece presente.",
+  biaGuide:"Comece com a lata da adoração e pense em como o cuidado do Pastor inspira nossa resposta a Deus.",lucasGuide:"O Pastor não apenas oferece recursos: Ele permanece presente.",
   storyGuide:"Observe o movimento do Salmo: cuidado, direção, presença, bondade e amor.",heartGuide:"Revele as ações e pense em como cada uma pode expressar adoração sincera.",colorGuide:"Etapa não utilizada nesta missão.",
   discoveryGuide:"Reproduza os padrões rítmicos e perceba como cada pausa também faz parte da música.",discoveryTitle:"Nossa banda de adoração",discoverySummary:"Interprete os cartões e reproduza sequências rítmicas.",
   discoveryModal:"Amarelo: uma batida. Rosa: duas. Verde: três. Azul: pausa e silêncio.",discoveryReward:"Você completou a sequência rítmica da banda!",
@@ -475,7 +475,7 @@ function updateHeartContent(content) {
   }[selectedAge];
   const decoys = decoySets[selectedAge];
   if ($("#missionExperience")?.dataset.mission === "shepherd") {
-    const icons = ["🎤", "👏", "💃", "🙏", "🥁"];
+    const icons = ["🌿", "💧", "🛡️"];
     field.innerHTML = content.hearts.map((label, index) => '<button class="collect-heart heart-target" type="button" data-heart="' + label + '" aria-label="' + label + '" style="left:' + (7 + index * 18) + '%;top:38%">' + icons[index] + '</button>').join("");
     uppercaseAccessibilityLabels(field);
     return;
@@ -656,7 +656,7 @@ function openActivity(trigger) {
 function collectHeart(button) {
   if (button.classList.contains("is-found")) return;
   if (!button.classList.contains("heart-target")) {
-    $("#activityStatus").textContent = selectedAge === "2-4" ? "Esse desenho não é um coração. Tente outro!" : "Essa é uma distração! Continue procurando os corações.";
+    $("#activityStatus").textContent = selectedAge === "2-4" ? "Esse desenho não é um coração. Tente outro!" : "Essa escolha não representa um cuidado necessário para as ovelhas. Tente outra.";
     button.classList.add("is-mistake");
     window.setTimeout(() => button.classList.remove("is-mistake"), 550);
     return;
