@@ -317,7 +317,49 @@ let activeBrushPath = null;
 let discoveryFound = new Set();
 
 const $ = (selector) => document.querySelector(selector);
-const $$ = (selector) => Array.from(document.querySelectorAll(selector));
+const $ = (selector) => Array.from(document.querySelectorAll(selector));
+
+const missionRegistry = {
+  creation: { id: "creation", seriesId: "deus-grandao", title: "Deus é Grandão!", status: "available" },
+  shepherd: { id: "shepherd", seriesId: "deus-grandao", title: "O Senhor é meu Pastor!", status: "preparing" }
+};
+
+function openMission(missionId) {
+  const mission = missionRegistry[missionId];
+  if (!mission || mission.status !== "available") return;
+  const catalog = $("#missionCatalog");
+  const experience = $("#missionExperience");
+  if (!catalog || !experience) return;
+  catalog.hidden = true;
+  experience.hidden = false;
+  experience.dataset.mission = missionId;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function showMissionCatalog() {
+  if (activeModal) closeModal(activeModal);
+  const catalog = $("#missionCatalog");
+  const experience = $("#missionExperience");
+  if (!catalog || !experience) return;
+  experience.hidden = true;
+  catalog.hidden = false;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// Delegação global: os controles continuam funcionando mesmo se a interface
+// for reorganizada ou renderizada depois da inicialização do arquivo.
+document.addEventListener("click", (event) => {
+  const missionButton = event.target.closest("[data-select-mission]");
+  if (missionButton) {
+    event.preventDefault();
+    openMission(missionButton.dataset.selectMission);
+    return;
+  }
+  if (event.target.closest("[data-show-missions]")) {
+    event.preventDefault();
+    showMissionCatalog();
+  }
+});
 
 function uppercaseAccessibilityLabels(root = document) {
   root.querySelectorAll("[aria-label], [title], img[alt]").forEach((element) => {
@@ -376,34 +418,6 @@ function updateMissionProgress(age = selectedAge) {
   $("#colorStep").classList.toggle("complete", colorComplete);
   $("#discoveryStep").classList.toggle("complete", discoveryComplete);
 }
-
-const missionRegistry = {
-  creation: { id: "creation", seriesId: "deus-grandao", title: "Deus é Grandão!", status: "available" },
-  shepherd: { id: "shepherd", seriesId: "deus-grandao", title: "O Senhor é meu Pastor!", status: "preparing" }
-};
-
-function openMission(missionId) {
-  const mission = missionRegistry[missionId];
-  if (!mission || mission.status !== "available") return;
-  $("#missionCatalog").hidden = true;
-  $("#missionExperience").hidden = false;
-  $("#missionExperience").dataset.mission = missionId;
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-function showMissionCatalog() {
-  if (activeModal) closeModal(activeModal);
-  $("#missionExperience").hidden = true;
-  $("#missionCatalog").hidden = false;
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-$("[data-select-mission]").forEach((button) => {
-  button.addEventListener("click", () => openMission(button.dataset.selectMission));
-});
-$("[data-show-missions]").forEach((button) => {
-  button.addEventListener("click", showMissionCatalog);
-});
 
 function updateAge(age, silent) {
   if (!ageContent[age]) return;
