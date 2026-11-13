@@ -423,7 +423,7 @@ function updateAge(age, silent) {
   if (!ageContent[age]) return;
   selectedAge = age;
   const content = ageContent[age];
-$(".age-option").forEach((button) => {
+$$(".age-option").forEach((button) => {
     const active = button.dataset.age === age;
     button.classList.toggle("is-active", active);
     button.setAttribute("aria-pressed", String(active));
