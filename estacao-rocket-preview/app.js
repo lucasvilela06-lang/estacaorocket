@@ -304,6 +304,83 @@ const ageContent = {
   }
 };
 
+
+
+const shepherdAgeContent = {
+ "2-4": {
+  path:"Pequenos passos",feedback:"Deus cuida de mim, me guia, me protege e está sempre comigo.",duration:"8 min",
+  hero:"O Senhor é meu Pastor! Ele cuida de mim e está sempre comigo.",mission:"Conheça a canção de Davi, cuide das ovelhinhas e adore a Deus com música.",
+  storyLabel:"A canção de Davi — Salmo 23",activityLabel:"A lata da adoração",colorLabel:"Etapa não utilizada",discoveryLabel:"Nossa banda de adoração",talkLabel:"Louvor e oração em família",
+  storySummary:"Davi aprendeu que Deus cuida dele como um pastor cuida das ovelhas.",activityTitle:"A lata da adoração",activitySummary:"Descubra jeitos de adorar: cantar, bater palmas, dançar, orar e tocar.",
+  activityModal:"Toque nos cartões e imite cada forma de adoração.",hearts:["Cantar","Bater palmas","Dançar","Orar","Tocar"],
+  verse:"O Senhor é meu pastor, e nada me faltará.",reference:"Salmo 23:1",question:"Quem cuida de você como um bom pastor cuida das ovelhinhas?",
+  practice:"Cantem “Meu Deus é um Deus Grandão”, criem um ritmo com a latinha e façam uma oração juntos.",
+  colorTitle:"Colorir",colorSummary:"Esta etapa não faz parte das atividades desta missão.",colorModal:"Esta missão tem outras experiências.",
+  colors:[{name:"Verde",hex:"#72D68E"}],regions:1,drawing:"little",
+  biaGuide:"Vamos descobrir diferentes jeitos de mostrar nosso amor por Deus!",lucasGuide:"Davi escreveu uma canção para contar que Deus cuida dele. Deus também cuida de você!",
+  storyGuide:"Repita comigo: O Senhor é meu Pastor!",heartGuide:"Toque em um cartão e imite a forma de adoração.",colorGuide:"Etapa não utilizada nesta missão.",
+  discoveryGuide:"Siga as cores e faça música com sua latinha!",discoveryTitle:"Nossa banda de adoração",discoverySummary:"Siga os cartões coloridos e toque o ritmo com sua latinha.",
+  discoveryModal:"Amarelo: uma batida. Rosa: duas. Verde: três. Azul: pausa e silêncio.",discoveryReward:"Você participou da banda de adoração!",
+  discovery:[{icon:"🟡",label:"Uma batida",correct:true},{icon:"🌸",label:"Duas batidas",correct:true},{icon:"🟢",label:"Três batidas",correct:true},{icon:"🔵",label:"Pausa e silêncio",correct:true}],
+  slides:[
+   {scene:"sheep",tag:"Cena 1 de 5",title:"Davi escreveu uma canção!",text:"Antes de ser rei, Davi cuidava de ovelhinhas. Ele sabia que um pastor cuida do rebanho. Davi também sabia que Deus cuidava dele!"},
+   {scene:"pasture",tag:"Cena 2 de 5",title:"Deus cuida de mim!",text:"O pastor leva as ovelhas para comer, beber água e descansar. Deus também cuida de nós e sabe do que precisamos. (Salmo 23:1–2)"},
+   {scene:"path",tag:"Cena 3 de 5",title:"Deus me mostra o caminho!",text:"Deus nos ensina a amar, obedecer, perdoar e fazer o que é bom. Podemos seguir a direção do nosso Pastor. (Salmo 23:3)"},
+   {scene:"valley",tag:"Cena 4 de 5",title:"Deus está comigo e me protege!",text:"Mesmo quando sentimos medo, não estamos sozinhos. Podemos conversar com Deus e confiar que Ele está conosco. (Salmo 23:4)"},
+   {scene:"table",tag:"Cena 5 de 5",title:"Deus é bom e me ama!",text:"O amor e a bondade de Deus estão conosco todos os dias. O Senhor é meu Pastor! (Salmo 23:5–6)"}
+  ]
+ },
+ "5-7": {
+  path:"Descobertas",feedback:"Observe como o Pastor cuida, orienta e protege. Descubra como responder com adoração.",duration:"10 min",
+  hero:"O Senhor é meu Pastor: Ele cuida de mim, me guia, me protege e está sempre comigo.",mission:"Explore o Salmo 23, descubra formas de adoração e participe das atividades do rebanho e da banda.",
+  storyLabel:"A canção de Davi — Salmo 23",activityLabel:"A lata da adoração",colorLabel:"Etapa não utilizada",discoveryLabel:"Nossa banda de adoração",talkLabel:"Louvor e conversa em família",
+  storySummary:"Entenda as imagens do Salmo 23 e o que elas ensinam sobre o cuidado de Deus.",activityTitle:"A lata da adoração",activitySummary:"Descubra cinco maneiras de expressar amor e gratidão a Deus.",
+  activityModal:"Revele os cartões e complete cada desafio de adoração.",hearts:["Cantar","Bater palmas","Dançar","Orar","Tocar"],
+  verse:"O Senhor é meu pastor, e nada me faltará.",reference:"Salmo 23:1",question:"Em qual situação você precisa lembrar que Deus está com você e pode mostrar o caminho?",
+  practice:"Conversem sobre uma situação da semana em que perceberam o cuidado de Deus. Cantem “Meu Deus é um Deus Grandão” e orem juntos.",
+  colorTitle:"Colorir",colorSummary:"Esta etapa não faz parte das atividades desta missão.",colorModal:"Esta missão tem outras experiências.",
+  colors:[{name:"Verde",hex:"#72D68E"}],regions:1,drawing:"little",
+  biaGuide:"Cada cartão traz uma forma de adorar. Descubra e experimente todas!",lucasGuide:"O Salmo 23 mostra que Deus cuida, orienta e permanece conosco.",
+  storyGuide:"Observe cada parte do Salmo 23 e pense no que ela revela sobre Deus.",heartGuide:"Revele os cartões e complete os gestos de adoração.",colorGuide:"Etapa não utilizada nesta missão.",
+  discoveryGuide:"Leia a sequência de cores e reproduza o ritmo com sua latinha!",discoveryTitle:"Nossa banda de adoração",discoverySummary:"Reproduza os ritmos usando as quatro cores.",
+  discoveryModal:"Amarelo: uma batida. Rosa: duas. Verde: três. Azul: pausa e silêncio.",discoveryReward:"Você participou da banda de adoração!",
+  discovery:[{icon:"🟡",label:"Amarelo — 1 batida",correct:true},{icon:"🌸",label:"Rosa — 2 batidas",correct:true},{icon:"🟢",label:"Verde — 3 batidas",correct:true},{icon:"🔵",label:"Azul — pausa",correct:true},{icon:"🔴",label:"Distração",correct:false}],
+  slides:[
+   {scene:"sheep",tag:"Cena 1 de 5",title:"Davi conhecia o trabalho de um pastor.",text:"Antes de ser rei, Davi cuidava de ovelhas. Elas precisavam de alimento, água, direção e proteção. Davi reconheceu que Deus cuidava dele como um Pastor. (Salmo 23:1)"},
+   {scene:"pasture",tag:"Cena 2 de 5",title:"O Pastor cuida e dá descanso.",text:"Pastos verdes e águas tranquilas mostram cuidado e descanso. Deus conhece nossas necessidades e nos ensina a confiar nele. (Salmo 23:1–2)"},
+   {scene:"path",tag:"Cena 3 de 5",title:"O Pastor mostra o caminho certo.",text:"Deus nos ensina a amar, obedecer, perdoar e fazer o que é bom. Quando ouvimos sua Palavra e obedecemos, seguimos sua direção. (Salmo 23:3)"},
+   {scene:"valley",tag:"Cena 4 de 5",title:"O Pastor permanece ao nosso lado.",text:"Davi falou de um vale escuro, mas sabia que não estava sozinho. Mesmo quando sentimos medo, podemos conversar com Deus e confiar em sua presença. (Salmo 23:4)"},
+   {scene:"table",tag:"Cena 5 de 5",title:"A bondade e o amor nos acompanham.",text:"Davi tinha certeza de que a bondade e o amor de Deus estariam com ele todos os dias. (Salmo 23:5–6)"}
+  ]
+ },
+ "8-11": {
+  path:"Em missão",feedback:"Leia o Salmo 23 com atenção e conecte cada imagem do texto ao cuidado, à direção e à presença de Deus.",duration:"12 min",
+  hero:"O Senhor é meu Pastor: seu cuidado, sua direção e sua presença me acompanham em todo caminho.",mission:"Investigue o Salmo 23, identifique formas de adoração e pratique confiança no cuidado de Deus.",
+  storyLabel:"Investigue o Salmo 23",activityLabel:"A lata da adoração",colorLabel:"Etapa não utilizada",discoveryLabel:"Nossa banda de adoração",talkLabel:"Aplicação e oração em família",
+  storySummary:"Relacione as imagens do Salmo 23 à confiança no cuidado e na presença de Deus.",activityTitle:"A lata da adoração",activitySummary:"Identifique formas de adoração e pense como expressar gratidão a Deus.",
+  activityModal:"Revele cada cartão e associe a ação a uma resposta de adoração.",hearts:["Cantar","Bater palmas","Dançar","Orar","Tocar"],
+  verse:"O Senhor é meu pastor, e nada me faltará.",reference:"Salmo 23:1",question:"Como o Salmo 23 muda a maneira de enfrentar medo, decisões e necessidades?",
+  practice:"Leiam o Salmo 23 em família. Cada pessoa compartilha uma frase que revela o caráter de Deus. Depois cantem “Meu Deus é um Deus Grandão” e orem.",
+  colorTitle:"Colorir",colorSummary:"Esta etapa não faz parte das atividades desta missão.",colorModal:"Esta missão tem outras experiências.",
+  colors:[{name:"Verde",hex:"#72D68E"}],regions:1,drawing:"little",
+  biaGuide:"A adoração envolve todo o nosso coração. Pense em como cada gesto expressa gratidão.",lucasGuide:"O Pastor não apenas oferece recursos: Ele permanece presente.",
+  storyGuide:"Observe o movimento do Salmo: cuidado, direção, presença, bondade e amor.",heartGuide:"Revele as ações e pense em como cada uma pode expressar adoração sincera.",colorGuide:"Etapa não utilizada nesta missão.",
+  discoveryGuide:"Reproduza os padrões rítmicos e perceba como cada pausa também faz parte da música.",discoveryTitle:"Nossa banda de adoração",discoverySummary:"Interprete os cartões e reproduza sequências rítmicas.",
+  discoveryModal:"Amarelo: uma batida. Rosa: duas. Verde: três. Azul: pausa e silêncio.",discoveryReward:"Você completou a sequência rítmica da banda!",
+  discovery:[{icon:"🟡",label:"Amarelo — 1 batida",correct:true},{icon:"🌸",label:"Rosa — 2 batidas",correct:true},{icon:"🟢",label:"Verde — 3 batidas",correct:true},{icon:"🔵",label:"Azul — pausa",correct:true},{icon:"🔴",label:"Distração",correct:false},{icon:"🟣",label:"Distração",correct:false}],
+  slides:[
+   {scene:"sheep",tag:"Cena 1 de 5",title:"Davi reconhece o Senhor como Pastor.",text:"Davi conhecia a responsabilidade de cuidar de ovelhas. No Salmo 23, ele usa essa experiência para declarar sua confiança: o Senhor é seu Pastor. (Salmo 23:1)"},
+   {scene:"pasture",tag:"Cena 2 de 5",title:"O cuidado inclui sustento e descanso.",text:"Pastos e águas tranquilas representam provisão e descanso. O texto convida a confiar naquele que conhece nossas necessidades e restaura nossas forças. (Salmo 23:1–2)"},
+   {scene:"path",tag:"Cena 3 de 5",title:"A direção do Pastor forma nosso caminho.",text:"Deus guia por caminhos de justiça. Amar, obedecer, perdoar e praticar o bem são respostas de quem aprende a seguir sua direção. (Salmo 23:3)"},
+   {scene:"valley",tag:"Cena 4 de 5",title:"A presença de Deus vence a solidão do medo.",text:"O vale escuro não é ignorado no Salmo. A confiança de Davi está na presença do Senhor: ele não atravessa o vale sozinho. (Salmo 23:4)"},
+   {scene:"table",tag:"Cena 5 de 5",title:"Bondade e amor acompanham toda a jornada.",text:"A mesa, a bondade e o amor apontam para o cuidado constante de Deus. Davi afirma que esse cuidado o acompanhará todos os dias. (Salmo 23:5–6)"}
+  ]
+ }
+};
+function activeMissionContent() {
+ return $("#missionExperience")?.dataset.mission === "shepherd" ? shepherdAgeContent[selectedAge] : ageContent[selectedAge];
+}
+
 let selectedAge = "2-4";
 let storyIndex = 0;
 let lastTrigger = null;
@@ -321,7 +398,7 @@ const $$ = (selector) => Array.from(document.querySelectorAll(selector));
 
 const missionRegistry = {
   creation: { id: "creation", seriesId: "deus-grandao", title: "Deus é Grandão!", status: "available" },
-  shepherd: { id: "shepherd", seriesId: "deus-grandao", title: "O Senhor é meu Pastor!", status: "preparing" }
+  shepherd: { id: "shepherd", seriesId: "deus-grandao", title: "O Senhor é meu Pastor!", status: "available" }
 };
 
 function openMission(missionId) {
@@ -333,6 +410,7 @@ function openMission(missionId) {
   catalog.hidden = true;
   experience.hidden = false;
   experience.dataset.mission = missionId;
+  updateAge(selectedAge, true);
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
@@ -396,6 +474,12 @@ function updateHeartContent(content) {
     "8-11": [[5, 72], [75, 11], [45, 48]]
   }[selectedAge];
   const decoys = decoySets[selectedAge];
+  if ($("#missionExperience")?.dataset.mission === "shepherd") {
+    const icons = ["🎤", "👏", "💃", "🙏", "🥁"];
+    field.innerHTML = content.hearts.map((label, index) => '<button class="collect-heart heart-target" type="button" data-heart="' + label + '" aria-label="' + label + '" style="left:' + (7 + index * 18) + '%;top:38%">' + icons[index] + '</button>').join("");
+    uppercaseAccessibilityLabels(field);
+    return;
+  }
   field.innerHTML = content.hearts.map((label, index) => {
     const [left, top] = heartPositions[index];
     return '<button class="collect-heart heart-target" type="button" data-heart="'+label+'" aria-label="Encontrar coração '+(index+1)+'" style="left:'+left+'%;top:'+top+'%">♡</button>';
@@ -422,7 +506,7 @@ function updateMissionProgress(age = selectedAge) {
 function updateAge(age, silent) {
   if (!ageContent[age]) return;
   selectedAge = age;
-  const content = ageContent[age];
+  const content = $("#missionExperience")?.dataset.mission === "shepherd" ? shepherdAgeContent[age] : ageContent[age];
 $$(".age-option").forEach((button) => {
     const active = button.dataset.age === age;
     button.classList.toggle("is-active", active);
@@ -431,6 +515,8 @@ $$(".age-option").forEach((button) => {
   $("#ageFeedback").textContent = content.feedback;
   $("#heroDuration").textContent = content.duration;
   $("#heroDescription").textContent = content.hero;
+  $("#titulo-principal").innerHTML = $("#missionExperience")?.dataset.mission === "shepherd" ? "O Senhor é<br><em>meu Pastor!</em>" : "Deus é<br><em>Grandão!</em>";
+  $(".hero-meta span:last-child").innerHTML = '<span aria-hidden="true">▤</span> ' + content.reference;
   $("#missionCopy").textContent = content.mission;
   $("#storyLabel").textContent = content.storyLabel;
   $("#activityLabel").textContent = content.activityLabel;
@@ -439,6 +525,10 @@ $$(".age-option").forEach((button) => {
   $("#talkLabel").textContent = content.talkLabel;
   $("#storySummary").textContent = content.storySummary;
   $("#activityTitle").textContent = content.activityTitle;
+  $(".activity-card .card-label").textContent = $("#missionExperience")?.dataset.mission === "shepherd" ? "INTRODUÇÃO" : "ATIVIDADE";
+  $(".discovery-card .card-label").textContent = $("#missionExperience")?.dataset.mission === "shepherd" ? "ATIVIDADE MUSICAL" : "JOGO DE DESCOBERTA";
+  $(".color-card").hidden = $("#missionExperience")?.dataset.mission === "shepherd";
+  $("#colorStep").hidden = $("#missionExperience")?.dataset.mission === "shepherd";
   $("#activitySummary").textContent = content.activitySummary;
   $("#activityModalCopy").textContent = content.activityModal;
   $("#activity-modal-title").textContent = content.activityTitle + "!";
@@ -461,6 +551,9 @@ $$(".age-option").forEach((button) => {
   $("#discovery-modal-title").textContent = content.discoveryTitle;
   $("#discoveryModalCopy").textContent = content.discoveryModal;
   $("#discoveryRewardText").textContent = content.discoveryReward;
+  $("#family-modal-title").textContent = $("#missionExperience")?.dataset.mission === "shepherd" ? "Vamos adorar em família!" : "Uma conversa de cinco minutos.";
+  $(".guide-question small").textContent = $("#missionExperience")?.dataset.mission === "shepherd" ? "PERGUNTA PARA CONVERSAR" : "PERGUNTA DE HOJE";
+  $(".guide-practice small").textContent = $("#missionExperience")?.dataset.mission === "shepherd" ? "LOUVOR E ORAÇÃO" : "PRÁTICA DA SEMANA";
   updateHeartContent(content);
   localStorage.setItem("estacao-rocket-age", age);
   updateMissionProgress(age);
@@ -504,6 +597,7 @@ function closeModal(backdrop) {
 
 function storyArtwork(scene) {
   const art = {
+    sheep:["🐑","🐑","🐑"], pasture:["🌿","🐑","💧","🌳"], path:["👣","🌱","🌿"], valley:["🌙","🐑","✨"], table:["🍞","💛","🌿"],
     light: ["🌑","✨","☀️"], sky: ["☁️","🌤️","💧"], land: ["🌊","🏝️","⛰️"],
     plants: ["🌱","🌳","🌻","🍎"], stars: ["☀️","🌙","⭐","✨"],
     sea: ["🐋","🐠","🐬","🕊️"], animals: ["🦁","🐘","🦒","👨‍👩‍👧"],
@@ -511,12 +605,12 @@ function storyArtwork(scene) {
   }[scene] || ["✨","🌍","⭐"];
   const positions = art.length === 3 ? [[95,145],[210,90],[325,145]] : [[85,145],[170,85],[255,145],[340,85]];
   const figures = art.map((item,i)=>'<text x="'+positions[i][0]+'" y="'+positions[i][1]+'" text-anchor="middle" font-size="'+(item==="👨‍👩‍👧"?"54":"66")+'">'+item+'</text>').join("");
-  const sky = scene==="light" ? "#25134d" : scene==="sea" ? "#277bb1" : scene==="plants" || scene==="land" || scene==="animals" ? "#4a9b79" : "#4d3488";
+  const sky = scene==="light" ? "#25134d" : scene==="sea" ? "#277bb1" : scene==="plants" || scene==="land" || scene==="animals" || scene==="pasture" ? "#4a9b79" : scene==="valley" ? "#352b5b" : "#4d3488";
   return '<svg viewBox="0 0 420 190" role="img" aria-label="Ilustração da criação: '+scene+'"><defs><linearGradient id="storySky" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#7651b5"/><stop offset="1" stop-color="'+sky+'"/></linearGradient></defs><rect width="420" height="190" rx="18" fill="url(#storySky)"/><circle cx="350" cy="38" r="24" fill="#ffd449" opacity=".9"/><path d="M0 158 Q110 130 210 155 T420 150 V190 H0Z" fill="'+(scene==="sea"?"#56c6df":"#78d4a1")+'"/>'+figures+'</svg>';
 }
 
 function showStory(index) {
-  const slides = ageContent[selectedAge].slides;
+  const slides = activeMissionContent().slides;
   const slide = slides[index];
   $("#storySlideTag").textContent = slide.tag;
   $("#story-modal-title").textContent = slide.title;
@@ -544,11 +638,11 @@ function resetActivity() {
     heart.disabled = false;
   });
   $("#activityReward").hidden = true;
-  $("#activityStatus").textContent = "ENCONTRE OS 3 CORAÇÕES ESCONDIDOS.";
+  $("#activityStatus").textContent = $("#missionExperience")?.dataset.mission === "shepherd" ? "DESCUBRA AS FORMAS DE ADORAÇÃO." : "ENCONTRE OS 3 CORAÇÕES ESCONDIDOS.";
 }
 
 function openActivity(trigger) {
-  updateHeartContent(ageContent[selectedAge]);
+  updateHeartContent(activeMissionContent());
   resetActivity();
   openModal("#activityModal", trigger);
 }
@@ -565,12 +659,13 @@ function collectHeart(button) {
   button.setAttribute("aria-pressed", "true");
   button.disabled = true;
   const found = $(".collect-heart.is-found").length;
-  $("#activityStatus").textContent = "VOCÊ ENCONTROU " + found + " DE 3 CORAÇÕES.";
+  const totalActions = activeMissionContent().hearts.length;
+  $("#activityStatus").textContent = $("#missionExperience")?.dataset.mission === "shepherd" ? "VOCÊ DESCOBRIU " + found + " DE " + totalActions + " FORMAS DE ADORAÇÃO." : "VOCÊ ENCONTROU " + found + " DE 3 CORAÇÕES.";
   showToast(button.dataset.heart + "!");
   button.setAttribute("aria-pressed", "true");
-  if (found === 3) {
+  if (found === totalActions) {
     $("#activityReward").hidden = false;
-    $("#activityStatus").textContent = "TODAS AS VERDADES FORAM ENCONTRADAS!";
+    $("#activityStatus").textContent = $("#missionExperience")?.dataset.mission === "shepherd" ? "VOCÊ DESCOBRIU FORMAS DE ADORAR!" : "TODAS AS VERDADES FORAM ENCONTRADAS!";
     localStorage.setItem("estacao-rocket-heart-mission-" + selectedAge, "complete");
     updateMissionProgress();
   }
@@ -1164,19 +1259,19 @@ function openColoring(trigger) {
 
 
 function renderDiscovery() {
-  const content = ageContent[selectedAge];
+  const content = activeMissionContent();
   discoveryFound = new Set();
   $("#discoveryBoard").innerHTML = content.discovery.map((item, index) => {
     return '<button class="discovery-item" type="button" data-discovery="' + index + '" data-correct="' + item.correct + '" aria-label="ESCOLHER ' + item.label.toLocaleUpperCase("pt-BR") + '" aria-pressed="false"><span aria-hidden="true">' + item.icon + '</span><strong>' + item.label + '</strong></button>';
   }).join("");
   $("#discoveryReward").hidden = true;
-  $("#discoveryStatus").textContent = "ENCONTRE TODAS AS RESPOSTAS.";
+  $("#discoveryStatus").textContent = $("#missionExperience")?.dataset.mission === "shepherd" ? "SIGA OS CARTÕES E COMPLETE A BANDA." : "ENCONTRE TODAS AS RESPOSTAS.";
   $$(".discovery-item").forEach((item) => item.addEventListener("click", () => chooseDiscovery(item)));
   uppercaseAccessibilityLabels($("#discoveryBoard"));
 }
 
 function chooseDiscovery(button) {
-  const content = ageContent[selectedAge];
+  const content = activeMissionContent();
   const index = button.dataset.discovery;
   if (button.dataset.correct !== "true") {
     button.classList.add("is-mistake");
@@ -1189,10 +1284,10 @@ function chooseDiscovery(button) {
   button.classList.add("is-found");
   button.disabled = true;
   const total = content.discovery.filter((item) => item.correct).length;
-  $("#discoveryStatus").textContent = "VOCÊ ENCONTROU " + discoveryFound.size + " DE " + total + " RESPOSTAS.";
+  $("#discoveryStatus").textContent = $("#missionExperience")?.dataset.mission === "shepherd" ? "VOCÊ REPRODUZIU " + discoveryFound.size + " DE " + total + " RITMOS." : "VOCÊ ENCONTROU " + discoveryFound.size + " DE " + total + " RESPOSTAS.";
   if (discoveryFound.size === total) {
     $("#discoveryReward").hidden = false;
-    $("#discoveryStatus").textContent = "MISSÃO COMPLETA!";
+    $("#discoveryStatus").textContent = $("#missionExperience")?.dataset.mission === "shepherd" ? "BANDA DE ADORAÇÃO COMPLETA!" : "MISSÃO COMPLETA!";
     localStorage.setItem("estacao-rocket-discovery-" + selectedAge, "complete");
     updateMissionProgress();
   }
@@ -1289,7 +1384,7 @@ $("#coloringStage").addEventListener("pointerup", finishCanvasStroke);
 $("#coloringStage").addEventListener("pointercancel", finishCanvasStroke);
 
 $("[data-say-verse]").addEventListener("click", () => {
-  const content = ageContent[selectedAge];
+  const content = activeMissionContent();
   showToast(content.verse + " — " + content.reference);
   if ("speechSynthesis" in window) {
     const voice = new SpeechSynthesisUtterance(content.verse + ". " + content.reference);
