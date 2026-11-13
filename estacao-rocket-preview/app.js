@@ -381,7 +381,35 @@ function updateAge(age, silent) {
   if (!ageContent[age]) return;
   selectedAge = age;
   const content = ageContent[age];
-  $$(".age-option").forEach((button) => {
+  const missionRegistry = {
+  creation: { id: "creation", seriesId: "deus-grandao", title: "Deus é Grandão!", status: "available" },
+  shepherd: { id: "shepherd", seriesId: "deus-grandao", title: "O Senhor é meu Pastor!", status: "preparing" }
+};
+
+function openMission(missionId) {
+  const mission = missionRegistry[missionId];
+  if (!mission || mission.status !== "available") return;
+  $("#missionCatalog").hidden = true;
+  $("#missionExperience").hidden = false;
+  $("#missionExperience").dataset.mission = missionId;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function showMissionCatalog() {
+  if (activeModal) closeModal(activeModal);
+  $("#missionExperience").hidden = true;
+  $("#missionCatalog").hidden = false;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+$("[data-select-mission]").forEach((button) => {
+  button.addEventListener("click", () => openMission(button.dataset.selectMission));
+});
+$("[data-show-missions]").forEach((button) => {
+  button.addEventListener("click", showMissionCatalog);
+});
+
+$(".age-option").forEach((button) => {
     const active = button.dataset.age === age;
     button.classList.toggle("is-active", active);
     button.setAttribute("aria-pressed", String(active));
